@@ -1,5 +1,12 @@
 # Git Conventions for AI Agents
 
+## Commit Granularity
+
+- Keep commits atomic: one logical change per commit
+- Related changes should be committed together
+- Unrelated changes should be in separate commits
+- Each commit should represent a complete, working state
+
 ## Commit Messages
 
 AI agents must follow the Conventional Commits specification:
