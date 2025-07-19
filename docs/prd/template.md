@@ -64,6 +64,12 @@ As a [type of user], I want [goal] so that [benefit].
 
 - [Questions that need to be answered]
 
+## Implementation Phases (if applicable)
+
+- **Phase 1**: [Core MVP features]
+- **Phase 2**: [Enhanced features]
+- **Phase 3**: [Advanced features]
+
 ## Dependencies
 
 - [Other features or systems this depends on]
