@@ -152,6 +152,7 @@ Would you like to:
 - Specific acceptance criteria
 - Open questions identified during exploration
 - Technical Considerations section if architectural changes needed
+- Suggested implementation phases if scope is large
 
 ## Key Principles
 
