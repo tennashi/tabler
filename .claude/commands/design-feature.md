@@ -1,5 +1,5 @@
 ---
-description: Create PRD through collaborative design process
+description: Design features through collaborative exploration and planning
 ---
 
 # Feature Design: $ARGUMENTS
