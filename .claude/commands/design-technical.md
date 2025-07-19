@@ -12,6 +12,15 @@ Follow the technical design process defined in `.agent/technical-design-process.
 
 ## Usage
 
+### Without Arguments
+When run without arguments (`/design-technical`):
+
+1. Search for all PRDs in `/docs/prd/` directory
+2. Check which PRDs don't have corresponding design docs in `/docs/design/`
+3. List unprocessed PRDs and prompt user to select one
+4. Create technical design for the selected PRD
+
+### With PRD Argument
 When user provides a PRD or asks for technical design:
 
 1. Read the PRD thoroughly
