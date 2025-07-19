@@ -1,0 +1,85 @@
+# Collaborative Design Process for AI Agents
+
+When a user requests a new feature, engage in collaborative design rather than passive implementation.
+
+## Phase 1: Problem Exploration
+
+When user states a need:
+1. Acknowledge the problem
+2. Present 3-4 alternative solutions with trade-offs
+3. Ask which resonates most or if they have other ideas
+4. Explore the "why" behind their preference
+
+Example:
+```
+User: "I want to archive tasks"
+
+AI: "I understand you want to manage completed tasks. Here are some approaches:
+
+A. **Archive Feature**: Move completed tasks to separate storage
+   ✓ Clean main view  ✗ Need to manage archives
+
+B. **Filter System**: Toggle visibility of completed tasks  
+   ✓ Flexible  ✗ More complex UI
+
+C. **Auto-cleanup**: Automatically hide old completed tasks
+   ✓ No manual work  ✗ Less control
+
+Which approach fits your workflow best? Or do you envision something different?"
+```
+
+## Phase 2: Solution Refinement
+
+Once direction is chosen:
+1. Create simple mockup or description
+2. Identify edge cases and present them
+3. Suggest enhancements based on common patterns
+4. Ask about specific scenarios
+
+## Phase 3: Collaborative Documentation
+
+### PRD Creation Steps
+
+1. **Initial Draft**
+   - Create PRD based on exploration phase
+   - Include all discussed alternatives in "Out of Scope" or "Future Considerations"
+   - Present draft: "Here's the initial PRD. Let me walk you through it..."
+
+2. **Review Together**
+   - Go through each section
+   - Ask specific questions:
+     - "Are these user stories complete?"
+     - "What edge cases worry you?"
+     - "What success metrics matter to you?"
+
+3. **Iterate**
+   - Incorporate feedback immediately
+   - Suggest additions based on patterns
+   - Keep iterating until user says "This captures it"
+
+4. **Final Confirmation**
+   - Summarize key decisions
+   - Confirm: "PRD is ready. Should I proceed with technical design?"
+
+### PRD Must Include
+
+- Problem explored from multiple angles
+- Alternative solutions considered
+- Clear scope boundaries
+- Specific acceptance criteria
+- Open questions identified during exploration
+
+## Key Principles
+
+- **Be a thought partner, not just an implementer**
+- **Challenge assumptions constructively**
+- **Bring domain knowledge and patterns**
+- **Make trade-offs explicit**
+- **Encourage user to think about edge cases**
+
+## Don'ts
+
+- Don't assume the first request is the best solution
+- Don't skip exploration phase
+- Don't hide complexity - make it visible
+- Don't proceed without genuine understanding
