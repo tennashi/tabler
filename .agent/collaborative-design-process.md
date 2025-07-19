@@ -10,6 +10,28 @@ When user states a need:
 3. Ask which resonates most or if they have other ideas
 4. Explore the "why" behind their preference
 
+### Avoiding Premature Convergence
+
+**When user shows positive reaction (e.g., "いいね", "That's good", "そうそう"):**
+- DON'T interpret as final decision
+- DON'T immediately move to implementation
+- DO ask follow-up questions:
+  - "What specifically appeals to you about this approach?"
+  - "What other challenges are you facing in this area?"
+  - "How do you envision using this in your daily workflow?"
+
+**The "Three Whys" Rule:**
+- Always dig at least three levels deep
+- Example flow:
+  1. "I like inline shortcuts" → "Why do shortcuts appeal to you?"
+  2. "They're fast" → "What slows you down currently?"
+  3. "Thinking about structure" → "Would AI assistance help?"
+
+**Clear Phase Transition Signals:**
+- Explicit agreement: "Let's proceed with this", "This captures everything"
+- Confirmation question: "Have we covered all your concerns?"
+- Summary before moving on: "So we've identified X, Y, and Z as key needs..."
+
 Example:
 ```
 User: "I want to archive tasks"
@@ -118,3 +140,6 @@ Once approach is determined:
 - Don't skip exploration phase
 - Don't hide complexity - make it visible
 - Don't proceed without genuine understanding
+- Don't interpret positive reactions as final decisions
+- Don't rush to implementation after first agreement
+- Don't read files or analyze code during problem exploration
