@@ -63,6 +63,77 @@ Not every feature needs an ADR. Create one when:
 
 ## Phase 3: Technical Design Documentation
 
+### Determining Design Document Scope
+
+**When PRD is large, split Design Docs by:**
+1. **Implementation phases**
+   - Phase 1: Core functionality
+   - Phase 2: Enhanced features
+   - Phase 3: Advanced capabilities
+
+2. **Technical boundaries**
+   - Frontend components
+   - Backend services
+   - Infrastructure/DevOps
+
+3. **Feature sets**
+   - Basic features (MVP)
+   - AI/ML features
+   - Integration features
+
+**Example split for Smart Task Creation:**
+```
+"This PRD covers multiple feature sets. I recommend splitting the design:
+
+Design Doc 1: Basic Task Creation (Phase 1)
+- Simple input and storage
+- Inline shortcuts parsing
+- Basic CRUD operations
+
+Design Doc 2: AI Enhancement (Phase 2)
+- LLM integration
+- Natural language processing
+- Task decomposition
+
+Design Doc 3: Interactive Features (Phase 3)
+- Dialogue system
+- Mode switching
+- Learning/personalization
+
+This allows incremental delivery and focused reviews."
+```
+
+### Design Document Organization
+
+**For single design doc:**
+```
+docs/design/[feature-name].md
+```
+
+**For multiple design docs (split by phases):**
+```
+docs/design/[feature-name]/
+├── README.md           # Overview and phase relationships
+├── phase1-[name].md    # Core functionality
+├── phase2-[name].md    # Enhanced features
+└── phase3-[name].md    # Advanced capabilities
+```
+
+**README.md should include:**
+- Overall architecture vision
+- Phase dependencies and relationships
+- Implementation order rationale
+- Links to related PRD and ADRs
+
+**Example structure:**
+```
+docs/design/smart-task-creation/
+├── README.md
+├── phase1-basic-task-creation.md
+├── phase2-ai-enhancement.md
+└── phase3-interactive-features.md
+```
+
 ### Design Document Structure
 1. **Overview**
    - Feature summary from technical perspective
