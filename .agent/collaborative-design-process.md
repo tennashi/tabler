@@ -28,15 +28,50 @@ C. **Auto-cleanup**: Automatically hide old completed tasks
 Which approach fits your workflow best? Or do you envision something different?"
 ```
 
-## Phase 2: Solution Refinement
+## Phase 2: Feature Organization
 
-Once direction is chosen:
+Once problem is understood:
+1. Analyze how the request relates to existing features
+2. Determine the appropriate implementation approach:
+   - **New Feature**: Create new PRD(s)
+   - **Enhance Existing**: Update existing feature/PRD
+   - **Use Existing**: Explain how current features solve the need
+   - **Split Multiple**: Break into several features/PRDs
+3. Present the analysis with rationale
+4. Get agreement on the approach
+
+Example:
+```
+User: "I want to organize tasks by project"
+
+AI: "Let me analyze how this fits with our current features:
+
+Current State:
+- We have basic task creation
+- Tasks have a 'category' field
+
+Options:
+1. **Use Existing**: Could use categories as projects
+   ✓ No new development  ✗ Limited functionality
+
+2. **Enhance Category Feature**: Add project-specific features to categories
+   ✓ Builds on existing code  ✗ May complicate categories
+
+3. **New Project Feature**: Separate project management system
+   ✓ Full flexibility  ✗ More complex
+
+Which approach aligns with your needs?"
+```
+
+## Phase 3: Solution Refinement
+
+Once approach is determined:
 1. Create simple mockup or description
 2. Identify edge cases and present them
 3. Suggest enhancements based on common patterns
 4. Ask about specific scenarios
 
-## Phase 3: Collaborative Documentation
+## Phase 4: Collaborative Documentation
 
 ### PRD Creation Steps
 
