@@ -93,6 +93,31 @@ Once approach is determined:
 3. Suggest enhancements based on common patterns
 4. Ask about specific scenarios
 
+### Checking Architecture Compatibility
+
+**During feature exploration, watch for requirements that might conflict with existing ADRs:**
+- Performance requirements that exceed current architecture
+- Offline capabilities when cloud-only is decided
+- New integrations that change data flow
+- Security requirements that need architecture changes
+
+**When conflicts arise, alert the user:**
+```
+"This requirement seems to conflict with existing ADR-[number] which decided [decision].
+This feature might require architectural changes.
+
+Would you like to:
+1. Adjust the requirement to fit current architecture?
+2. Proceed knowing architectural changes will be needed?
+3. Explore alternative approaches?"
+```
+
+**If user wants to proceed despite conflicts:**
+- Document in PRD's "Technical Considerations" section
+- List which ADRs need revisiting
+- Note required architectural changes
+- Flag for engineering team attention
+
 ## Phase 4: Collaborative Documentation
 
 ### PRD Creation Steps
@@ -116,7 +141,8 @@ Once approach is determined:
 
 4. **Final Confirmation**
    - Summarize key decisions
-   - Confirm: "PRD is ready. Should I proceed with technical design?"
+   - Confirm: "PRD is ready. This can now be handed off to engineering for technical design."
+   - If architectural changes are needed: "Note: This PRD requires architectural changes. Engineering team should create/update ADRs before implementation."
 
 ### PRD Must Include
 
@@ -125,6 +151,7 @@ Once approach is determined:
 - Clear scope boundaries
 - Specific acceptance criteria
 - Open questions identified during exploration
+- Technical Considerations section if architectural changes needed
 
 ## Key Principles
 
@@ -133,6 +160,7 @@ Once approach is determined:
 - **Bring domain knowledge and patterns**
 - **Make trade-offs explicit**
 - **Encourage user to think about edge cases**
+- **Proactively identify architectural decisions**
 
 ## Don'ts
 
@@ -143,3 +171,4 @@ Once approach is determined:
 - Don't interpret positive reactions as final decisions
 - Don't rush to implementation after first agreement
 - Don't read files or analyze code during problem exploration
+- Don't ignore existing ADR conflicts
