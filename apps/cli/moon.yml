@@ -1,0 +1,8 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+language: go
+type: application
+
+project:
+  name: cli
+  description: "Tabler CLI application"

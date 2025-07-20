@@ -8,10 +8,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse task with just title", func(t *testing.T) {
 		// Arrange
 		input := "Buy groceries"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Buy groceries" {
 			t.Errorf("expected title %q, got %q", "Buy groceries", result.Title)
@@ -30,10 +30,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse single tag with # prefix", func(t *testing.T) {
 		// Arrange
 		input := "Fix bug #work"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Fix bug" {
 			t.Errorf("expected title %q, got %q", "Fix bug", result.Title)
@@ -55,10 +55,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse multiple tags from input", func(t *testing.T) {
 		// Arrange
 		input := "Review PR #work #urgent #frontend"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Review PR" {
 			t.Errorf("expected title %q, got %q", "Review PR", result.Title)
@@ -83,10 +83,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse priority with single ! (priority 1)", func(t *testing.T) {
 		// Arrange
 		input := "Deploy to production !"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Deploy to production" {
 			t.Errorf("expected title %q, got %q", "Deploy to production", result.Title)
@@ -105,10 +105,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse priority with double !! (priority 2)", func(t *testing.T) {
 		// Arrange
 		input := "Fix critical bug !!"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Fix critical bug" {
 			t.Errorf("expected title %q, got %q", "Fix critical bug", result.Title)
@@ -127,10 +127,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse priority with triple !!! (priority 3)", func(t *testing.T) {
 		// Arrange
 		input := "Emergency hotfix !!!"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Emergency hotfix" {
 			t.Errorf("expected title %q, got %q", "Emergency hotfix", result.Title)

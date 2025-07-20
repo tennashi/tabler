@@ -1,0 +1,45 @@
+$schema: "https://moonrepo.dev/schemas/tasks.json"
+
+# Common task definitions for Go language projects
+
+tasks:
+  # Testing
+  test:
+    command: go
+    args: "test ./..."
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+
+  # Linting
+  lint:
+    command: golangci-lint
+    args: "run ./..."
+    inputs:
+      - "**/*.go"
+      - ".golangci.yml"
+      - "go.mod"
+
+  # Formatting
+  format:
+    command: go
+    args: "fmt ./..."
+    inputs:
+      - "**/*.go"
+
+  # Building
+  build:
+    command: go
+    args: "build ./..."
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+
+  # Quality check (code quality checks only)
+  check:
+    deps:
+      - format
+      - lint
+      - test
