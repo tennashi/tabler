@@ -1,0 +1,335 @@
+# TDD Conventions for AI Agents
+
+This document defines how AI agents should approach Test-Driven Development in this project.
+
+## Core Principles
+
+Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
+
+1. **TODO List Driven Development**
+2. **Red-Green-Refactor Cycle**
+3. **AAA Pattern** (Arrange-Act-Assert)
+4. **Tests as Specifications**
+
+## AI Agent Development Process
+
+### 1. Understand the Requirement
+
+When given a feature request:
+- Break it down into small, testable behaviors
+- Create a TODO list of test cases
+- Share the TODO list with the user for confirmation
+
+Example interaction:
+```
+User: "Implement task creation with inline shortcuts"
+
+AI Agent: "I'll break this down into testable behaviors:
+- [ ] Task can be created with just a title
+- [ ] Empty title should return an error
+- [ ] Parse single tag with # prefix
+- [ ] Parse multiple tags
+- [ ] Parse priority with ! prefix
+- [ ] Parse due date with @ prefix
+- [ ] Combine multiple shortcuts in one input
+
+Shall I start with the first test?"
+```
+
+### 2. TDD Cycle for Each TODO Item
+
+For each TODO item, follow this cycle:
+
+#### 2.1 RED Phase - Write Failing Test
+```go
+func TestTask(t *testing.T) {
+    t.Run("creation with valid title should succeed", func(t *testing.T) {
+        // Arrange
+        title := "Buy groceries"
+        
+        // Act
+        task := NewTask(title)
+        
+        // Assert
+        if task.Title != title {
+            t.Errorf("expected title %q, got %q", title, task.Title)
+        }
+    })
+}
+```
+
+Run and show failure:
+```bash
+$ go test
+# undefined: NewTask
+```
+
+**⚠️ DO NOT COMMIT - Test is failing**
+
+#### 2.2 GREEN Phase - Make Test Pass
+Write minimal code:
+```go
+type Task struct {
+    Title string
+}
+
+func NewTask(title string) *Task {
+    return &Task{Title: title}
+}
+```
+
+Run and show success:
+```bash
+$ go test
+PASS
+```
+
+**⚠️ DO NOT COMMIT YET - Code may need refactoring**
+
+#### 2.3 REFACTOR Phase - Improve Implementation
+- Keep tests passing
+- Remove duplication
+- Improve naming
+- Extract constants or helper functions
+
+#### 2.4 TEST REFACTOR Phase - Improve Test Code
+After implementation is clean, refactor the test:
+
+**Look for:**
+- Duplicate test setup → Extract helper functions
+- Similar test patterns → Convert to table-driven tests
+- Complex assertions → Create custom assertion helpers
+- Unclear test names → Improve readability
+
+**Example refactoring:**
+```go
+// Before: Duplicate setup in multiple tests
+func TestTask(t *testing.T) {
+    t.Run("creation with valid title", func(t *testing.T) {
+        task := NewTask("Buy groceries")
+        if task.Title != "Buy groceries" {
+            t.Errorf("wrong title")
+        }
+    })
+    
+    t.Run("creation with unicode title", func(t *testing.T) {
+        task := NewTask("買い物")
+        if task.Title != "買い物" {
+            t.Errorf("wrong title")
+        }
+    })
+}
+
+// After: Table-driven test
+func TestTask(t *testing.T) {
+    t.Run("creation", func(t *testing.T) {
+        tests := []struct {
+            name  string
+            title string
+        }{
+            {"with valid title", "Buy groceries"},
+            {"with unicode title", "買い物"},
+        }
+        
+        for _, tt := range tests {
+            t.Run(tt.name, func(t *testing.T) {
+                task := NewTask(tt.title)
+                if task.Title != tt.title {
+                    t.Errorf("expected title %q, got %q", tt.title, task.Title)
+                }
+            })
+        }
+    })
+}
+```
+
+#### 2.5 COMMIT Phase - Save Clean Code
+After both implementation and test refactoring:
+```bash
+$ go test  # Ensure all tests pass
+$ git add .
+$ git commit -m "feat: implement task creation with title"
+```
+
+**✅ NOW IT'S SAFE TO COMMIT - Code and tests are clean**
+
+#### 2.6 Update TODO List
+```
+- [x] Task can be created with just a title
+- [ ] Empty title should return an error
+...
+```
+
+### 3. Commit Guidelines
+
+**When to Commit:**
+- After REFACTOR phase when both code and tests are clean
+- When switching context or taking a break
+- After completing a logical group of related tests
+
+**What to Include in Commit:**
+- Test file(s)
+- Implementation file(s)
+- Any refactoring done in both
+
+**Commit Message Format:**
+```
+feat: implement [feature name]
+
+- Add test for [behavior]
+- Implement [what was implemented]
+- Refactor [what was refactored] (if applicable)
+```
+
+### 4. Complete Cycle Before Moving On
+
+Only proceed to the next TODO item after:
+- Implementation code is clean
+- Test code is clean
+- All tests are passing
+- Changes are committed
+- TODO list is updated
+
+### 5. Integration Tests Come Later
+
+After all unit tests pass:
+- Write integration tests for external dependencies
+- Use real implementations (database, file system)
+- Mark as integration tests with build tags or skip conditions
+
+## Test Structure Guidelines
+
+### Use Subtests for Organization
+
+```go
+func TestTask(t *testing.T) {
+    t.Run("creation", func(t *testing.T) {
+        t.Run("with valid title should succeed", func(t *testing.T) {
+            // test implementation
+        })
+        
+        t.Run("with empty title should return error", func(t *testing.T) {
+            // test implementation
+        })
+    })
+    
+    t.Run("update", func(t *testing.T) {
+        t.Run("title should modify the task", func(t *testing.T) {
+            // test implementation
+        })
+    })
+}
+```
+
+### AAA Pattern
+
+Every test must follow Arrange-Act-Assert:
+
+```go
+t.Run("with valid input should return task", func(t *testing.T) {
+    // Arrange - Set up test data and dependencies
+    repo := &mockRepository{}
+    parser := &mockParser{}
+    usecase := NewTaskUsecase(repo, parser)
+    
+    // Act - Execute the behavior being tested
+    task, err := usecase.CreateTask(context.Background(), "Buy milk")
+    
+    // Assert - Verify the outcome
+    if err != nil {
+        t.Fatalf("unexpected error: %v", err)
+    }
+    if task.Title != "Buy milk" {
+        t.Errorf("expected title %q, got %q", "Buy milk", task.Title)
+    }
+})
+```
+
+### Test Helpers
+
+Extract common test operations:
+
+```go
+// Test helper for creating test tasks
+func newTestTask(t *testing.T, title string) *Task {
+    t.Helper()
+    task := NewTask(title)
+    if task == nil {
+        t.Fatal("task should not be nil")
+    }
+    return task
+}
+
+// Custom assertion
+func assertTaskTitle(t *testing.T, task *Task, expected string) {
+    t.Helper()
+    if task.Title != expected {
+        t.Errorf("expected title %q, got %q", expected, task.Title)
+    }
+}
+```
+
+## Communication with User
+
+### Before Starting
+
+```
+"I'll implement this using TDD. Here's my plan:
+[TODO list]
+I'll start with the first test. OK?"
+```
+
+### During Development
+
+```
+"RED phase: Writing failing test...
+[Show test code]
+[Show test failure]
+
+GREEN phase: Implementing minimal code...
+[Show implementation]
+[Show test passing]
+
+REFACTOR phase: Improving implementation...
+[Show refactored code]
+
+TEST REFACTOR phase: Improving test code...
+[Show refactored test]
+
+Ready to commit. All tests passing.
+Moving to next test..."
+```
+
+### When Finding Test Improvements
+
+```
+"I notice these tests have similar setup. 
+Would you like me to:
+1. Extract a helper function?
+2. Convert to table-driven tests?
+3. Keep as is for now?"
+```
+
+## Best Practices for AI Agents
+
+1. **Show all phases** - RED, GREEN, REFACTOR, TEST REFACTOR
+2. **One test at a time** - Never write multiple tests before implementing
+3. **Clean tests matter** - Tests are documentation, keep them readable
+4. **Commit after refactoring** - Only commit clean code
+5. **Ask when uncertain** - If requirements are unclear, ask before writing tests
+6. **Update TODO lists** - Keep progress visible
+7. **Explain refactoring** - Explain why you're refactoring both code and tests
+
+## Common Pitfalls to Avoid
+
+1. **Committing failing tests** - Never commit in RED phase
+2. **Committing without refactoring** - Don't commit messy code from GREEN phase
+3. **Skipping test refactoring** - Tests accumulate tech debt too
+4. **Over-engineering test helpers** - Extract only when there's duplication
+5. **Complex test setup** - If setup is complex, consider simpler design
+6. **Unclear test names** - Tests should read like specifications
+7. **Testing implementation details** - Test behavior, not internals
+
+## Remember
+
+Clean tests are as important as clean code. They serve as living documentation and make future changes easier. Only commit when both are clean.
