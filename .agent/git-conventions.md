@@ -1,5 +1,20 @@
 # Git Conventions for AI Agents
 
+## Pre-Commit Requirements
+
+**MANDATORY before every commit:**
+```bash
+moon run check  # Or moon run <project>:check
+```
+
+This ensures:
+- All tests pass
+- Code is properly formatted
+- Linting rules are satisfied
+- Type checking passes (if applicable)
+
+**Never commit without running `moon run check` first!**
+
 ## Commit Granularity
 
 - Keep commits atomic: one logical change per commit
