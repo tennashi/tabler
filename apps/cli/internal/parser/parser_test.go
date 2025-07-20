@@ -175,4 +175,33 @@ func TestParser(t *testing.T) {
 			t.Errorf("expected today's date, got %v", result.Deadline)
 		}
 	})
+
+	t.Run("parse deadline with @tomorrow", func(t *testing.T) {
+		// Arrange
+		input := "Prepare presentation @tomorrow"
+		
+		// Act
+		result := Parse(input)
+		
+		// Assert
+		if result.Title != "Prepare presentation" {
+			t.Errorf("expected title %q, got %q", "Prepare presentation", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 0 {
+			t.Errorf("expected priority 0, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		// Check if deadline is tomorrow
+		tomorrow := time.Now().AddDate(0, 0, 1)
+		if result.Deadline.Year() != tomorrow.Year() || 
+		   result.Deadline.Month() != tomorrow.Month() || 
+		   result.Deadline.Day() != tomorrow.Day() {
+			t.Errorf("expected tomorrow's date, got %v", result.Deadline)
+		}
+	})
 }

@@ -83,13 +83,22 @@ func parseDeadlineString(dateStr string) (*time.Time, bool) {
 	switch dateStr {
 	case "today":
 		return todayDeadline(), true
+	case "tomorrow":
+		return tomorrowDeadline(), true
 	default:
 		return nil, false
 	}
 }
 
 func todayDeadline() *time.Time {
-	today := time.Now()
-	deadline := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+	return dateAtStartOfDay(time.Now())
+}
+
+func tomorrowDeadline() *time.Time {
+	return dateAtStartOfDay(time.Now().AddDate(0, 0, 1))
+}
+
+func dateAtStartOfDay(date time.Time) *time.Time {
+	deadline := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 	return &deadline
 }
