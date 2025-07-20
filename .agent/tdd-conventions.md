@@ -92,6 +92,26 @@ PASS
 - Improve naming
 - Extract constants or helper functions
 
+**Self-Review Checklist - Cohesion and Coupling:**
+- [ ] **Cohesion**: Does each function have a single, clear responsibility?
+- [ ] **Coupling**: Are functions passing only necessary data as parameters?
+- [ ] **Magic Numbers**: Are all literals extracted as named constants?
+- [ ] **Testability**: Can each function be tested independently?
+- [ ] **Naming**: Do function names accurately describe their single responsibility?
+
+Example:
+```go
+// Low cohesion: Parse does too many things
+func Parse(input string) *Result {
+    // Extracts tags, priority, deadline all in one function
+}
+
+// High cohesion: Each function has one responsibility
+func extractTag(part string) (string, bool)
+func extractPriority(part string) (int, bool)
+func extractDeadline(part string) (*time.Time, bool)
+```
+
 #### 2.4 TEST REFACTOR Phase - Improve Test Code
 After implementation is clean, refactor the test:
 
