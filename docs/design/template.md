@@ -60,7 +60,27 @@
 
 ### Logging Strategy
 
-[What to log, log levels, log format, retention policy]
+Define which use cases apply to this feature and what specific data to log:
+
+**Applicable Use Cases**:
+- [ ] Tracing - Execution flow and timing
+- [ ] Error Tracking - Problem identification and diagnosis
+- [ ] User Behavior - UX improvement insights
+- [ ] Performance - Resource usage and efficiency
+- [ ] Security Audit - Compliance and audit trails
+- [ ] Business Metrics - KPIs and analytics
+
+**Implementation Details**:
+```
+[For each selected use case, specify:]
+- What specific events/data to log
+- Required fields beyond standard (use_case, timestamp, trace_id)
+- Retention period for this use case
+- Any sampling strategy if high volume
+```
+
+**Privacy Considerations**:
+[Identify any PII or sensitive data that needs sanitization]
 
 ## Security Considerations
 
