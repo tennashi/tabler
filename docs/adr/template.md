@@ -15,22 +15,27 @@
 ## Consequences
 
 ### Positive
+
 - [Positive consequences of the decision]
 
 ### Negative
+
 - [Negative consequences of the decision]
 
 ### Neutral
+
 - [Neutral consequences of the decision]
 
 ## Options Considered
 
 ### Option 1: [Name]
+
 - **Pros**: [Advantages]
 - **Cons**: [Disadvantages]
 - **Evaluation**: [Why rejected/accepted]
 
 ### Option 2: [Name]
+
 - **Pros**: [Advantages]
 - **Cons**: [Disadvantages]
 - **Evaluation**: [Why rejected/accepted]

@@ -96,11 +96,13 @@ func (c *CLI) AddCommand() *cobra.Command {
 #### Component 2: Shortcut Parser
 
 **Patterns**:
+
 - `@today`, `@tomorrow`, `@mon`, `@2024-01-15` → deadline
 - `#tag` → tags (multiple allowed)
 - `!`, `!!`, `!!!` → priority (1-3)
 
 **Examples**:
+
 ```
 Input: "Fix login bug #work #urgent @tomorrow !!"
 Output: 
@@ -115,6 +117,7 @@ Output:
 **Database Location**: `~/.tabler/tasks.db`
 
 **Schema**:
+
 ```sql
 CREATE TABLE tasks (
     id TEXT PRIMARY KEY,
@@ -155,6 +158,7 @@ Created: 2024-01-15 10:30:00
 ### Configuration
 
 Config file at `~/.tabler/config.toml`:
+
 ```toml
 # Date formats
 date_format = "2006-01-02"

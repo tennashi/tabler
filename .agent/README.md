@@ -24,6 +24,7 @@ AI agents MUST read the relevant files in this directory:
 ## For AI Agent Developers
 
 If you're integrating an AI agent with this project, ensure your agent:
+
 1. Automatically discovers and reads the `.agent/` directory
 2. Applies these conventions during its work
 3. Re-reads files when they're updated

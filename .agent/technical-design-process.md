@@ -5,13 +5,16 @@ When receiving a PRD, engage in systematic technical design to ensure robust imp
 ## Phase 1: PRD Analysis and Technical Assessment
 
 ### Initial Review
+
 1. Read PRD thoroughly to understand requirements
 2. Identify technical implications and challenges
 3. Check compatibility with existing architecture
 4. List potential risks and constraints
 
 ### Architecture Impact Analysis
+
 **Assess if the feature requires:**
+
 - New technology integrations
 - Changes to existing system architecture
 - Performance optimizations
@@ -19,12 +22,14 @@ When receiving a PRD, engage in systematic technical design to ensure robust imp
 - Data model changes
 
 **Flag ADR needs when:**
+
 - Multiple viable technical approaches exist
 - Significant trade-offs need documentation
 - Existing architectural decisions need revision
 - Long-term maintainability is affected
 
 Example:
+
 ```
 "Based on the PRD analysis, I've identified:
 - Technical challenges: Real-time sync, offline support
@@ -36,13 +41,16 @@ Example:
 ## Phase 2: Architecture Decisions (When Needed)
 
 ### Determine ADR Necessity
+
 Not every feature needs an ADR. Create one when:
+
 - The decision has system-wide impact
 - Multiple viable options exist with different trade-offs
 - The decision is hard to reverse later
 - Team members might question "why" in the future
 
 ### ADR Creation Process
+
 1. **Identify the decision scope**
    - What exactly needs to be decided?
    - Who will be affected?
@@ -53,7 +61,7 @@ Not every feature needs an ADR. Create one when:
    A. IndexedDB - Good capacity, browser-only
    B. Local SQLite - Full SQL, needs native app
    C. Hybrid approach - IndexedDB + sync
-   
+
    Let's evaluate trade-offs..."
    ```
 
@@ -66,6 +74,7 @@ Not every feature needs an ADR. Create one when:
 ### Determining Design Document Scope
 
 **When PRD is large, split Design Docs by:**
+
 1. **Implementation phases**
    - Phase 1: Core functionality
    - Phase 2: Enhanced features
@@ -82,6 +91,7 @@ Not every feature needs an ADR. Create one when:
    - Integration features
 
 **Example split for Smart Task Creation:**
+
 ```
 "This PRD covers multiple feature sets. I recommend splitting the design:
 
@@ -106,11 +116,13 @@ This allows incremental delivery and focused reviews."
 ### Design Document Organization
 
 **For single design doc:**
+
 ```
 docs/design/[feature-name].md
 ```
 
 **For multiple design docs (split by phases):**
+
 ```
 docs/design/[feature-name]/
 ├── README.md           # Overview and phase relationships
@@ -120,12 +132,14 @@ docs/design/[feature-name]/
 ```
 
 **README.md should include:**
+
 - Overall architecture vision
 - Phase dependencies and relationships
 - Implementation order rationale
 - Links to related PRD and ADRs
 
 **Example structure:**
+
 ```
 docs/design/smart-task-creation/
 ├── README.md
@@ -135,6 +149,7 @@ docs/design/smart-task-creation/
 ```
 
 ### Design Document Structure
+
 1. **Overview**
    - Feature summary from technical perspective
    - High-level approach
@@ -161,6 +176,7 @@ docs/design/smart-task-creation/
    - Caching approach
 
 ### Example Prompts
+
 ```
 "Let me create a technical design for the smart task creation feature:
 
@@ -173,6 +189,7 @@ docs/design/smart-task-creation/
 ## Phase 4: Implementation Planning
 
 ### Task Breakdown
+
 1. **Identify implementation layers**
    - Frontend components
    - Backend services
@@ -188,6 +205,7 @@ docs/design/smart-task-creation/
    - Risk factors
 
 ### Testing Strategy
+
 - Unit test requirements
 - Integration test scenarios
 - Performance test needs
@@ -196,6 +214,7 @@ docs/design/smart-task-creation/
 ## Phase 5: Review and Handoff
 
 ### Pre-implementation Checklist
+
 - [ ] All PRD requirements mapped to technical solutions
 - [ ] ADRs created for significant decisions
 - [ ] Design document complete and clear
@@ -204,6 +223,7 @@ docs/design/smart-task-creation/
 - [ ] Team questions addressed
 
 ### Handoff Communication
+
 ```
 "Technical design is complete:
 - Design doc: [link]

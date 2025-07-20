@@ -5,6 +5,7 @@ When a user requests a new feature, engage in collaborative design rather than p
 ## Phase 1: Problem Exploration
 
 When user states a need:
+
 1. Acknowledge the problem
 2. Present 3-4 alternative solutions with trade-offs
 3. Ask which resonates most or if they have other ideas
@@ -13,6 +14,7 @@ When user states a need:
 ### Avoiding Premature Convergence
 
 **When user shows positive reaction (e.g., "いいね", "That's good", "そうそう"):**
+
 - DON'T interpret as final decision
 - DON'T immediately move to implementation
 - DO ask follow-up questions:
@@ -21,6 +23,7 @@ When user states a need:
   - "How do you envision using this in your daily workflow?"
 
 **The "Three Whys" Rule:**
+
 - Always dig at least three levels deep
 - Example flow:
   1. "I like inline shortcuts" → "Why do shortcuts appeal to you?"
@@ -28,11 +31,13 @@ When user states a need:
   3. "Thinking about structure" → "Would AI assistance help?"
 
 **Clear Phase Transition Signals:**
+
 - Explicit agreement: "Let's proceed with this", "This captures everything"
 - Confirmation question: "Have we covered all your concerns?"
 - Summary before moving on: "So we've identified X, Y, and Z as key needs..."
 
 Example:
+
 ```
 User: "I want to archive tasks"
 
@@ -53,6 +58,7 @@ Which approach fits your workflow best? Or do you envision something different?"
 ## Phase 2: Feature Organization
 
 Once problem is understood:
+
 1. Analyze how the request relates to existing features
 2. Determine the appropriate implementation approach:
    - **New Feature**: Create new PRD(s)
@@ -63,6 +69,7 @@ Once problem is understood:
 4. Get agreement on the approach
 
 Example:
+
 ```
 User: "I want to organize tasks by project"
 
@@ -88,6 +95,7 @@ Which approach aligns with your needs?"
 ## Phase 3: Solution Refinement
 
 Once approach is determined:
+
 1. Create simple mockup or description
 2. Identify edge cases and present them
 3. Suggest enhancements based on common patterns
@@ -96,12 +104,14 @@ Once approach is determined:
 ### Checking Architecture Compatibility
 
 **During feature exploration, watch for requirements that might conflict with existing ADRs:**
+
 - Performance requirements that exceed current architecture
 - Offline capabilities when cloud-only is decided
 - New integrations that change data flow
 - Security requirements that need architecture changes
 
 **When conflicts arise, alert the user:**
+
 ```
 "This requirement seems to conflict with existing ADR-[number] which decided [decision].
 This feature might require architectural changes.
@@ -113,6 +123,7 @@ Would you like to:
 ```
 
 **If user wants to proceed despite conflicts:**
+
 - Document in PRD's "Technical Considerations" section
 - List which ADRs need revisiting
 - Note required architectural changes

@@ -15,6 +15,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 ## User Stories
 
 ### Story 1: Quick Task Capture
+
 - **As a**: Busy user
 - **I want**: To quickly input tasks without thinking about format
 - **So that**: I don't lose thoughts or break my concentration
@@ -25,6 +26,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
   - [ ] No required fields beyond the task description
 
 ### Story 2: Natural Language Input with Shortcuts
+
 - **As a**: User who wants some organization
 - **I want**: To add metadata using natural language patterns
 - **So that**: I can organize tasks without using complex forms
@@ -36,6 +38,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
   - [ ] Works with both Japanese and English input
 
 ### Story 3: AI-Powered Understanding
+
 - **As a**: User typing in natural language
 - **I want**: The system to understand my intent without explicit shortcuts
 - **So that**: I can write naturally without learning syntax
@@ -46,6 +49,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
   - [ ] Works seamlessly without user intervention
 
 ### Story 4: Task Clarification Through Dialogue
+
 - **As a**: User with vague thoughts
 - **I want**: AI to help me clarify my tasks through conversation
 - **So that**: I can turn fuzzy ideas into clear action items
@@ -56,6 +60,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
   - [ ] Dialogue helps identify subtasks when appropriate
 
 ### Story 5: Smart Task Decomposition
+
 - **As a**: User with complex tasks
 - **I want**: AI to suggest breaking down large tasks
 - **So that**: I have manageable, actionable items
@@ -66,6 +71,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
   - [ ] Maintains relationship between parent and subtasks
 
 ### Story 6: Mode Control
+
 - **As a**: Power user
 - **I want**: To control how the AI assists me
 - **So that**: I can work the way I prefer in different situations
@@ -81,6 +87,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 ### Functional Requirements
 
 #### Must Have
+
 - Single-line task input with Enter to save
 - Inline shortcuts (@, #, !) for metadata
 - Three input modes: Quick, Talk, Planning
@@ -89,6 +96,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 - Basic task CRUD operations
 
 #### Should Have
+
 - Natural language processing for dates and categories
 - AI-powered task clarification dialogue
 - Smart task decomposition suggestions
@@ -97,6 +105,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 - Context learning from usage patterns
 
 #### Nice to Have
+
 - Voice input support
 - Recurring task patterns
 - Time estimation suggestions
@@ -105,6 +114,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 - Task templates
 
 ### Non-Functional Requirements
+
 - **Performance**: Task creation completes in <200ms, AI suggestions in <2s
 - **Usability**: New users can create first task without instruction
 - **Reliability**: 99.9% uptime, offline mode for basic creation
@@ -121,6 +131,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 ## Scope
 
 ### In Scope
+
 - Task creation interface and interactions
 - Inline shortcut parsing system
 - AI integration for understanding and dialogue
@@ -128,6 +139,7 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 - Basic task storage and retrieval
 
 ### Out of Scope
+
 - Task editing and management UI (separate feature)
 - Advanced project management features
 - Team collaboration features
@@ -145,18 +157,21 @@ Users need a quick and intuitive way to capture tasks as they think of them, wit
 ## Implementation Phases
 
 ### Phase 1: Basic Task Creation
+
 - Single-line task input with Enter to save
 - Inline shortcuts (@, #, !) parsing
 - Basic task CRUD operations
 - Simple task list display
 
 ### Phase 2: AI Enhancement
+
 - Natural language processing for dates and categories
 - Smart task decomposition suggestions
 - LLM integration for understanding intent
 - Autocomplete for frequently used tags
 
 ### Phase 3: Interactive Features
+
 - AI-powered task clarification dialogue
 - Three input modes (Quick, Talk, Planning)
 - Mode switching system

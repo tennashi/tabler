@@ -11,12 +11,14 @@ This directory contains project documentation.
 ## File Organization
 
 ### Simple Features
+
 ```
 prd/feature_name.md
 design/feature_name.md
 ```
 
 ### Complex Features (multi-phase)
+
 ```
 prd/feature_name.md
 design/feature_name/
