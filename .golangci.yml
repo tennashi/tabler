@@ -1,0 +1,82 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  exclusions:
+    rules:
+      # Exclude some linters from running on tests files
+      - path: _test\.go
+        linters:
+          - gocyclo
+          - gocognit
+          - goconst
+          - dupl
+      # Disable revive package-comments
+      - linters:
+          - revive
+        text: "package-comments"
+      # Disable revive exported
+      - linters:
+          - revive
+        text: "exported"
+  enable:
+    # Default linters
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    # Additional linters
+    - bodyclose
+    - dupl
+    - errname
+    - errorlint
+    - exhaustive
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gosec
+    - lll
+    - misspell
+    - nolintlint
+    - prealloc
+    - predeclared
+    - revive
+    - unconvert
+    - unparam
+    - usestdlibvars
+    - whitespace
+    # Security and correctness
+    - bidichk
+    - copyloopvar
+    - durationcheck
+    - makezero
+    - reassign
+    # Testing
+    - testifylint
+
+linters-settings:
+  govet:
+    enable-all: true
+  revive:
+    severity: warning
+    confidence: 0.8
+  goconst:
+    min-len: 2
+    min-occurrences: 3
+  misspell:
+    locale: US
+  lll:
+    line-length: 120
+  gocognit:
+    min-complexity: 30
+  gocyclo:
+    min-complexity: 20
+
+issues:
+  # Keep default exclusions (includes package-comments and exported)
+  exclude-use-default: true
