@@ -8,11 +8,13 @@ AI agents MUST read the relevant files in this directory:
 
 - **ALWAYS** at the start of a session:
   - Read `/README.md` for project overview
-  - Read all files in this `.agent/` directory
-- **BEFORE** making git commits - read `git-conventions.md`
-- **BEFORE** creating or modifying files - read `project-conventions.md`
-- **WHEN** designing new features - read `collaborative-design-process.md`
-- **WHEN** creating technical designs - read `technical-design-process.md` and `design-review-checklist.md`
+  - Read this entire `.agent/README.md` file
+  - Read `project-conventions.md` for basic project rules
+- **AS NEEDED** based on the task:
+  - **BEFORE** making git commits - read `git-conventions.md`
+  - **WHEN** designing new features - read `collaborative-design-process.md`
+  - **WHEN** creating technical designs - read `technical-design-process.md` and `design-review-checklist.md`
+  - **WHEN** installing tools - read `tool-installation-conventions.md`
 
 ## Directory Contents
 
