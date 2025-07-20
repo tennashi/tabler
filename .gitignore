@@ -1,2 +1,5 @@
 # AI Agent temporary files
 .agent/tmp/
+# moon
+.moon/cache
+.moon/docker
