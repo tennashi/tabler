@@ -1,0 +1,10 @@
+$schema: ".moon/cache/schemas/project.json"
+
+project:
+  description: "Repository root"
+
+tasks:
+  format:
+    command: "dprint fmt"
+  check:
+    command: "dprint check"
