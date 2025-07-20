@@ -79,4 +79,26 @@ func TestParser(t *testing.T) {
 			t.Errorf("expected no deadline, got %v", result.Deadline)
 		}
 	})
+
+	t.Run("parse priority with single ! (priority 1)", func(t *testing.T) {
+		// Arrange
+		input := "Deploy to production !"
+		
+		// Act
+		result := Parse(input)
+		
+		// Assert
+		if result.Title != "Deploy to production" {
+			t.Errorf("expected title %q, got %q", "Deploy to production", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 1 {
+			t.Errorf("expected priority 1, got %d", result.Priority)
+		}
+		if result.Deadline != nil {
+			t.Errorf("expected no deadline, got %v", result.Deadline)
+		}
+	})
 }

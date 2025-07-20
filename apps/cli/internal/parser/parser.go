@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	tagPrefix = "#"
+	tagPrefix      = "#"
+	priorityMarker = "!"
 )
 
 type ParseResult struct {
@@ -27,6 +28,8 @@ func Parse(input string) *ParseResult {
 	for _, part := range parts {
 		if tag, isTag := extractTag(part); isTag {
 			result.Tags = append(result.Tags, tag)
+		} else if priority, isPriority := extractPriority(part); isPriority {
+			result.Priority = priority
 		} else {
 			titleParts = append(titleParts, part)
 		}
@@ -42,4 +45,11 @@ func extractTag(part string) (string, bool) {
 		return part[len(tagPrefix):], true
 	}
 	return "", false
+}
+
+func extractPriority(part string) (int, bool) {
+	if part == priorityMarker {
+		return 1, true
+	}
+	return 0, false
 }
