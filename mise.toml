@@ -1,3 +1,4 @@
 [tools]
 "aqua:moonrepo/moon" = "latest"
 dprint = "latest"
+markdownlint-cli2 = "latest"
