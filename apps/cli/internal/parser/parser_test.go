@@ -245,6 +245,65 @@ func TestParser(t *testing.T) {
 		expectedDate := time.Date(2024, 1, 15, 0, 0, 0, 0, time.Local)
 		assertDateEquals(t, expectedDate, *result.Deadline, "2024-01-15")
 	})
+
+	t.Run("combine multiple shortcuts in one input", func(t *testing.T) {
+		// Arrange
+		input := "Urgent bug fix #backend #bug @today !!"
+
+		// Act
+		result := Parse(input)
+
+		// Assert
+		if result.Title != "Urgent bug fix" {
+			t.Errorf("expected title %q, got %q", "Urgent bug fix", result.Title)
+		}
+		if len(result.Tags) != 2 {
+			t.Fatalf("expected 2 tags, got %d tags", len(result.Tags))
+		}
+		expectedTags := []string{"backend", "bug"}
+		for i, expectedTag := range expectedTags {
+			if result.Tags[i] != expectedTag {
+				t.Errorf("expected tag[%d] %q, got %q", i, expectedTag, result.Tags[i])
+			}
+		}
+		if result.Priority != 2 {
+			t.Errorf("expected priority 2, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		assertDateEquals(t, time.Now(), *result.Deadline, "today")
+	})
+
+	t.Run("combine shortcuts in different order", func(t *testing.T) {
+		// Arrange
+		input := "!!! @tomorrow Review #code #important proposal"
+
+		// Act
+		result := Parse(input)
+
+		// Assert
+		if result.Title != "Review proposal" {
+			t.Errorf("expected title %q, got %q", "Review proposal", result.Title)
+		}
+		if len(result.Tags) != 2 {
+			t.Fatalf("expected 2 tags, got %d tags", len(result.Tags))
+		}
+		expectedTags := []string{"code", "important"}
+		for i, expectedTag := range expectedTags {
+			if result.Tags[i] != expectedTag {
+				t.Errorf("expected tag[%d] %q, got %q", i, expectedTag, result.Tags[i])
+			}
+		}
+		if result.Priority != 3 {
+			t.Errorf("expected priority 3, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		tomorrow := time.Now().AddDate(0, 0, 1)
+		assertDateEquals(t, tomorrow, *result.Deadline, "tomorrow")
+	})
 }
 
 // Helper functions for tests
