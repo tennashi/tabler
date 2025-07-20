@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	tagPrefix        = "#"
-	priorityMarker   = "!"
-	deadlinePrefix   = "@"
+	tagPrefix      = "#"
+	priorityMarker = "!"
+	deadlinePrefix = "@"
 )
 
 type ParseResult struct {
@@ -74,9 +74,26 @@ func extractDeadline(part string) (*time.Time, bool) {
 	if !strings.HasPrefix(part, deadlinePrefix) || len(part) <= len(deadlinePrefix) {
 		return nil, false
 	}
-	
+
 	dateStr := part[len(deadlinePrefix):]
 	return parseDeadlineString(dateStr)
+}
+
+var weekdayMap = map[string]time.Weekday{
+	"mon":       time.Monday,
+	"monday":    time.Monday,
+	"tue":       time.Tuesday,
+	"tuesday":   time.Tuesday,
+	"wed":       time.Wednesday,
+	"wednesday": time.Wednesday,
+	"thu":       time.Thursday,
+	"thursday":  time.Thursday,
+	"fri":       time.Friday,
+	"friday":    time.Friday,
+	"sat":       time.Saturday,
+	"saturday":  time.Saturday,
+	"sun":       time.Sunday,
+	"sunday":    time.Sunday,
 }
 
 func parseDeadlineString(dateStr string) (*time.Time, bool) {
@@ -86,6 +103,9 @@ func parseDeadlineString(dateStr string) (*time.Time, bool) {
 	case "tomorrow":
 		return tomorrowDeadline(), true
 	default:
+		if weekday, ok := weekdayMap[dateStr]; ok {
+			return weekdayDeadline(weekday), true
+		}
 		return nil, false
 	}
 }
@@ -96,6 +116,15 @@ func todayDeadline() *time.Time {
 
 func tomorrowDeadline() *time.Time {
 	return dateAtStartOfDay(time.Now().AddDate(0, 0, 1))
+}
+
+func weekdayDeadline(weekday time.Weekday) *time.Time {
+	now := time.Now()
+	daysUntilWeekday := (int(weekday) - int(now.Weekday()) + 7) % 7
+	if daysUntilWeekday == 0 {
+		daysUntilWeekday = 7
+	}
+	return dateAtStartOfDay(now.AddDate(0, 0, daysUntilWeekday))
 }
 
 func dateAtStartOfDay(date time.Time) *time.Time {

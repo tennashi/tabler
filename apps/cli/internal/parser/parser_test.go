@@ -150,10 +150,10 @@ func TestParser(t *testing.T) {
 	t.Run("parse deadline with @today", func(t *testing.T) {
 		// Arrange
 		input := "Submit report @today"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Submit report" {
 			t.Errorf("expected title %q, got %q", "Submit report", result.Title)
@@ -167,22 +167,17 @@ func TestParser(t *testing.T) {
 		if result.Deadline == nil {
 			t.Fatal("expected deadline, got nil")
 		}
-		// Check if deadline is today (we'll need to compare dates, not exact times)
-		now := time.Now()
-		if result.Deadline.Year() != now.Year() || 
-		   result.Deadline.Month() != now.Month() || 
-		   result.Deadline.Day() != now.Day() {
-			t.Errorf("expected today's date, got %v", result.Deadline)
-		}
+		// Check if deadline is today
+		assertDateEquals(t, time.Now(), *result.Deadline, "today")
 	})
 
 	t.Run("parse deadline with @tomorrow", func(t *testing.T) {
 		// Arrange
 		input := "Prepare presentation @tomorrow"
-		
+
 		// Act
 		result := Parse(input)
-		
+
 		// Assert
 		if result.Title != "Prepare presentation" {
 			t.Errorf("expected title %q, got %q", "Prepare presentation", result.Title)
@@ -198,10 +193,53 @@ func TestParser(t *testing.T) {
 		}
 		// Check if deadline is tomorrow
 		tomorrow := time.Now().AddDate(0, 0, 1)
-		if result.Deadline.Year() != tomorrow.Year() || 
-		   result.Deadline.Month() != tomorrow.Month() || 
-		   result.Deadline.Day() != tomorrow.Day() {
-			t.Errorf("expected tomorrow's date, got %v", result.Deadline)
-		}
+		assertDateEquals(t, tomorrow, *result.Deadline, "tomorrow")
 	})
+
+	t.Run("parse deadline with weekday @mon", func(t *testing.T) {
+		// Arrange
+		input := "Team meeting @mon"
+
+		// Act
+		result := Parse(input)
+
+		// Assert
+		if result.Title != "Team meeting" {
+			t.Errorf("expected title %q, got %q", "Team meeting", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 0 {
+			t.Errorf("expected priority 0, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		// Check if deadline is next Monday
+		nextMonday := getNextWeekday(time.Monday)
+		assertDateEquals(t, nextMonday, *result.Deadline, "next Monday")
+	})
+}
+
+// Helper functions for tests
+func getNextWeekday(weekday time.Weekday) time.Time {
+	now := time.Now()
+	daysUntilWeekday := (int(weekday) - int(now.Weekday()) + 7) % 7
+	if daysUntilWeekday == 0 {
+		daysUntilWeekday = 7
+	}
+	return now.AddDate(0, 0, daysUntilWeekday)
+}
+
+func assertDateEquals(t *testing.T, expected, actual time.Time, description string) {
+	t.Helper()
+	if expected.Year() != actual.Year() ||
+		expected.Month() != actual.Month() ||
+		expected.Day() != actual.Day() {
+		t.Errorf("expected %s (%s), got %s",
+			description,
+			expected.Format("2006-01-02"),
+			actual.Format("2006-01-02"))
+	}
 }
