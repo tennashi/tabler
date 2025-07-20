@@ -2,11 +2,28 @@ $schema: "./cache/schemas/tasks.json"
 
 # Global tasks inherited by all projects
 tasks:
+  # Formatting tasks (dprint)
   format:
     command: "dprint fmt"
     options:
       runFromWorkspaceRoot: true
-  check:
+  format-check:
     command: "dprint check"
     options:
       runFromWorkspaceRoot: true
+
+  # Linting tasks (markdownlint)
+  lint:
+    command: 'markdownlint-cli2 "**/*.md"'
+    options:
+      runFromWorkspaceRoot: true
+  lint-fix:
+    command: 'markdownlint-cli2 --fix "**/*.md"'
+    options:
+      runFromWorkspaceRoot: true
+
+  # Combined check (format + lint)
+  check:
+    deps:
+      - format-check
+      - lint
