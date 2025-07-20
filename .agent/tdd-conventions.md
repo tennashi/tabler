@@ -115,6 +115,11 @@ func extractDeadline(part string) (*time.Time, bool)
 #### 2.4 TEST REFACTOR Phase - Improve Test Code
 After implementation is clean, refactor the test:
 
+**IMPORTANT: This phase is for refactoring the CURRENT test only, not for adding new test cases!**
+- New test cases require starting a new RED-GREEN-REFACTOR cycle
+- Only refactor if the current test has duplication or clarity issues
+- If the test is already clean and simple, skip this phase
+
 **Look for:**
 - Duplicate test setup → Extract helper functions
 - Similar test patterns → Convert to table-driven tests
@@ -225,6 +230,12 @@ Only proceed to the next TODO item after:
 - All tests are passing
 - Changes are committed
 - TODO list is updated
+
+**CRITICAL: Each test case is a separate cycle!**
+- One test case = One complete RED-GREEN-REFACTOR-COMMIT cycle
+- Do NOT write multiple test cases in RED phase
+- Do NOT add new test cases during TEST REFACTOR phase
+- Each new behavior/edge case starts with a new RED phase
 
 ### 5. Integration Tests Come Later
 
@@ -365,6 +376,42 @@ Would you like me to:
 5. **Complex test setup** - If setup is complex, consider simpler design
 6. **Unclear test names** - Tests should read like specifications
 7. **Testing implementation details** - Test behavior, not internals
+8. **Adding multiple tests at once** - Each test case needs its own cycle
+9. **Refactoring to add new tests** - TEST REFACTOR is for improving existing test only
+
+### Example of WRONG Approach
+
+```
+❌ WRONG: Adding multiple test cases during TEST REFACTOR phase
+- Write test for "valid task"
+- Make it pass
+- Refactor implementation
+- TEST REFACTOR: Convert to table-driven test AND add 5 new test cases
+```
+
+### Example of CORRECT Approach
+
+```
+✅ CORRECT: One test case per cycle
+Cycle 1:
+- RED: Write test for "valid task"
+- GREEN: Make it pass
+- REFACTOR: Clean up implementation
+- COMMIT
+
+Cycle 2:
+- RED: Write test for "empty title error"
+- GREEN: Make it pass
+- REFACTOR: Clean up implementation
+- COMMIT
+
+Cycle 3:
+- RED: Write test for "unicode title"
+- GREEN: Make it pass
+- REFACTOR: Clean up implementation
+- TEST REFACTOR: Now that we have 3 similar tests, refactor to table-driven
+- COMMIT
+```
 
 ## Remember
 
