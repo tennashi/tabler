@@ -1,2 +1,3 @@
 [tools]
 "aqua:moonrepo/moon" = "latest"
+dprint = "latest"

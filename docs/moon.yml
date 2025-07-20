@@ -1,7 +1,15 @@
-$schema: '../.moon/cache/schemas/project.json'
+$schema: "../.moon/cache/schemas/project.json"
 
 project:
-  name: 'docs'
-  description: 'Project documentation (PRDs, design docs, ADRs)'
-  
-tasks: {}
+  name: "docs"
+  description: "Project documentation (PRDs, design docs, ADRs)"
+
+tasks:
+  format:
+    command: "dprint fmt"
+    options:
+      runFromWorkspaceRoot: true
+  check:
+    command: "dprint check"
+    options:
+      runFromWorkspaceRoot: true
