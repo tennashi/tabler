@@ -6,7 +6,9 @@ This directory contains conventions and rules for AI agents working on this proj
 
 AI agents MUST read the relevant files in this directory:
 
-- **ALWAYS** at the start of a session - read all files
+- **ALWAYS** at the start of a session:
+  - Read `/README.md` for project overview
+  - Read all files in this `.agent/` directory
 - **BEFORE** making git commits - read `git-conventions.md`
 - **BEFORE** creating or modifying files - read `project-conventions.md`
 - **WHEN** designing new features - read `collaborative-design-process.md`
