@@ -51,4 +51,32 @@ func TestParser(t *testing.T) {
 			t.Errorf("expected no deadline, got %v", result.Deadline)
 		}
 	})
+
+	t.Run("parse multiple tags from input", func(t *testing.T) {
+		// Arrange
+		input := "Review PR #work #urgent #frontend"
+		
+		// Act
+		result := Parse(input)
+		
+		// Assert
+		if result.Title != "Review PR" {
+			t.Errorf("expected title %q, got %q", "Review PR", result.Title)
+		}
+		if len(result.Tags) != 3 {
+			t.Fatalf("expected 3 tags, got %d tags", len(result.Tags))
+		}
+		expectedTags := []string{"work", "urgent", "frontend"}
+		for i, expectedTag := range expectedTags {
+			if result.Tags[i] != expectedTag {
+				t.Errorf("expected tag[%d] %q, got %q", i, expectedTag, result.Tags[i])
+			}
+		}
+		if result.Priority != 0 {
+			t.Errorf("expected priority 0, got %d", result.Priority)
+		}
+		if result.Deadline != nil {
+			t.Errorf("expected no deadline, got %v", result.Deadline)
+		}
+	})
 }
