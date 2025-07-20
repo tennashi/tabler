@@ -24,3 +24,15 @@ func NewTask(id, title string, deadline time.Time, priority int) *Task {
 		UpdatedAt: now,
 	}
 }
+
+type TaskTag struct {
+	TaskID string
+	Tag    string
+}
+
+func NewTaskTag(taskID, tag string) *TaskTag {
+	return &TaskTag{
+		TaskID: taskID,
+		Tag:    tag,
+	}
+}

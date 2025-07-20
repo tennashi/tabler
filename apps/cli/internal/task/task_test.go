@@ -13,10 +13,10 @@ func TestTask(t *testing.T) {
 			title := "Buy groceries"
 			deadline := time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC)
 			priority := 2
-			
+
 			// Act
 			task := NewTask(id, title, deadline, priority)
-			
+
 			// Assert
 			if task.ID != id {
 				t.Errorf("expected ID %q, got %q", id, task.ID)
