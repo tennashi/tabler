@@ -11,3 +11,13 @@ The main instructions and processes are defined in `.agent/` directory. This fil
 Location: `/.claude/commands/`
 - These files reference the actual processes defined in `.agent/`
 - Contain only Claude-specific command handling logic
+
+### Temporary Workspace
+Location: `/.agent/tmp/`
+- Git-ignored directory for Claude's temporary work
+- Use freely for:
+  - Session notes and context
+  - Work-in-progress analysis
+  - Temporary calculations or data
+  - Any files you need during development
+- Everything in this directory is ephemeral and not tracked by git
