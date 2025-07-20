@@ -10,7 +10,7 @@ AI agents MUST read the relevant files in this directory:
 - **BEFORE** making git commits - read `git-conventions.md`
 - **BEFORE** creating or modifying files - read `project-conventions.md`
 - **WHEN** designing new features - read `collaborative-design-process.md`
-- **WHEN** creating technical designs - read `technical-design-process.md`
+- **WHEN** creating technical designs - read `technical-design-process.md` and `design-review-checklist.md`
 
 ## Directory Contents
 
@@ -18,6 +18,7 @@ AI agents MUST read the relevant files in this directory:
 - `project-conventions.md` - Language requirements for all files
 - `collaborative-design-process.md` - Product design and PRD creation process
 - `technical-design-process.md` - Engineering design and implementation process
+- `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
 
 ## For AI Agent Developers
 
