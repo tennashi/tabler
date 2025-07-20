@@ -173,10 +173,12 @@ timezone = "local"
 
 ## Implementation Notes
 
-- Start with basic `add` and `list` commands
-- Use ULID for task IDs (sortable, unique)
-- Simple table output using tabwriter
-- Colors optional (for tags, priorities)
+- Task IDs should be sortable and time-ordered (e.g., ULID)
+- Database foreign key constraints must be enabled
+- Date parsing should respect user's timezone
+- Use database transactions for data consistency
+- Table output should align columns properly
+- Color support should be optional/configurable
 
 ## Future Considerations
 
