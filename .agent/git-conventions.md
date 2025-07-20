@@ -6,6 +6,20 @@
 - Related changes should be committed together
 - Unrelated changes should be in separate commits
 - Each commit should represent a complete, working state
+- Each commit should pass all tests and checks (lint, format, typecheck, etc.)
+
+## Commit Order
+
+- Consider logical dependencies between commits
+- Infrastructure changes before features that use them
+- Tool installations before tool configurations
+- Configurations before code that depends on them
+- Bug fixes that enable tests before the tests themselves
+- Example order:
+  1. Install tooling (e.g., linter)
+  2. Add tool configuration
+  3. Add tool integration (e.g., lint tasks)
+  4. Fix issues found by the tool
 
 ## Commit Messages
 
