@@ -3,8 +3,8 @@
 Execute the following steps for making a git commit:
 
 1. **Review Git Conventions**
-   - Read and display the commit conventions from `.agent/git-conventions.md`
-   - Emphasize these key points:
+   - Read the commit conventions from `.agent/git-conventions.md` (but don't display the entire file)
+   - Show only a brief summary of key points:
      - Commit granularity (atomic commits)
      - Commit order
      - Commit message format
@@ -14,9 +14,11 @@ Execute the following steps for making a git commit:
    - Run `git status` to show current changes
    - Run `git diff --cached` to review staged changes
 
-3. **Prepare Commit**
-   - Suggest a commit message following the conventions
-   - Ask for user confirmation
+3. **Analyze and Commit**
+   - Analyze the changes and suggest appropriate commit message(s)
+   - If there are unrelated changes, suggest splitting into multiple commits
+   - Show the proposed commit(s) with their messages
+   - Execute the commit(s) immediately without asking for confirmation
+   - Show the result of each commit
 
-4. **Execute Commit**
-   - After user approval, execute the actual commit
+Note: If the user wants to modify the commit message or approach, they can interrupt or provide feedback after seeing the proposal.
