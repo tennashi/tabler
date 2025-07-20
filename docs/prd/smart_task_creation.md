@@ -2,7 +2,9 @@
 
 ## Problem Statement
 
-Users need a quick and intuitive way to capture tasks as they think of them, without breaking their flow. Traditional task input methods require too much structure upfront, making users choose between speed and organization. Additionally, when thoughts are vague or complex, users need help clarifying and structuring their tasks effectively.
+Users need a quick and intuitive way to capture tasks as they think of them, without breaking their flow. Traditional
+task input methods require too much structure upfront, making users choose between speed and organization.
+Additionally, when thoughts are vague or complex, users need help clarifying and structuring their tasks effectively.
 
 ## Objectives
 

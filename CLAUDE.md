@@ -2,7 +2,8 @@
 
 ## Important Note
 
-The main instructions and processes are defined in `.agent/` directory. This file (CLAUDE.md) and `.claude/` directory primarily contain references to `.agent/` and Claude-specific implementations only.
+The main instructions and processes are defined in `.agent/` directory. This file (CLAUDE.md) and `.claude/`
+directory primarily contain references to `.agent/` and Claude-specific implementations only.
 
 @.agent/README.md
 

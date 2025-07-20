@@ -2,7 +2,8 @@
 
 ## Overview
 
-Implement a CLI-focused task creation tool with inline shortcut parsing and local SQLite storage. Simple, fast, and works offline.
+Implement a CLI-focused task creation tool with inline shortcut parsing and local SQLite storage. Simple, fast,
+and works offline.
 
 ## Background
 
@@ -29,7 +30,7 @@ Focus on CLI-only implementation for rapid development and personal use.
 
 ### High-Level Architecture
 
-```
+```text
 ┌─────────────────┐
 │   CLI Command   │ ← tabler add/list/show/delete
 └────────┬────────┘
@@ -103,7 +104,7 @@ func (c *CLI) AddCommand() *cobra.Command {
 
 **Examples**:
 
-```
+```text
 Input: "Fix login bug #work #urgent @tomorrow !!"
 Output: 
   Title: "Fix login bug"

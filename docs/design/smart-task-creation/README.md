@@ -2,7 +2,9 @@
 
 ## Overview
 
-A fast, intelligent task capture system that supports natural language input with inline shortcuts, AI-powered understanding, and task clarification through dialogue. The implementation uses Claude Code for AI features and SQLite for offline-first storage.
+A fast, intelligent task capture system that supports natural language input with inline shortcuts, AI-powered
+understanding, and task clarification through dialogue. The implementation uses Claude Code for AI features and
+SQLite for offline-first storage.
 
 ## Related Documents
 
@@ -59,7 +61,7 @@ A fast, intelligent task capture system that supports natural language input wit
 
 ## Architecture Overview
 
-```
+```text
 ┌─────────────────────┐
 │   UI (TUI/Web)      │
 ├─────────────────────┤

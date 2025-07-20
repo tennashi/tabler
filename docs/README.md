@@ -12,14 +12,14 @@ This directory contains project documentation.
 
 ### Simple Features
 
-```
+```text
 prd/feature_name.md
 design/feature_name.md
 ```
 
 ### Complex Features (multi-phase)
 
-```
+```text
 prd/feature_name.md
 design/feature_name/
 ├── README.md                # Overview and phases
