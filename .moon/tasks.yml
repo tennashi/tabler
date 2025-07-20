@@ -1,0 +1,12 @@
+$schema: "./cache/schemas/tasks.json"
+
+# Global tasks inherited by all projects
+tasks:
+  format:
+    command: "dprint fmt"
+    options:
+      runFromWorkspaceRoot: true
+  check:
+    command: "dprint check"
+    options:
+      runFromWorkspaceRoot: true

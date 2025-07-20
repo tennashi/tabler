@@ -4,12 +4,4 @@ project:
   name: "docs"
   description: "Project documentation (PRDs, design docs, ADRs)"
 
-tasks:
-  format:
-    command: "dprint fmt"
-    options:
-      runFromWorkspaceRoot: true
-  check:
-    command: "dprint check"
-    options:
-      runFromWorkspaceRoot: true
+tasks: {}
