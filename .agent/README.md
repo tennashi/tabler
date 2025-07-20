@@ -19,6 +19,7 @@ AI agents MUST read the relevant files in this directory:
 - `collaborative-design-process.md` - Product design and PRD creation process
 - `technical-design-process.md` - Engineering design and implementation process
 - `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
+- `tool-installation-conventions.md` - How to install tools (using mise)
 
 ## For AI Agent Developers
 
