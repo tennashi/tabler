@@ -101,4 +101,26 @@ func TestParser(t *testing.T) {
 			t.Errorf("expected no deadline, got %v", result.Deadline)
 		}
 	})
+
+	t.Run("parse priority with double !! (priority 2)", func(t *testing.T) {
+		// Arrange
+		input := "Fix critical bug !!"
+		
+		// Act
+		result := Parse(input)
+		
+		// Assert
+		if result.Title != "Fix critical bug" {
+			t.Errorf("expected title %q, got %q", "Fix critical bug", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 2 {
+			t.Errorf("expected priority 2, got %d", result.Priority)
+		}
+		if result.Deadline != nil {
+			t.Errorf("expected no deadline, got %v", result.Deadline)
+		}
+	})
 }

@@ -48,8 +48,21 @@ func extractTag(part string) (string, bool) {
 }
 
 func extractPriority(part string) (int, bool) {
-	if part == priorityMarker {
-		return 1, true
+	if len(part) == 0 || part[0] != priorityMarker[0] {
+		return 0, false
+	}
+	
+	count := 0
+	for _, ch := range part {
+		if ch == rune(priorityMarker[0]) {
+			count++
+		} else {
+			return 0, false
+		}
+	}
+	
+	if count >= 1 && count <= 3 {
+		return count, true
 	}
 	return 0, false
 }
