@@ -1,0 +1,7 @@
+$schema: '../.moon/cache/schemas/project.json'
+
+project:
+  name: 'docs'
+  description: 'Project documentation (PRDs, design docs, ADRs)'
+  
+tasks: {}
