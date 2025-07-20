@@ -121,6 +121,22 @@ After implementation is clean, refactor the test:
 - Complex assertions → Create custom assertion helpers
 - Unclear test names → Improve readability
 
+**Table-Driven Test Criteria:**
+
+Use table-driven tests when:
+- **Same function with different inputs**: Testing one function with various input patterns
+- **Clear input-output mapping**: Input → Expected output is straightforward
+- **Repeated assertion patterns**: Same checks performed across multiple tests
+- **Many edge cases**: Empty strings, special characters, boundary values, combinations
+- **DRY principle**: Same test code repeated 3+ times
+
+Avoid table-driven tests when:
+- **Complex setup required**: Each test needs significantly different mocks, DB setup, etc.
+- **State sharing between tests**: Tests depend on results from previous tests (avoid this pattern anyway)
+- **Detailed error inspection**: Need to check error types, wrapped errors, or error fields in detail
+- **Async/timing critical**: Tests involving goroutines, channels, or time-sensitive operations
+- **Complex test flow**: Multi-step tests with branching logic that doesn't fit well in a table
+
 **Example refactoring:**
 ```go
 // Before: Duplicate setup in multiple tests
