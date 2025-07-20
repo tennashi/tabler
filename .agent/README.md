@@ -16,6 +16,7 @@ AI agents MUST read the relevant files in this directory:
   - **WHEN** creating technical designs - read `technical-design-process.md` and `design-review-checklist.md`
   - **WHEN** installing tools - read `tool-installation-conventions.md`
   - **WHEN** implementing logging - read `logging-conventions.md`
+  - **WHEN** implementing features using TDD - read `tdd-conventions.md`
 
 ## Directory Contents
 
@@ -26,6 +27,7 @@ AI agents MUST read the relevant files in this directory:
 - `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
 - `tool-installation-conventions.md` - How to install tools (using mise)
 - `logging-conventions.md` - Use case-based logging guidelines
+- `tdd-conventions.md` - Test-Driven Development process for AI agents
 
 ## For AI Agent Developers
 
