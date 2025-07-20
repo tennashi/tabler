@@ -6,8 +6,9 @@ import (
 )
 
 const (
-	tagPrefix      = "#"
-	priorityMarker = "!"
+	tagPrefix        = "#"
+	priorityMarker   = "!"
+	deadlinePrefix   = "@"
 )
 
 type ParseResult struct {
@@ -30,6 +31,8 @@ func Parse(input string) *ParseResult {
 			result.Tags = append(result.Tags, tag)
 		} else if priority, isPriority := extractPriority(part); isPriority {
 			result.Priority = priority
+		} else if deadline, isDeadline := extractDeadline(part); isDeadline {
+			result.Deadline = deadline
 		} else {
 			titleParts = append(titleParts, part)
 		}
@@ -65,4 +68,28 @@ func extractPriority(part string) (int, bool) {
 		return count, true
 	}
 	return 0, false
+}
+
+func extractDeadline(part string) (*time.Time, bool) {
+	if !strings.HasPrefix(part, deadlinePrefix) || len(part) <= len(deadlinePrefix) {
+		return nil, false
+	}
+	
+	dateStr := part[len(deadlinePrefix):]
+	return parseDeadlineString(dateStr)
+}
+
+func parseDeadlineString(dateStr string) (*time.Time, bool) {
+	switch dateStr {
+	case "today":
+		return todayDeadline(), true
+	default:
+		return nil, false
+	}
+}
+
+func todayDeadline() *time.Time {
+	today := time.Now()
+	deadline := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+	return &deadline
 }

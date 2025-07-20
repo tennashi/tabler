@@ -2,6 +2,7 @@ package parser
 
 import (
 	"testing"
+	"time"
 )
 
 func TestParser(t *testing.T) {
@@ -143,6 +144,35 @@ func TestParser(t *testing.T) {
 		}
 		if result.Deadline != nil {
 			t.Errorf("expected no deadline, got %v", result.Deadline)
+		}
+	})
+
+	t.Run("parse deadline with @today", func(t *testing.T) {
+		// Arrange
+		input := "Submit report @today"
+		
+		// Act
+		result := Parse(input)
+		
+		// Assert
+		if result.Title != "Submit report" {
+			t.Errorf("expected title %q, got %q", "Submit report", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 0 {
+			t.Errorf("expected priority 0, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		// Check if deadline is today (we'll need to compare dates, not exact times)
+		now := time.Now()
+		if result.Deadline.Year() != now.Year() || 
+		   result.Deadline.Month() != now.Month() || 
+		   result.Deadline.Day() != now.Day() {
+			t.Errorf("expected today's date, got %v", result.Deadline)
 		}
 	})
 }
