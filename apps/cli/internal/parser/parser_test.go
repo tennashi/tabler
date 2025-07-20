@@ -220,6 +220,31 @@ func TestParser(t *testing.T) {
 		nextMonday := getNextWeekday(time.Monday)
 		assertDateEquals(t, nextMonday, *result.Deadline, "next Monday")
 	})
+
+	t.Run("parse deadline with specific date @2024-01-15", func(t *testing.T) {
+		// Arrange
+		input := "Quarterly review @2024-01-15"
+
+		// Act
+		result := Parse(input)
+
+		// Assert
+		if result.Title != "Quarterly review" {
+			t.Errorf("expected title %q, got %q", "Quarterly review", result.Title)
+		}
+		if len(result.Tags) != 0 {
+			t.Errorf("expected no tags, got %v", result.Tags)
+		}
+		if result.Priority != 0 {
+			t.Errorf("expected priority 0, got %d", result.Priority)
+		}
+		if result.Deadline == nil {
+			t.Fatal("expected deadline, got nil")
+		}
+		// Check if deadline is 2024-01-15
+		expectedDate := time.Date(2024, 1, 15, 0, 0, 0, 0, time.Local)
+		assertDateEquals(t, expectedDate, *result.Deadline, "2024-01-15")
+	})
 }
 
 // Helper functions for tests

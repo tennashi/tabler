@@ -106,6 +106,10 @@ func parseDeadlineString(dateStr string) (*time.Time, bool) {
 		if weekday, ok := weekdayMap[dateStr]; ok {
 			return weekdayDeadline(weekday), true
 		}
+		// Try to parse as YYYY-MM-DD format
+		if deadline, ok := parseSpecificDate(dateStr); ok {
+			return deadline, true
+		}
 		return nil, false
 	}
 }
@@ -130,4 +134,12 @@ func weekdayDeadline(weekday time.Weekday) *time.Time {
 func dateAtStartOfDay(date time.Time) *time.Time {
 	deadline := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 	return &deadline
+}
+
+func parseSpecificDate(dateStr string) (*time.Time, bool) {
+	parsedTime, err := time.Parse("2006-01-02", dateStr)
+	if err != nil {
+		return nil, false
+	}
+	return dateAtStartOfDay(parsedTime), true
 }
