@@ -2,5 +2,6 @@
 "aqua:moonrepo/moon" = "latest"
 dprint = "latest"
 go = "latest"
+gofumpt = "latest"
 golangci-lint = "latest"
 markdownlint-cli2 = "latest"

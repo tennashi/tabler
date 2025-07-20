@@ -23,8 +23,8 @@ tasks:
 
   # Formatting
   format:
-    command: go
-    args: "fmt ./..."
+    command: gofumpt
+    args: "-w ."
     inputs:
       - "**/*.go"
 
