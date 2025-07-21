@@ -111,3 +111,34 @@ func (s *TaskService) CompleteTask(id string) error {
 func (s *TaskService) DeleteTask(id string) error {
 	return s.storage.DeleteTask(id)
 }
+
+func (s *TaskService) UpdateTaskFromInput(id string, input string) error {
+	// Parse new input
+	result := parser.Parse(input)
+
+	// Get existing task to preserve creation time
+	existingTask, _, err := s.storage.GetTask(id)
+	if err != nil {
+		return err
+	}
+
+	// Handle deadline
+	var deadline time.Time
+	if result.Deadline != nil {
+		deadline = *result.Deadline
+	}
+
+	// Create updated task
+	updatedTask := &task.Task{
+		ID:        id,
+		Title:     result.Title,
+		Deadline:  deadline,
+		Priority:  result.Priority,
+		Completed: existingTask.Completed, // Preserve completion status
+		CreatedAt: existingTask.CreatedAt,  // Preserve creation time
+		UpdatedAt: time.Now(),
+	}
+
+	// Update task with new tags
+	return s.storage.UpdateTaskFull(updatedTask, result.Tags)
+}

@@ -217,4 +217,61 @@ func TestTaskService(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("UpdateTask", func(t *testing.T) {
+		t.Run("should update task from new input", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			// Use unique subdirectory for each test
+			testDir := filepath.Join(tmpDir, "update_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create a task first
+			taskID, err := service.CreateTaskFromInput("Old task #oldtag")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Act
+			err = service.UpdateTaskFromInput(taskID, "Updated task #newtag #updated @tomorrow !!")
+			// Assert
+			if err != nil {
+				t.Errorf("UpdateTaskFromInput() returned error: %v", err)
+			}
+
+			// Verify task is updated
+			task, tags, err := service.GetTask(taskID)
+			if err != nil {
+				t.Fatalf("failed to get task: %v", err)
+			}
+
+			if task.Title != "Updated task" {
+				t.Errorf("expected title %q, got %q", "Updated task", task.Title)
+			}
+
+			if task.Priority != 2 {
+				t.Errorf("expected priority 2, got %d", task.Priority)
+			}
+
+			// Check tags (sorted alphabetically)
+			expectedTags := []string{"newtag", "updated"}
+			if len(tags) != len(expectedTags) {
+				t.Fatalf("expected %d tags, got %d", len(expectedTags), len(tags))
+			}
+			for i, tag := range expectedTags {
+				if tags[i] != tag {
+					t.Errorf("expected tag %q, got %q", tag, tags[i])
+				}
+			}
+		})
+	})
 }
