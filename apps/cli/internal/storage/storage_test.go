@@ -312,4 +312,86 @@ func TestStorage(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("UpdateTaskFull", func(t *testing.T) {
+		t.Run("should update all task fields", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			dbPath := filepath.Join(tmpDir, "test.db")
+
+			storage, err := New(dbPath)
+			if err != nil {
+				t.Fatalf("failed to create storage: %v", err)
+			}
+			t.Cleanup(func() {
+				if err := storage.Close(); err != nil {
+					t.Errorf("failed to close storage: %v", err)
+				}
+			})
+
+			if err := storage.Init(); err != nil {
+				t.Fatalf("failed to init storage: %v", err)
+			}
+
+			// Create a task first
+			originalTask := &task.Task{
+				ID:        "task-888",
+				Title:     "Original title",
+				Deadline:  time.Date(2024, 5, 1, 0, 0, 0, 0, time.UTC),
+				Priority:  1,
+				Completed: false,
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
+			}
+			if err := storage.CreateTask(originalTask, []string{"old", "tags"}); err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Prepare updated task
+			updatedTask := &task.Task{
+				ID:        "task-888",
+				Title:     "Updated title",
+				Deadline:  time.Date(2024, 6, 1, 0, 0, 0, 0, time.UTC),
+				Priority:  3,
+				Completed: true,
+			}
+			newTags := []string{"new", "tags", "updated"} // ORDER BY tag will sort alphabetically
+
+			// Act
+			err = storage.UpdateTaskFull(updatedTask, newTags)
+			// Assert
+			if err != nil {
+				t.Errorf("UpdateTaskFull() returned error: %v", err)
+			}
+
+			// Verify the update
+			retrievedTask, retrievedTags, err := storage.GetTask("task-888")
+			if err != nil {
+				t.Fatalf("failed to get updated task: %v", err)
+			}
+
+			if retrievedTask.Title != updatedTask.Title {
+				t.Errorf("expected title %q, got %q", updatedTask.Title, retrievedTask.Title)
+			}
+			if !retrievedTask.Deadline.Equal(updatedTask.Deadline) {
+				t.Errorf("expected deadline %v, got %v", updatedTask.Deadline, retrievedTask.Deadline)
+			}
+			if retrievedTask.Priority != updatedTask.Priority {
+				t.Errorf("expected priority %d, got %d", updatedTask.Priority, retrievedTask.Priority)
+			}
+			if retrievedTask.Completed != updatedTask.Completed {
+				t.Errorf("expected completed %v, got %v", updatedTask.Completed, retrievedTask.Completed)
+			}
+
+			// Check tags
+			if len(retrievedTags) != len(newTags) {
+				t.Errorf("expected %d tags, got %d", len(newTags), len(retrievedTags))
+			}
+			for i, tag := range newTags {
+				if i < len(retrievedTags) && retrievedTags[i] != tag {
+					t.Errorf("expected tag %q, got %q", tag, retrievedTags[i])
+				}
+			}
+		})
+	})
 }

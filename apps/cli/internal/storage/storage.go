@@ -243,3 +243,56 @@ func (s *Storage) DeleteTask(id string) error {
 	// Commit transaction
 	return tx.Commit()
 }
+
+func (s *Storage) UpdateTaskFull(t *task.Task, tags []string) error {
+	// Start transaction
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
+	// Update task
+	query := `
+	UPDATE tasks 
+	SET title = ?, deadline = ?, priority = ?, completed = ?, updated_at = ?
+	WHERE id = ?
+	`
+	
+	now := time.Now().UTC()
+	result, err := tx.Exec(query, 
+		t.Title, t.Deadline.Unix(), t.Priority, t.Completed, now.Unix(), t.ID)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	// Delete existing tags
+	deleteQuery := `DELETE FROM task_tags WHERE task_id = ?`
+	_, err = tx.Exec(deleteQuery, t.ID)
+	if err != nil {
+		return err
+	}
+
+	// Insert new tags
+	for _, tag := range tags {
+		tagQuery := `INSERT INTO task_tags (task_id, tag) VALUES (?, ?)`
+		_, err = tx.Exec(tagQuery, t.ID, tag)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Commit transaction
+	return tx.Commit()
+}
