@@ -2,6 +2,7 @@ package storage
 
 import (
 	"database/sql"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
 	"github.com/tennashi/tabler/internal/task"
@@ -82,4 +83,56 @@ func (s *Storage) CreateTask(t *task.Task, tags []string) error {
 
 	// Commit transaction
 	return tx.Commit()
+}
+
+func (s *Storage) GetTask(id string) (*task.Task, []string, error) {
+	// Get task
+	var t task.Task
+	var deadlineUnix, createdAtUnix, updatedAtUnix int64
+	var completed bool
+
+	query := `
+	SELECT id, title, deadline, priority, completed, created_at, updated_at
+	FROM tasks
+	WHERE id = ?
+	`
+
+	err := s.db.QueryRow(query, id).Scan(
+		&t.ID, &t.Title, &deadlineUnix, &t.Priority,
+		&completed, &createdAtUnix, &updatedAtUnix,
+	)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Convert Unix timestamps to time.Time
+	t.Deadline = time.Unix(deadlineUnix, 0).UTC()
+	t.CreatedAt = time.Unix(createdAtUnix, 0).UTC()
+	t.UpdatedAt = time.Unix(updatedAtUnix, 0).UTC()
+	t.Completed = completed
+
+	// Get tags
+	tagQuery := `SELECT tag FROM task_tags WHERE task_id = ? ORDER BY tag`
+	rows, err := s.db.Query(tagQuery, id)
+	if err != nil {
+		return nil, nil, err
+	}
+	defer func() {
+		_ = rows.Close()
+	}()
+
+	var tags []string
+	for rows.Next() {
+		var tag string
+		if err := rows.Scan(&tag); err != nil {
+			return nil, nil, err
+		}
+		tags = append(tags, tag)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, nil, err
+	}
+
+	return &t, tags, nil
 }
