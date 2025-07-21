@@ -2,6 +2,7 @@ package logging
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -71,4 +72,13 @@ func Trace(ctx context.Context, operation string) func() {
 // IsTraceEnabled checks if tracing is enabled via environment variable
 func IsTraceEnabled() bool {
 	return os.Getenv("TABLER_TRACE") == "1"
+}
+
+// InitializeOutput sets up the default span output function
+func InitializeOutput() {
+	spanOutput = func(span *Span) {
+		if IsTraceEnabled() {
+			fmt.Fprintln(os.Stderr, FormatSpanText(span, 0))
+		}
+	}
 }

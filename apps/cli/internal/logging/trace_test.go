@@ -149,3 +149,21 @@ func TestTraceEnvironmentControl(t *testing.T) {
 		}
 	})
 }
+
+func TestDefaultSpanOutput(t *testing.T) {
+	t.Run("InitializeOutput should set default text output", func(t *testing.T) {
+		// Arrange
+		originalOutput := spanOutput
+		defer func() { spanOutput = originalOutput }()
+
+		// Act
+		InitializeOutput()
+
+		// Assert
+		// We can't easily test the actual output to os.Stderr,
+		// but we can verify the function is not nil
+		if spanOutput == nil {
+			t.Error("spanOutput should not be nil after initialization")
+		}
+	})
+}
