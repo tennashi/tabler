@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/tennashi/tabler/internal/service"
 )
@@ -81,13 +83,16 @@ func run() error {
 		newInput := os.Args[3]
 		return updateTask(taskService, taskID, newInput)
 	default:
-		return fmt.Errorf("unknown command: %s", command)
+		return errors.New(formatUnknownCommandError(command))
 	}
 }
 
 func addTask(service *service.TaskService, input string) error {
 	taskID, err := service.CreateTaskFromInput(input)
 	if err != nil {
+		if strings.Contains(err.Error(), "task title cannot be empty") {
+			return errors.New(formatValidationError(ErrEmptyTitle))
+		}
 		return fmt.Errorf("failed to create task: %w", err)
 	}
 
@@ -115,6 +120,9 @@ func listTasks(service *service.TaskService) error {
 func completeTask(service *service.TaskService, taskID string) error {
 	err := service.CompleteTask(taskID)
 	if err != nil {
+		if isNotFoundError(err.Error()) {
+			return errors.New(formatTaskError(ErrTaskNotFound, taskID))
+		}
 		return fmt.Errorf("failed to complete task: %w", err)
 	}
 
@@ -125,6 +133,9 @@ func completeTask(service *service.TaskService, taskID string) error {
 func showTask(service *service.TaskService, taskID string) error {
 	task, tags, err := service.GetTask(taskID)
 	if err != nil {
+		if isNotFoundError(err.Error()) {
+			return errors.New(formatTaskError(ErrTaskNotFound, taskID))
+		}
 		return fmt.Errorf("failed to get task: %w", err)
 	}
 
@@ -138,6 +149,9 @@ func deleteTask(service *service.TaskService, taskID string) error {
 	// Get task details first to show title in confirmation
 	task, _, err := service.GetTask(taskID)
 	if err != nil {
+		if isNotFoundError(err.Error()) {
+			return errors.New(formatTaskError(ErrTaskNotFound, taskID))
+		}
 		return fmt.Errorf("failed to get task: %w", err)
 	}
 
@@ -162,6 +176,12 @@ func deleteTask(service *service.TaskService, taskID string) error {
 func updateTask(service *service.TaskService, taskID string, newInput string) error {
 	err := service.UpdateTaskFromInput(taskID, newInput)
 	if err != nil {
+		if strings.Contains(err.Error(), "task title cannot be empty") {
+			return errors.New(formatValidationError(ErrEmptyTitle))
+		}
+		if isNotFoundError(err.Error()) {
+			return errors.New(formatTaskError(ErrTaskNotFound, taskID))
+		}
 		return fmt.Errorf("failed to update task: %w", err)
 	}
 
