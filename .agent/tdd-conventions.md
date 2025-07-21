@@ -86,6 +86,36 @@ PASS
 
 **⚠️ DO NOT COMMIT YET - Code may need refactoring**
 
+#### 2.2.1 When Tests Fail in GREEN Phase
+
+If a test doesn't pass as expected during the GREEN phase:
+
+1. **Analyze why the test is failing**
+   - Understand the root cause (e.g., timing issues, ordering assumptions, incorrect expectations)
+   - Add debug output if needed to understand the actual behavior
+
+2. **Consider implementation fixes FIRST**
+   - Can the implementation be adjusted to meet the test's expectations?
+   - Example: Add ORDER BY clause for consistent ordering
+   - Example: Add secondary sort key for stable results
+
+3. **Evaluate specification feedback**
+   - Does the test expectation reflect the actual requirements?
+   - Is the tested behavior actually important for the feature?
+
+4. **Test modification is the LAST resort**
+   - Only modify the test if the expectation was genuinely incorrect
+   - Document why the test expectation was changed
+
+**Example:**
+```
+Problem: Test expects tasks in creation order, but they have same timestamp
+Solutions in order of preference:
+1. ✅ Add "ORDER BY created_at DESC, id DESC" for stable ordering
+2. ✅ Consider if order matters for the feature
+3. ❌ Change test to ignore order (only if order truly doesn't matter)
+```
+
 #### 2.3 REFACTOR Phase - Improve Implementation
 - Keep tests passing
 - Remove duplication
