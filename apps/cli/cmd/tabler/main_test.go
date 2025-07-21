@@ -19,11 +19,8 @@ func TestCLI(t *testing.T) {
 				"Fix bug in login #work #urgent @tomorrow !!",
 			}
 
-			// Set data directory environment variable
-			_ = os.Setenv("TABLER_DATA_DIR", tmpDir)
-			defer func() {
-				_ = os.Unsetenv("TABLER_DATA_DIR")
-			}()
+			// Set data directory environment variable (automatically cleaned up)
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
 
 			// Act
 			err := run()

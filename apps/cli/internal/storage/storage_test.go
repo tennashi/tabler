@@ -21,11 +21,11 @@ func TestStorage(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create storage: %v", err)
 			}
-			defer func() {
+			t.Cleanup(func() {
 				if err := storage.Close(); err != nil {
 					t.Errorf("failed to close storage: %v", err)
 				}
-			}()
+			})
 
 			err = storage.Init()
 			// Assert
@@ -50,11 +50,11 @@ func TestStorage(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create storage: %v", err)
 			}
-			defer func() {
+			t.Cleanup(func() {
 				if err := storage.Close(); err != nil {
 					t.Errorf("failed to close storage: %v", err)
 				}
-			}()
+			})
 
 			if err := storage.Init(); err != nil {
 				t.Fatalf("failed to init storage: %v", err)
@@ -90,11 +90,11 @@ func TestStorage(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create storage: %v", err)
 			}
-			defer func() {
+			t.Cleanup(func() {
 				if err := storage.Close(); err != nil {
 					t.Errorf("failed to close storage: %v", err)
 				}
-			}()
+			})
 
 			if err := storage.Init(); err != nil {
 				t.Fatalf("failed to init storage: %v", err)
@@ -147,6 +147,66 @@ func TestStorage(t *testing.T) {
 				if i < len(retrievedTags) && retrievedTags[i] != tag {
 					t.Errorf("expected tag %q, got %q", tag, retrievedTags[i])
 				}
+			}
+		})
+	})
+
+	t.Run("ListTasks", func(t *testing.T) {
+		t.Run("should list all tasks when no filter", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			dbPath := filepath.Join(tmpDir, "test.db")
+
+			storage, err := New(dbPath)
+			if err != nil {
+				t.Fatalf("failed to create storage: %v", err)
+			}
+			t.Cleanup(func() {
+				if err := storage.Close(); err != nil {
+					t.Errorf("failed to close storage: %v", err)
+				}
+			})
+
+			if err := storage.Init(); err != nil {
+				t.Fatalf("failed to init storage: %v", err)
+			}
+
+			// Create multiple tasks
+			task1 := &task.Task{
+				ID:        "task-111",
+				Title:     "First task",
+				Deadline:  time.Date(2024, 1, 10, 0, 0, 0, 0, time.UTC),
+				Priority:  1,
+				Completed: false,
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
+			}
+			if err := storage.CreateTask(task1, []string{"work"}); err != nil {
+				t.Fatalf("failed to create task1: %v", err)
+			}
+
+			task2 := &task.Task{
+				ID:        "task-222",
+				Title:     "Second task",
+				Deadline:  time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
+				Priority:  2,
+				Completed: false,
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
+			}
+			if err := storage.CreateTask(task2, []string{"personal"}); err != nil {
+				t.Fatalf("failed to create task2: %v", err)
+			}
+
+			// Act
+			tasks, err := storage.ListTasks(nil)
+			// Assert
+			if err != nil {
+				t.Errorf("ListTasks() returned error: %v", err)
+			}
+
+			if len(tasks) != 2 {
+				t.Errorf("expected 2 tasks, got %d", len(tasks))
 			}
 		})
 	})

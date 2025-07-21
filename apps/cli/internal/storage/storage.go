@@ -136,3 +136,48 @@ func (s *Storage) GetTask(id string) (*task.Task, []string, error) {
 
 	return &t, tags, nil
 }
+
+func (s *Storage) ListTasks(_ map[string]interface{}) ([]*task.Task, error) {
+	query := `
+	SELECT id, title, deadline, priority, completed, created_at, updated_at
+	FROM tasks
+	ORDER BY created_at DESC
+	`
+
+	rows, err := s.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = rows.Close()
+	}()
+
+	var tasks []*task.Task
+	for rows.Next() {
+		var t task.Task
+		var deadlineUnix, createdAtUnix, updatedAtUnix int64
+		var completed bool
+
+		err := rows.Scan(
+			&t.ID, &t.Title, &deadlineUnix, &t.Priority,
+			&completed, &createdAtUnix, &updatedAtUnix,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		// Convert Unix timestamps to time.Time
+		t.Deadline = time.Unix(deadlineUnix, 0).UTC()
+		t.CreatedAt = time.Unix(createdAtUnix, 0).UTC()
+		t.UpdatedAt = time.Unix(updatedAtUnix, 0).UTC()
+		t.Completed = completed
+
+		tasks = append(tasks, &t)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}

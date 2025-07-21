@@ -3,3 +3,6 @@
 # moon
 .moon/cache
 .moon/docker
+
+# Build output
+dist/
