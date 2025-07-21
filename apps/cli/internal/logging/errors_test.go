@@ -64,3 +64,60 @@ func TestTrackedError(t *testing.T) {
 		}
 	})
 }
+
+func TestStackTrace(t *testing.T) {
+	t.Run("CaptureStackTrace should return stack frames", func(t *testing.T) {
+		// Act
+		frames := CaptureStackTrace(0)
+
+		// Assert
+		if len(frames) == 0 {
+			t.Fatal("stack trace should not be empty")
+		}
+
+		// First frame should be this test function
+		firstFrame := frames[0]
+		if !strings.Contains(firstFrame.Function, "TestStackTrace") {
+			t.Errorf("expected first frame to be test function, got %q", firstFrame.Function)
+		}
+		if firstFrame.File == "" {
+			t.Error("frame should have file path")
+		}
+		if firstFrame.Line == 0 {
+			t.Error("frame should have line number")
+		}
+	})
+
+	t.Run("NewTrackedError should capture stack trace when enabled", func(t *testing.T) {
+		// Arrange
+		t.Setenv("TABLER_ERROR_STACK", "1")
+		ctx := context.Background()
+		baseErr := errors.New("test error")
+
+		// Act
+		trackedErr := NewTrackedError(ctx, "TestOp", baseErr)
+
+		// Assert
+		if trackedErr.StackTrace == nil {
+			t.Fatal("stack trace should be captured when enabled")
+		}
+		if len(trackedErr.StackTrace) == 0 {
+			t.Error("stack trace should not be empty")
+		}
+	})
+
+	t.Run("NewTrackedError should not capture stack trace when disabled", func(t *testing.T) {
+		// Arrange
+		t.Setenv("TABLER_ERROR_STACK", "")
+		ctx := context.Background()
+		baseErr := errors.New("test error")
+
+		// Act
+		trackedErr := NewTrackedError(ctx, "TestOp", baseErr)
+
+		// Assert
+		if trackedErr.StackTrace != nil {
+			t.Error("stack trace should not be captured when disabled")
+		}
+	})
+}
