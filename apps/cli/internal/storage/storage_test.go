@@ -210,4 +210,57 @@ func TestStorage(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("UpdateTask", func(t *testing.T) {
+		t.Run("should update task completed status", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			dbPath := filepath.Join(tmpDir, "test.db")
+
+			storage, err := New(dbPath)
+			if err != nil {
+				t.Fatalf("failed to create storage: %v", err)
+			}
+			t.Cleanup(func() {
+				if err := storage.Close(); err != nil {
+					t.Errorf("failed to close storage: %v", err)
+				}
+			})
+
+			if err := storage.Init(); err != nil {
+				t.Fatalf("failed to init storage: %v", err)
+			}
+
+			// Create a task first
+			originalTask := &task.Task{
+				ID:        "task-789",
+				Title:     "Complete project",
+				Deadline:  time.Date(2024, 3, 1, 0, 0, 0, 0, time.UTC),
+				Priority:  2,
+				Completed: false,
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
+			}
+			if err := storage.CreateTask(originalTask, []string{"work"}); err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Act
+			err = storage.UpdateTaskCompleted("task-789", true)
+			// Assert
+			if err != nil {
+				t.Errorf("UpdateTaskCompleted() returned error: %v", err)
+			}
+
+			// Verify the update
+			updatedTask, _, err := storage.GetTask("task-789")
+			if err != nil {
+				t.Fatalf("failed to get updated task: %v", err)
+			}
+
+			if !updatedTask.Completed {
+				t.Error("expected task to be completed")
+			}
+		})
+	})
 }

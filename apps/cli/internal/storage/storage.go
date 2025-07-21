@@ -181,3 +181,28 @@ func (s *Storage) ListTasks(_ map[string]interface{}) ([]*task.Task, error) {
 
 	return tasks, nil
 }
+
+func (s *Storage) UpdateTaskCompleted(id string, completed bool) error {
+	query := `
+	UPDATE tasks 
+	SET completed = ?, updated_at = ?
+	WHERE id = ?
+	`
+
+	now := time.Now().UTC()
+	result, err := s.db.Exec(query, completed, now.Unix(), id)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}
