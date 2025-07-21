@@ -171,4 +171,42 @@ func TestTaskService(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("DeleteTask", func(t *testing.T) {
+		t.Run("should delete task", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			// Use unique subdirectory for each test
+			testDir := filepath.Join(tmpDir, "delete_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create a task first
+			taskID, err := service.CreateTaskFromInput("Delete test task #temp")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Act
+			err = service.DeleteTask(taskID)
+			// Assert
+			if err != nil {
+				t.Errorf("DeleteTask() returned error: %v", err)
+			}
+
+			// Verify task is deleted
+			_, _, err = service.GetTask(taskID)
+			if err == nil {
+				t.Error("expected error when getting deleted task")
+			}
+		})
+	})
 }

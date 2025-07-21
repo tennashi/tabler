@@ -107,3 +107,7 @@ func (s *TaskService) ListTasks() ([]*TaskItem, error) {
 func (s *TaskService) CompleteTask(id string) error {
 	return s.storage.UpdateTaskCompleted(id, true)
 }
+
+func (s *TaskService) DeleteTask(id string) error {
+	return s.storage.DeleteTask(id)
+}
