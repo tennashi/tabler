@@ -38,3 +38,62 @@ func TestTraceID(t *testing.T) {
 		}
 	})
 }
+
+func TestSpan(t *testing.T) {
+	t.Run("NewSpan should create span with context", func(t *testing.T) {
+		// Arrange
+		ctx := context.Background()
+		ctx = WithTraceID(ctx, "test-trace-123")
+
+		// Act
+		span := NewSpan(ctx, "test-operation")
+
+		// Assert
+		if span == nil {
+			t.Fatal("span should not be nil")
+		}
+		if span.TraceID != "test-trace-123" {
+			t.Errorf("expected trace ID %q, got %q", "test-trace-123", span.TraceID)
+		}
+		if span.Operation != "test-operation" {
+			t.Errorf("expected operation %q, got %q", "test-operation", span.Operation)
+		}
+		if span.StartTime.IsZero() {
+			t.Error("start time should be set")
+		}
+	})
+
+	t.Run("Trace should return function to end trace", func(t *testing.T) {
+		// Arrange
+		ctx := context.Background()
+		ctx = WithTraceID(ctx, "test-trace-123")
+		var capturedSpan *Span
+
+		// Override output for testing
+		originalOutput := spanOutput
+		spanOutput = func(span *Span) {
+			capturedSpan = span
+		}
+		defer func() { spanOutput = originalOutput }()
+
+		// Act
+		endFunc := Trace(ctx, "test-operation")
+		// No sleep - we'll just verify that end time is set
+		endFunc()
+
+		// Assert
+		if capturedSpan == nil {
+			t.Fatal("span should have been output")
+		}
+		if capturedSpan.Operation != "test-operation" {
+			t.Errorf("expected operation %q, got %q", "test-operation", capturedSpan.Operation)
+		}
+		if capturedSpan.EndTime.IsZero() {
+			t.Error("end time should be set")
+		}
+		// EndTime should be equal to or after StartTime
+		if capturedSpan.EndTime.Before(capturedSpan.StartTime) {
+			t.Error("end time should not be before start time")
+		}
+	})
+}
