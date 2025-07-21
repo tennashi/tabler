@@ -145,4 +145,47 @@ func TestCLI(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("delete command", func(t *testing.T) {
+		t.Run("should delete task", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
+
+			// Create a task directly to get real ID
+			taskService, err := service.NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			taskID, err := taskService.CreateTaskFromInput("Delete test task #temp")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+			_ = taskService.Close()
+
+			// Set up test arguments for delete
+			os.Args = []string{"tabler", "delete", taskID}
+
+			// Act
+			err = run()
+			// Assert
+			if err != nil {
+				t.Errorf("run() returned error: %v", err)
+			}
+
+			// Verify task is deleted
+			service2, err := service.NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service2.Close()
+			}()
+
+			_, _, err = service2.GetTask(taskID)
+			if err == nil {
+				t.Error("expected error when getting deleted task")
+			}
+		})
+	})
 }

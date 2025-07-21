@@ -91,12 +91,14 @@ func TestTaskService(t *testing.T) {
 			}()
 
 			// Create multiple tasks
-			_, err = service.CreateTaskFromInput("First task #work @today !")
+			firstID, err := service.CreateTaskFromInput("First task #work @today !")
 			if err != nil {
 				t.Fatalf("failed to create first task: %v", err)
 			}
 
-			_, err = service.CreateTaskFromInput("Second task #personal")
+			time.Sleep(100 * time.Millisecond) // Ensure different creation times
+
+			secondID, err := service.CreateTaskFromInput("Second task #personal")
 			if err != nil {
 				t.Fatalf("failed to create second task: %v", err)
 			}
@@ -112,7 +114,10 @@ func TestTaskService(t *testing.T) {
 				t.Errorf("expected 2 tasks, got %d", len(taskItems))
 			}
 
-			// Check first task (newer, should be first due to ORDER BY created_at DESC)
+			// Check that both tasks exist (order should be second task first due to ORDER BY created_at DESC)
+			if taskItems[0].Task.ID != secondID {
+				t.Errorf("expected first item to be second task (ID: %s), got %s", secondID, taskItems[0].Task.ID)
+			}
 			if taskItems[0].Task.Title != "Second task" {
 				t.Errorf("expected first task title %q, got %q", "Second task", taskItems[0].Task.Title)
 			}
@@ -120,7 +125,10 @@ func TestTaskService(t *testing.T) {
 				t.Errorf("expected first task tags [personal], got %v", taskItems[0].Tags)
 			}
 
-			// Check second task
+			// Check second item in list (should be first task created)
+			if taskItems[1].Task.ID != firstID {
+				t.Errorf("expected second item to be first task (ID: %s), got %s", firstID, taskItems[1].Task.ID)
+			}
 			if taskItems[1].Task.Title != "First task" {
 				t.Errorf("expected second task title %q, got %q", "First task", taskItems[1].Task.Title)
 			}

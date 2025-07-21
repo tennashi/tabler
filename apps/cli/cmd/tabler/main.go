@@ -67,6 +67,12 @@ func run() error {
 		}
 		taskID := os.Args[2]
 		return showTask(taskService, taskID)
+	case "delete":
+		if len(os.Args) < 3 {
+			return fmt.Errorf("usage: tabler delete <task-id>")
+		}
+		taskID := os.Args[2]
+		return deleteTask(taskService, taskID)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
@@ -127,5 +133,15 @@ func showTask(service *service.TaskService, taskID string) error {
 		fmt.Printf("Tags: %v\n", tags)
 	}
 
+	return nil
+}
+
+func deleteTask(service *service.TaskService, taskID string) error {
+	err := service.DeleteTask(taskID)
+	if err != nil {
+		return fmt.Errorf("failed to delete task: %w", err)
+	}
+
+	fmt.Printf("Task deleted: %s\n", taskID)
 	return nil
 }
