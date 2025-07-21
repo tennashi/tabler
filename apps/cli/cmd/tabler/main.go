@@ -128,15 +128,8 @@ func showTask(service *service.TaskService, taskID string) error {
 		return fmt.Errorf("failed to get task: %w", err)
 	}
 
-	// Simple output for now
-	fmt.Printf("ID: %s\n", task.ID)
-	fmt.Printf("Title: %s\n", task.Title)
-	fmt.Printf("Priority: %d\n", task.Priority)
-	fmt.Printf("Deadline: %s\n", task.Deadline.Format("2006-01-02"))
-	fmt.Printf("Completed: %v\n", task.Completed)
-	if len(tags) > 0 {
-		fmt.Printf("Tags: %v\n", tags)
-	}
+	// Display formatted task details
+	fmt.Println(formatTaskDetails(task, tags))
 
 	return nil
 }
