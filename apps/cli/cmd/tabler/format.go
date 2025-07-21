@@ -17,9 +17,31 @@ const (
 	statusCompleted  = "[✓]"
 	dateFormat       = "Jan 2, 2006"
 	dateTimeFormat   = "Jan 2, 2006 3:04 PM"
+	
+	// Extended format column widths
+	extTaskColumnWidth     = 31
+	extTagsColumnWidth     = 12
+	extPriorityColumnWidth = 3
+	extDeadlineColumnWidth = 11
 )
 
 func formatTasksAsTable(taskItems []*service.TaskItem) string {
+	// Check if any task has metadata
+	hasMetadata := false
+	for _, item := range taskItems {
+		if len(item.Tags) > 0 || item.Task.Priority > 0 || !item.Task.Deadline.IsZero() {
+			hasMetadata = true
+			break
+		}
+	}
+
+	if hasMetadata {
+		return formatTasksWithMetadata(taskItems)
+	}
+	return formatTasksCompact(taskItems)
+}
+
+func formatTasksCompact(taskItems []*service.TaskItem) string {
 	var result strings.Builder
 
 	// Header
@@ -37,6 +59,52 @@ func formatTasksAsTable(taskItems []*service.TaskItem) string {
 		result.WriteString(fmt.Sprintf("%-*s %-*s %s\n",
 			idColumnWidth, item.Task.ID[:idDisplayWidth],
 			taskColumnWidth, truncateString(item.Task.Title, taskColumnWidth),
+			status))
+	}
+
+	// Remove trailing newline
+	return strings.TrimRight(result.String(), "\n")
+}
+
+func formatTasksWithMetadata(taskItems []*service.TaskItem) string {
+	var result strings.Builder
+
+	// Header
+	result.WriteString("ID      Task                             Tags          Pri  Deadline     Status\n")
+	result.WriteString("------  -------------------------------  ------------  ---  -----------  ------\n")
+
+	// Rows
+	for _, item := range taskItems {
+		status := statusPending
+		if item.Task.Completed {
+			status = statusCompleted
+		}
+
+		// Format tags
+		tags := "-"
+		if len(item.Tags) > 0 {
+			tags = strings.Join(item.Tags, ", ")
+		}
+
+		// Format priority
+		priority := "-"
+		if item.Task.Priority > 0 {
+			priority = strings.Repeat("!", item.Task.Priority)
+		}
+
+		// Format deadline
+		deadline := "-"
+		if !item.Task.Deadline.IsZero() {
+			deadline = item.Task.Deadline.Format("Jan 2")
+		}
+
+		// Format with fixed width columns
+		result.WriteString(fmt.Sprintf("%-*s  %-*s  %-*s  %-*s  %-*s  %s\n",
+			idDisplayWidth, item.Task.ID[:idDisplayWidth],
+			extTaskColumnWidth, truncateString(item.Task.Title, extTaskColumnWidth),
+			extTagsColumnWidth, truncateString(tags, extTagsColumnWidth),
+			extPriorityColumnWidth, priority,
+			extDeadlineColumnWidth, deadline,
 			status))
 	}
 

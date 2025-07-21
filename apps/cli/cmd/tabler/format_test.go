@@ -67,7 +67,59 @@ Modified: Jan 15, 2024 2:45 PM`
 }
 
 func TestFormatTasksAsTable(t *testing.T) {
-	t.Run("should format tasks in table format with ID, title and status", func(t *testing.T) {
+	t.Run("should format tasks with metadata in expanded format", func(t *testing.T) {
+		// Arrange
+		now := time.Date(2024, 1, 15, 10, 30, 0, 0, time.UTC)
+		deadline := time.Date(2024, 1, 16, 0, 0, 0, 0, time.UTC)
+		taskItems := []*service.TaskItem{
+			{
+				Task: &task.Task{
+					ID:        "abc123",
+					Title:     "Fix login bug",
+					Priority:  3,
+					Deadline:  deadline,
+					Completed: false,
+					CreatedAt: now,
+				},
+				Tags: []string{"work", "urgent"},
+			},
+			{
+				Task: &task.Task{
+					ID:        "def456",
+					Title:     "Review documentation",
+					Priority:  1,
+					Completed: true,
+					CreatedAt: now,
+				},
+				Tags: []string{"docs"},
+			},
+			{
+				Task: &task.Task{
+					ID:        "ghi789",
+					Title:     "Simple task without metadata",
+					Completed: false,
+					CreatedAt: now,
+				},
+				Tags: []string{},
+			},
+		}
+
+		// Act
+		result := formatTasksAsTable(taskItems)
+
+		// Assert
+		expected := `ID      Task                             Tags          Pri  Deadline     Status
+------  -------------------------------  ------------  ---  -----------  ------
+abc123  Fix login bug                    work, urgent  !!!  Jan 16       [ ]
+def456  Review documentation             docs          !    -            [✓]
+ghi789  Simple task without metadata     -             -    -            [ ]`
+
+		if result != expected {
+			t.Errorf("expected:\n%s\n\ngot:\n%s", expected, result)
+		}
+	})
+
+	t.Run("should format tasks in compact format when no metadata", func(t *testing.T) {
 		// Arrange
 		now := time.Date(2024, 1, 15, 10, 30, 0, 0, time.UTC)
 		taskItems := []*service.TaskItem{
