@@ -73,22 +73,39 @@ Not every feature needs an ADR. Create one when:
 
 ### Determining Design Document Scope
 
-**When PRD is large, split Design Docs by:**
+**Critical: Keep Design Docs Small and Implementable**
 
-1. **Implementation phases**
-   - Phase 1: Core functionality
-   - Phase 2: Enhanced features
-   - Phase 3: Advanced capabilities
+Each Design Doc should be:
+- **5-10 implementation tasks** maximum
+- **2-3 days** of implementation work  
+- **15-30 commits** when complete
+- Delivers **one clear value** to users
 
-2. **Technical boundaries**
-   - Frontend components
-   - Backend services
-   - Infrastructure/DevOps
+If your design generates more than 10 tasks, split it into multiple phases.
 
-3. **Feature sets**
-   - Basic features (MVP)
-   - AI/ML features
-   - Integration features
+**MUST: Split by Vertical Feature Slices**
+
+Always split Design Docs by complete vertical features that deliver user value:
+
+1. **Vertical feature slicing (REQUIRED)**
+   - Each Design Doc implements one complete user-facing feature
+   - Includes all layers: UI → Service → Storage
+   - Delivers working functionality end-to-end
+   - Example: "Basic task creation" includes parser, storage, service, and CLI
+
+2. **Avoid horizontal slicing**
+   - ❌ DON'T: Separate docs for "database layer" vs "service layer"
+   - ❌ DON'T: Split by technical components
+   - ✅ DO: Each doc delivers a complete feature
+
+3. **When vertical slice is too large (>10 tasks)**
+   - Split into core feature + enhancements
+   - Each enhancement is still a vertical slice
+   - Example for task creation:
+     - Doc 1: Basic task creation (title only)
+     - Doc 2: Task creation with shortcuts (tags, priority, deadline)
+     - Doc 3: Task creation with AI assistance
+   - Each delivers complete functionality at its level
 
 **Example split for Smart Task Creation:**
 
@@ -203,6 +220,40 @@ docs/design/smart-task-creation/
 3. **Estimate complexity**
    - Story points or time estimates
    - Risk factors
+
+### Task Count Check - Split if Too Large
+
+**After creating task list, evaluate:**
+
+```
+"I've identified 15 tasks for this design. This exceeds the recommended 5-10 tasks.
+
+I recommend splitting this into two phases:
+
+Phase 1: Basic Feature (7 tasks)
+- Core functionality that delivers immediate value
+- Can be released independently
+- 2 days of work
+
+Phase 2: Enhanced Feature (8 tasks)  
+- Builds on Phase 1
+- Adds advanced capabilities
+- 2-3 days of work
+
+Shall I create separate design docs for each phase?"
+```
+
+**Red flags that indicate splitting:**
+- More than 10 implementation tasks
+- Estimated time > 3 days
+- Mixed core and "nice-to-have" features
+- Complex dependencies between task groups
+
+**How to split:**
+1. Identify the minimal valuable feature
+2. Group tasks that deliver that value
+3. Move enhancements to next phase
+4. Each phase should stand alone
 
 ### Testing Strategy
 

@@ -496,6 +496,82 @@ Cycle 3:
    // Inject mock time provider in tests
    ```
 
+## Design Doc Alignment During Implementation
+
+### Track Design Deviations
+
+**During implementation:**
+
+1. **Document differences immediately**
+   - When implementation differs from design, update the design doc
+   - Add "Implementation Notes" section to design doc
+   - Explain why the change was necessary
+   - Example:
+     ```markdown
+     ## Implementation Notes
+     
+     ### Deviation: Parser returns UTC times
+     Design didn't specify timezone handling.
+     Decision: All internal times in UTC for consistency.
+     ```
+
+2. **Question unclear design points**
+   - If design seems wrong or unclear, ask before proceeding
+   - "The design says X, but that would cause Y issue. Should I do Z instead?"
+
+3. **Update task estimates**
+   - Note if tasks take significantly longer/shorter than expected
+   - Helps improve future design estimates
+
+### Post-Implementation Verification
+
+**After completing all TODO items:**
+
+1. **Compare implementation with design doc**
+   ```
+   "Implementation complete. Verifying against design doc:
+   - ✅ All 6 commands implemented
+   - ✅ Parser with shortcuts
+   - ✅ SQLite storage
+   - ⚠️ Added t.Cleanup() usage (not in design, but good practice)
+   - ❌ Batch operations (deferred - too complex for this phase)"
+   ```
+
+2. **Update design doc with results**
+   - Add "Post-Implementation Review" section
+   - Document what was built vs. planned
+   - Include metrics (commits, time, test count)
+   - Note lessons for future designs
+
+3. **Reflect on design granularity**
+   - Was the design doc appropriately sized?
+   - Did it result in 5-10 tasks as intended?
+   - Should similar features be split differently?
+
+### Example Post-Implementation Review
+
+```markdown
+## Post-Implementation Review
+
+Completed: 2024-11-21
+
+### Metrics
+- Design estimated: 5-10 tasks
+- Actual TODO items: 17 (too many!)
+- Commits: 45 (expected 15-30)
+- Time: 4 days (expected 2-3)
+
+### Key Learnings
+1. Parser complexity underestimated
+2. Should have split shortcuts into separate phase
+3. Test setup more complex than expected
+
+### Recommendations for next design
+- Keep parser features minimal in phase 1
+- Consider shortcuts as enhancement
+- Budget more time for test infrastructure
+```
+
 ## Remember
 
 Clean tests are as important as clean code. They serve as living documentation and make future changes easier. Only commit when both are clean.
