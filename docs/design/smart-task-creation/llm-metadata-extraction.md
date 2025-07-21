@@ -140,6 +140,19 @@ tabler add urgent: finish report by tomorrow #work
 }
 ```
 
+**Tag Handling Enhancement**:
+- Tags are stored as-is without normalization (preserving user intent)
+- Claude will understand semantic relationships between tags:
+  - `work`, `Work`, `仕事`, `お仕事` recognized as related
+  - Typos and variations handled intelligently
+- Future tag search will use Claude for fuzzy matching:
+  - Search for "仕事" finds tasks tagged with "work"
+  - Search for "job" finds "仕事", "work", "業務"
+- Benefits over strict normalization:
+  - Preserves cultural/linguistic nuances
+  - Handles mixed language environments naturally
+  - No information loss from aggressive normalization
+
 ### Error Handling
 
 - **Claude Timeout**: Fall back to shortcut parsing only

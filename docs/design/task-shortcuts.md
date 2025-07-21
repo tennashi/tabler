@@ -126,7 +126,7 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 - New: priority level (enumeration)
 
 **Metadata Characteristics**:
-- Tags: Multiple allowed, case-normalized
+- Tags: Multiple allowed, stored as-is without normalization
 - Deadline: Single value, optional
 - Priority: Single level, default none
 
@@ -240,3 +240,14 @@ Define tasks in structured configuration files.
 Use only AI to extract all metadata.
 
 **Why not chosen**: Requires network/AI availability, slower than shortcuts, less predictable, overkill for simple metadata.
+
+### Alternative 4: Tag Normalization at Input Time
+
+Normalize tags when parsing (e.g., lowercase, trim spaces, unify similar tags).
+
+**Why not chosen**: 
+- Complex in multilingual environments (Japanese/English mixed tags)
+- Users may intentionally use different cases or variations
+- Example: `Work`, `work`, `仕事`, `お仕事` have different nuances
+- Better to defer to LLM-based semantic grouping in future features
+- Allows fuzzy search and intelligent tag suggestions later
