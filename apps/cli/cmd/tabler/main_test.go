@@ -116,4 +116,33 @@ func TestCLI(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("show command", func(t *testing.T) {
+		t.Run("should show task details", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
+
+			// Create a task directly to get real ID
+			taskService, err := service.NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			taskID, err := taskService.CreateTaskFromInput("Show test task #work #urgent @tomorrow !!")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+			_ = taskService.Close()
+
+			// Set up test arguments for show
+			os.Args = []string{"tabler", "show", taskID}
+
+			// Act
+			err = run()
+			// Assert
+			if err != nil {
+				t.Errorf("run() returned error: %v", err)
+			}
+		})
+	})
 }
