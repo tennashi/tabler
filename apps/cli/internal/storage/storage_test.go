@@ -263,4 +263,53 @@ func TestStorage(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("DeleteTask", func(t *testing.T) {
+		t.Run("should delete task and its tags", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			dbPath := filepath.Join(tmpDir, "test.db")
+
+			storage, err := New(dbPath)
+			if err != nil {
+				t.Fatalf("failed to create storage: %v", err)
+			}
+			t.Cleanup(func() {
+				if err := storage.Close(); err != nil {
+					t.Errorf("failed to close storage: %v", err)
+				}
+			})
+
+			if err := storage.Init(); err != nil {
+				t.Fatalf("failed to init storage: %v", err)
+			}
+
+			// Create a task first
+			task := &task.Task{
+				ID:        "task-999",
+				Title:     "Task to delete",
+				Deadline:  time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC),
+				Priority:  1,
+				Completed: false,
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
+			}
+			if err := storage.CreateTask(task, []string{"temp", "delete"}); err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Act
+			err = storage.DeleteTask("task-999")
+			// Assert
+			if err != nil {
+				t.Errorf("DeleteTask() returned error: %v", err)
+			}
+
+			// Verify task is deleted
+			_, _, err = storage.GetTask("task-999")
+			if err == nil {
+				t.Error("expected error when getting deleted task")
+			}
+		})
+	})
 }

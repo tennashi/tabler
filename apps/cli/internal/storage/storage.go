@@ -206,3 +206,40 @@ func (s *Storage) UpdateTaskCompleted(id string, completed bool) error {
 
 	return nil
 }
+
+func (s *Storage) DeleteTask(id string) error {
+	// Start transaction
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
+	// Delete tags first (foreign key constraint)
+	tagQuery := `DELETE FROM task_tags WHERE task_id = ?`
+	_, err = tx.Exec(tagQuery, id)
+	if err != nil {
+		return err
+	}
+
+	// Delete task
+	taskQuery := `DELETE FROM tasks WHERE id = ?`
+	result, err := tx.Exec(taskQuery, id)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	// Commit transaction
+	return tx.Commit()
+}
