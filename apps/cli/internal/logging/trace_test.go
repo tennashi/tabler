@@ -65,6 +65,7 @@ func TestSpan(t *testing.T) {
 
 	t.Run("Trace should return function to end trace", func(t *testing.T) {
 		// Arrange
+		t.Setenv("TABLER_TRACE", "1") // Enable tracing for this test
 		ctx := context.Background()
 		ctx = WithTraceID(ctx, "test-trace-123")
 		var capturedSpan *Span
@@ -94,6 +95,57 @@ func TestSpan(t *testing.T) {
 		// EndTime should be equal to or after StartTime
 		if capturedSpan.EndTime.Before(capturedSpan.StartTime) {
 			t.Error("end time should not be before start time")
+		}
+	})
+}
+
+func TestTraceEnvironmentControl(t *testing.T) {
+	t.Run("IsTraceEnabled should return false when TABLER_TRACE is not set", func(t *testing.T) {
+		// Arrange
+		t.Setenv("TABLER_TRACE", "")
+
+		// Act
+		enabled := IsTraceEnabled()
+
+		// Assert
+		if enabled {
+			t.Error("trace should be disabled when TABLER_TRACE is not set")
+		}
+	})
+
+	t.Run("IsTraceEnabled should return true when TABLER_TRACE is 1", func(t *testing.T) {
+		// Arrange
+		t.Setenv("TABLER_TRACE", "1")
+
+		// Act
+		enabled := IsTraceEnabled()
+
+		// Assert
+		if !enabled {
+			t.Error("trace should be enabled when TABLER_TRACE is 1")
+		}
+	})
+
+	t.Run("Trace should not output when tracing is disabled", func(t *testing.T) {
+		// Arrange
+		t.Setenv("TABLER_TRACE", "")
+		ctx := context.Background()
+		ctx = WithTraceID(ctx, "test-trace-123")
+
+		outputCalled := false
+		originalOutput := spanOutput
+		spanOutput = func(_ *Span) {
+			outputCalled = true
+		}
+		defer func() { spanOutput = originalOutput }()
+
+		// Act
+		endFunc := Trace(ctx, "test-operation")
+		endFunc()
+
+		// Assert
+		if outputCalled {
+			t.Error("spanOutput should not be called when tracing is disabled")
 		}
 	})
 }

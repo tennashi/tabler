@@ -2,6 +2,7 @@ package logging
 
 import (
 	"context"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -55,10 +56,19 @@ var spanOutput = func(_ *Span) {
 
 // Trace starts a new trace span and returns a function to end it
 func Trace(ctx context.Context, operation string) func() {
+	if !IsTraceEnabled() {
+		return func() {} // no-op
+	}
+
 	span := NewSpan(ctx, operation)
 
 	return func() {
 		span.EndTime = time.Now()
 		spanOutput(span)
 	}
+}
+
+// IsTraceEnabled checks if tracing is enabled via environment variable
+func IsTraceEnabled() bool {
+	return os.Getenv("TABLER_TRACE") == "1"
 }
