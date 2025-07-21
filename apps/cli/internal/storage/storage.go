@@ -260,9 +260,9 @@ func (s *Storage) UpdateTaskFull(t *task.Task, tags []string) error {
 	SET title = ?, deadline = ?, priority = ?, completed = ?, updated_at = ?
 	WHERE id = ?
 	`
-	
+
 	now := time.Now().UTC()
-	result, err := tx.Exec(query, 
+	result, err := tx.Exec(query,
 		t.Title, t.Deadline.Unix(), t.Priority, t.Completed, now.Unix(), t.ID)
 	if err != nil {
 		return err

@@ -135,7 +135,7 @@ func (s *TaskService) UpdateTaskFromInput(id string, input string) error {
 		Deadline:  deadline,
 		Priority:  result.Priority,
 		Completed: existingTask.Completed, // Preserve completion status
-		CreatedAt: existingTask.CreatedAt,  // Preserve creation time
+		CreatedAt: existingTask.CreatedAt, // Preserve creation time
 		UpdatedAt: time.Now(),
 	}
 

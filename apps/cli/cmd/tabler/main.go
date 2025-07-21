@@ -73,6 +73,13 @@ func run() error {
 		}
 		taskID := os.Args[2]
 		return deleteTask(taskService, taskID)
+	case "update":
+		if len(os.Args) < 4 {
+			return fmt.Errorf("usage: tabler update <task-id> <new description>")
+		}
+		taskID := os.Args[2]
+		newInput := os.Args[3]
+		return updateTask(taskService, taskID, newInput)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
@@ -143,5 +150,15 @@ func deleteTask(service *service.TaskService, taskID string) error {
 	}
 
 	fmt.Printf("Task deleted: %s\n", taskID)
+	return nil
+}
+
+func updateTask(service *service.TaskService, taskID string, newInput string) error {
+	err := service.UpdateTaskFromInput(taskID, newInput)
+	if err != nil {
+		return fmt.Errorf("failed to update task: %w", err)
+	}
+
+	fmt.Printf("Task updated: %s\n", taskID)
 	return nil
 }
