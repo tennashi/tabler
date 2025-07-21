@@ -151,6 +151,7 @@ func TestCLI(t *testing.T) {
 			// Arrange
 			tmpDir := t.TempDir()
 			t.Setenv("TABLER_DATA_DIR", tmpDir)
+			t.Setenv("TABLER_NON_INTERACTIVE", "1") // Skip confirmation prompt in test
 
 			// Create a task directly to get real ID
 			taskService, err := service.NewTaskService(tmpDir)

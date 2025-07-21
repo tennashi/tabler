@@ -142,7 +142,22 @@ func showTask(service *service.TaskService, taskID string) error {
 }
 
 func deleteTask(service *service.TaskService, taskID string) error {
-	err := service.DeleteTask(taskID)
+	// Get task details first to show title in confirmation
+	task, _, err := service.GetTask(taskID)
+	if err != nil {
+		return fmt.Errorf("failed to get task: %w", err)
+	}
+
+	// Skip confirmation in non-interactive mode (for tests)
+	if os.Getenv("TABLER_NON_INTERACTIVE") != "1" {
+		// Confirm deletion
+		if !confirmDeletion(task.Title, os.Stdin) {
+			fmt.Println("Deletion cancelled.")
+			return nil
+		}
+	}
+
+	err = service.DeleteTask(taskID)
 	if err != nil {
 		return fmt.Errorf("failed to delete task: %w", err)
 	}
