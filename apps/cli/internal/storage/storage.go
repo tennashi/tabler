@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
+	"github.com/tennashi/tabler/internal/task"
 )
 
 type Storage struct {
@@ -46,4 +47,39 @@ func (s *Storage) Init() error {
 
 	_, err := s.db.Exec(query)
 	return err
+}
+
+func (s *Storage) CreateTask(t *task.Task, tags []string) error {
+	// Start transaction
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
+	// Insert task
+	query := `
+	INSERT INTO tasks (id, title, deadline, priority, completed, created_at, updated_at)
+	VALUES (?, ?, ?, ?, ?, ?, ?)
+	`
+	_, err = tx.Exec(query,
+		t.ID, t.Title, t.Deadline.Unix(), t.Priority,
+		t.Completed, t.CreatedAt.Unix(), t.UpdatedAt.Unix())
+	if err != nil {
+		return err
+	}
+
+	// Insert tags
+	for _, tag := range tags {
+		tagQuery := `INSERT INTO task_tags (task_id, tag) VALUES (?, ?)`
+		_, err = tx.Exec(tagQuery, t.ID, tag)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Commit transaction
+	return tx.Commit()
 }
