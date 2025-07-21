@@ -55,6 +55,12 @@ func run() error {
 		return addTask(taskService, input)
 	case "list":
 		return listTasks(taskService)
+	case "done":
+		if len(os.Args) < 3 {
+			return fmt.Errorf("usage: tabler done <task-id>")
+		}
+		taskID := os.Args[2]
+		return completeTask(taskService, taskID)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
@@ -86,5 +92,15 @@ func listTasks(service *service.TaskService) error {
 		fmt.Printf("- %s\n", item.Task.Title)
 	}
 
+	return nil
+}
+
+func completeTask(service *service.TaskService, taskID string) error {
+	err := service.CompleteTask(taskID)
+	if err != nil {
+		return fmt.Errorf("failed to complete task: %w", err)
+	}
+
+	fmt.Printf("Task completed: %s\n", taskID)
 	return nil
 }

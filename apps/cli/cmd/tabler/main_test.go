@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/tennashi/tabler/internal/service"
 )
 
 func TestCLI(t *testing.T) {
@@ -64,6 +66,53 @@ func TestCLI(t *testing.T) {
 			// Assert
 			if err != nil {
 				t.Errorf("run() returned error: %v", err)
+			}
+		})
+	})
+
+	t.Run("done command", func(t *testing.T) {
+		t.Run("should complete task successfully", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
+
+			// Create a task directly using service to get real ID
+			taskService, err := service.NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			taskID, err := taskService.CreateTaskFromInput("Test task #work")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+			_ = taskService.Close()
+
+			// Set up test arguments for done with real task ID
+			os.Args = []string{"tabler", "done", taskID}
+
+			// Act
+			err = run()
+			// Assert
+			if err != nil {
+				t.Errorf("run() returned error: %v", err)
+			}
+
+			// Verify task is completed
+			service2, err := service.NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service2.Close()
+			}()
+
+			task, _, err := service2.GetTask(taskID)
+			if err != nil {
+				t.Fatalf("failed to get task: %v", err)
+			}
+
+			if !task.Completed {
+				t.Error("expected task to be completed")
 			}
 		})
 	})
