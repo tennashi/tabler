@@ -65,4 +65,56 @@ func TestTaskService(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("ListTasks", func(t *testing.T) {
+		t.Run("should list all tasks with their tags", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			service, err := NewTaskService(tmpDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create multiple tasks
+			_, err = service.CreateTaskFromInput("First task #work @today !")
+			if err != nil {
+				t.Fatalf("failed to create first task: %v", err)
+			}
+
+			_, err = service.CreateTaskFromInput("Second task #personal")
+			if err != nil {
+				t.Fatalf("failed to create second task: %v", err)
+			}
+
+			// Act
+			taskItems, err := service.ListTasks()
+			// Assert
+			if err != nil {
+				t.Errorf("ListTasks() returned error: %v", err)
+			}
+
+			if len(taskItems) != 2 {
+				t.Errorf("expected 2 tasks, got %d", len(taskItems))
+			}
+
+			// Check first task (newer, should be first due to ORDER BY created_at DESC)
+			if taskItems[0].Task.Title != "Second task" {
+				t.Errorf("expected first task title %q, got %q", "Second task", taskItems[0].Task.Title)
+			}
+			if len(taskItems[0].Tags) != 1 || taskItems[0].Tags[0] != "personal" {
+				t.Errorf("expected first task tags [personal], got %v", taskItems[0].Tags)
+			}
+
+			// Check second task
+			if taskItems[1].Task.Title != "First task" {
+				t.Errorf("expected second task title %q, got %q", "First task", taskItems[1].Task.Title)
+			}
+			if len(taskItems[1].Tags) != 1 || taskItems[1].Tags[0] != "work" {
+				t.Errorf("expected second task tags [work], got %v", taskItems[1].Tags)
+			}
+		})
+	})
 }

@@ -141,7 +141,7 @@ func (s *Storage) ListTasks(_ map[string]interface{}) ([]*task.Task, error) {
 	query := `
 	SELECT id, title, deadline, priority, completed, created_at, updated_at
 	FROM tasks
-	ORDER BY created_at DESC
+	ORDER BY created_at DESC, id DESC
 	`
 
 	rows, err := s.db.Query(query)
