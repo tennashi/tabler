@@ -203,6 +203,7 @@ func getNextWeekday(weekday time.Weekday) time.Time {
 
 func assertDateEquals(t *testing.T, expected, actual time.Time, description string) {
 	t.Helper()
+	// Everything is in UTC, direct comparison
 	if expected.Year() != actual.Year() ||
 		expected.Month() != actual.Month() ||
 		expected.Day() != actual.Day() {

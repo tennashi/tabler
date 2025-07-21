@@ -132,11 +132,13 @@ func weekdayDeadline(weekday time.Weekday) *time.Time {
 }
 
 func dateAtStartOfDay(date time.Time) *time.Time {
-	deadline := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
+	// Create date at start of day in UTC
+	deadline := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC)
 	return &deadline
 }
 
 func parseSpecificDate(dateStr string) (*time.Time, bool) {
+	// Parse date string as UTC date
 	parsedTime, err := time.Parse("2006-01-02", dateStr)
 	if err != nil {
 		return nil, false

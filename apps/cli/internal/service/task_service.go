@@ -1,0 +1,77 @@
+package service
+
+import (
+	"path/filepath"
+	"time"
+
+	"github.com/google/uuid"
+	"github.com/tennashi/tabler/internal/parser"
+	"github.com/tennashi/tabler/internal/storage"
+	"github.com/tennashi/tabler/internal/task"
+)
+
+type TaskService struct {
+	storage *storage.Storage
+}
+
+func NewTaskService(dataDir string) (*TaskService, error) {
+	// Create data directory if it doesn't exist
+	dbPath := filepath.Join(dataDir, "tasks.db")
+
+	// Initialize storage
+	store, err := storage.New(dbPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := store.Init(); err != nil {
+		_ = store.Close()
+		return nil, err
+	}
+
+	return &TaskService{
+		storage: store,
+	}, nil
+}
+
+func (s *TaskService) Close() error {
+	return s.storage.Close()
+}
+
+func (s *TaskService) CreateTaskFromInput(input string) (string, error) {
+	// Parse input
+	result := parser.Parse(input)
+
+	// Generate task ID
+	taskID := uuid.New().String()
+
+	// Create task
+	now := time.Now()
+
+	// Handle deadline
+	var deadline time.Time
+	if result.Deadline != nil {
+		deadline = *result.Deadline
+	}
+
+	task := &task.Task{
+		ID:        taskID,
+		Title:     result.Title,
+		Deadline:  deadline,
+		Priority:  result.Priority,
+		Completed: false,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
+
+	// Store task with tags
+	if err := s.storage.CreateTask(task, result.Tags); err != nil {
+		return "", err
+	}
+
+	return taskID, nil
+}
+
+func (s *TaskService) GetTask(id string) (*task.Task, []string, error) {
+	return s.storage.GetTask(id)
+}
