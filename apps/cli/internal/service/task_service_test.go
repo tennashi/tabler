@@ -1,6 +1,8 @@
 package service
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -10,7 +12,12 @@ func TestTaskService(t *testing.T) {
 		t.Run("should create task with parsed shortcuts", func(t *testing.T) {
 			// Arrange
 			tmpDir := t.TempDir()
-			service, err := NewTaskService(tmpDir)
+			// Use unique subdirectory for each test
+			testDir := filepath.Join(tmpDir, "create_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
 			if err != nil {
 				t.Fatalf("failed to create service: %v", err)
 			}
@@ -70,7 +77,12 @@ func TestTaskService(t *testing.T) {
 		t.Run("should list all tasks with their tags", func(t *testing.T) {
 			// Arrange
 			tmpDir := t.TempDir()
-			service, err := NewTaskService(tmpDir)
+			// Use unique subdirectory for each test
+			testDir := filepath.Join(tmpDir, "list_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
 			if err != nil {
 				t.Fatalf("failed to create service: %v", err)
 			}
@@ -114,6 +126,48 @@ func TestTaskService(t *testing.T) {
 			}
 			if len(taskItems[1].Tags) != 1 || taskItems[1].Tags[0] != "work" {
 				t.Errorf("expected second task tags [work], got %v", taskItems[1].Tags)
+			}
+		})
+	})
+
+	t.Run("CompleteTask", func(t *testing.T) {
+		t.Run("should mark task as completed", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			// Use unique subdirectory for each test
+			testDir := filepath.Join(tmpDir, "complete_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create a task first
+			taskID, err := service.CreateTaskFromInput("Test task #work")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Act
+			err = service.CompleteTask(taskID)
+			// Assert
+			if err != nil {
+				t.Errorf("CompleteTask() returned error: %v", err)
+			}
+
+			// Verify task is completed
+			task, _, err := service.GetTask(taskID)
+			if err != nil {
+				t.Fatalf("failed to get task: %v", err)
+			}
+
+			if !task.Completed {
+				t.Error("expected task to be completed")
 			}
 		})
 	})

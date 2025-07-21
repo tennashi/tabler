@@ -103,3 +103,7 @@ func (s *TaskService) ListTasks() ([]*TaskItem, error) {
 
 	return taskItems, nil
 }
+
+func (s *TaskService) CompleteTask(id string) error {
+	return s.storage.UpdateTaskCompleted(id, true)
+}
