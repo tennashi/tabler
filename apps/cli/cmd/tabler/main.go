@@ -106,10 +106,8 @@ func listTasks(service *service.TaskService) error {
 		return nil
 	}
 
-	// Simple output for now
-	for _, item := range taskItems {
-		fmt.Printf("- %s\n", item.Task.Title)
-	}
+	// Display tasks in table format
+	fmt.Println(formatTasksAsTable(taskItems))
 
 	return nil
 }

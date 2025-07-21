@@ -1,14 +1,23 @@
 # Design Doc: [Feature Name]
 
+<!-- 
+DETAIL LEVEL GUIDANCE:
+- Focus on WHAT and WHY, not HOW (implementation details)
+- Describe component responsibilities and interfaces, not code
+- Use diagrams for architecture, not class definitions
+- Keep language/framework agnostic where possible
+- Target audience: developers who will implement this design
+-->
+
 ## Overview
 
-[Brief summary of what this design implements]
+[Brief summary of what this design implements - 2-3 sentences max]
 
 ## Background
 
 [Link to PRD: ../prd/feature_name.md]
 
-[Any additional technical context needed]
+[Any additional technical context needed - 1-2 paragraphs max]
 
 ## Goals
 
@@ -30,29 +39,34 @@
 
 ### Detailed Design
 
+<!-- For each component: describe WHAT it does, not HOW it's coded -->
+
 #### Component 1: [Name]
 
-[Purpose and responsibilities]
+**Purpose**: [One sentence description]
 
-[Interface definition]
+**Responsibilities**:
+- [What this component is responsible for]
+- [Keep at conceptual level]
 
-[Implementation approach]
-
-#### Component 2: [Name]
-
-[Purpose and responsibilities]
-
-[Interface definition]
-
-[Implementation approach]
+**Interface**:
+- Input: [What data/requests it receives]
+- Output: [What data/responses it provides]
+- [No code signatures - describe conceptually]
 
 ### Data Model
 
-[Database schema, data structures, etc.]
+<!-- Show logical data model, not physical implementation -->
+[Describe entities, relationships, and key fields]
+[Use simple diagrams or bullet points]
+[Avoid SQL DDL unless critical to design]
 
 ### API Design
 
-[Endpoints, request/response formats]
+<!-- Describe API behavior and contracts, not exact schemas -->
+[Describe operations available]
+[Show example interactions]
+[Focus on behavior, not exact field names]
 
 ### Error Handling
 

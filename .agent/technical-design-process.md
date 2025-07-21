@@ -138,15 +138,23 @@ This allows incremental delivery and focused reviews."
 docs/design/[feature-name].md
 ```
 
-**For multiple design docs (split by phases):**
+**For multiple design docs (split by features):**
 
 ```
 docs/design/[feature-name]/
-├── README.md           # Overview and phase relationships
-├── phase1-[name].md    # Core functionality
-├── phase2-[name].md    # Enhanced features
-└── phase3-[name].md    # Advanced capabilities
+├── README.md           # Overview and feature relationships
+├── [feature1-name].md  # Complete vertical feature
+├── [feature2-name].md  # Another complete feature
+└── [feature3-name].md  # Additional functionality
 ```
+
+**IMPORTANT: Focus on Features, Not Phases**
+
+When creating design docs from a PRD:
+- Ignore phase divisions in the PRD
+- Focus on individual features that can be implemented independently
+- Each design doc should represent one complete vertical feature
+- Name design docs by feature, not by phase number
 
 **README.md should include:**
 
@@ -160,12 +168,21 @@ docs/design/[feature-name]/
 ```
 docs/design/smart-task-creation/
 ├── README.md
-├── phase1-basic-task-creation.md
-├── phase2-ai-enhancement.md
-└── phase3-interactive-features.md
+├── natural-language-dates.md
+├── llm-inference.md
+├── smart-decomposition.md
+├── interactive-clarification.md
+├── input-modes.md
+└── context-learning.md
 ```
 
 ### Design Document Structure
+
+**IMPORTANT: Always use the design doc template**
+- Use `/docs/design/template.md` as the starting point
+- Copy the template and fill in all sections
+- Do not skip sections - mark as "Not applicable" if needed
+- Follow the detail level guidance in the template
 
 1. **Overview**
    - Feature summary from technical perspective
