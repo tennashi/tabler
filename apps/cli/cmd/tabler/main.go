@@ -53,6 +53,8 @@ func run() error {
 		}
 		input := os.Args[2]
 		return addTask(taskService, input)
+	case "list":
+		return listTasks(taskService)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
@@ -65,5 +67,24 @@ func addTask(service *service.TaskService, input string) error {
 	}
 
 	fmt.Printf("Task created: %s\n", taskID)
+	return nil
+}
+
+func listTasks(service *service.TaskService) error {
+	taskItems, err := service.ListTasks()
+	if err != nil {
+		return fmt.Errorf("failed to list tasks: %w", err)
+	}
+
+	if len(taskItems) == 0 {
+		fmt.Println("No tasks found.")
+		return nil
+	}
+
+	// Simple output for now
+	for _, item := range taskItems {
+		fmt.Printf("- %s\n", item.Task.Title)
+	}
+
 	return nil
 }

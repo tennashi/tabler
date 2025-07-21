@@ -36,4 +36,35 @@ func TestCLI(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("list command", func(t *testing.T) {
+		t.Run("should list all tasks", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+
+			// Set data directory environment variable
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
+
+			// First create some tasks
+			os.Args = []string{"tabler", "add", "First task #work"}
+			if err := run(); err != nil {
+				t.Fatalf("failed to create first task: %v", err)
+			}
+
+			os.Args = []string{"tabler", "add", "Second task #personal"}
+			if err := run(); err != nil {
+				t.Fatalf("failed to create second task: %v", err)
+			}
+
+			// Set up test arguments for list
+			os.Args = []string{"tabler", "list"}
+
+			// Act
+			err := run()
+			// Assert
+			if err != nil {
+				t.Errorf("run() returned error: %v", err)
+			}
+		})
+	})
 }
