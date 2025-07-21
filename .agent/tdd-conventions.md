@@ -18,6 +18,10 @@ Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
 When given a feature request:
 - Break it down into small, testable behaviors
 - Create a TODO list of test cases
+- **Clearly state the implementation approach:**
+  - Bottom-up: Start from lowest level components
+  - Prioritize integration: Connect components as soon as possible
+  - Avoid isolated components: Each layer should be integrated immediately
 - Share the TODO list with the user for confirmation
 
 Example interaction:
@@ -32,6 +36,11 @@ AI Agent: "I'll break this down into testable behaviors:
 - [ ] Parse priority with ! prefix
 - [ ] Parse due date with @ prefix
 - [ ] Combine multiple shortcuts in one input
+
+Implementation approach: Bottom-up with early integration
+- Start with the most fundamental components
+- As soon as each component is ready, integrate it with others
+- Prioritize end-to-end functionality over isolated perfection
 
 Shall I start with the first test?"
 ```
@@ -448,6 +457,44 @@ Cycle 3:
 - TEST REFACTOR: Now that we have 3 similar tests, refactor to table-driven
 - COMMIT
 ```
+
+## Test Time Dependencies
+
+### Prohibited Practices
+
+- **NEVER use `time.Sleep()` in tests** - It's not a real solution and makes tests slow
+- Avoid relying on execution order or timing
+
+### Recommended Solutions
+
+1. **Explicit time setting for deterministic tests**
+   ```go
+   // Use explicit timestamps in tests
+   task1 := &task.Task{
+       CreatedAt: time.Date(2024, 1, 1, 10, 0, 0, 0, time.UTC),
+   }
+   task2 := &task.Task{
+       CreatedAt: time.Date(2024, 1, 1, 11, 0, 0, 0, time.UTC),
+   }
+   ```
+
+2. **Order-independent assertions**
+   ```go
+   // Don't rely on order, verify by ID or content
+   tasksByID := make(map[string]*Task)
+   for _, task := range tasks {
+       tasksByID[task.ID] = task
+   }
+   // Assert using the map
+   ```
+
+3. **Use interfaces for time providers**
+   ```go
+   type TimeProvider interface {
+       Now() time.Time
+   }
+   // Inject mock time provider in tests
+   ```
 
 ## Remember
 

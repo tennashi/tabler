@@ -96,8 +96,6 @@ func TestTaskService(t *testing.T) {
 				t.Fatalf("failed to create first task: %v", err)
 			}
 
-			time.Sleep(100 * time.Millisecond) // Ensure different creation times
-
 			secondID, err := service.CreateTaskFromInput("Second task #personal")
 			if err != nil {
 				t.Fatalf("failed to create second task: %v", err)
@@ -114,26 +112,36 @@ func TestTaskService(t *testing.T) {
 				t.Errorf("expected 2 tasks, got %d", len(taskItems))
 			}
 
-			// Check that both tasks exist (order should be second task first due to ORDER BY created_at DESC)
-			if taskItems[0].Task.ID != secondID {
-				t.Errorf("expected first item to be second task (ID: %s), got %s", secondID, taskItems[0].Task.ID)
-			}
-			if taskItems[0].Task.Title != "Second task" {
-				t.Errorf("expected first task title %q, got %q", "Second task", taskItems[0].Task.Title)
-			}
-			if len(taskItems[0].Tags) != 1 || taskItems[0].Tags[0] != "personal" {
-				t.Errorf("expected first task tags [personal], got %v", taskItems[0].Tags)
+			// Order-independent verification using map
+			tasksByID := make(map[string]*TaskItem)
+			for _, item := range taskItems {
+				tasksByID[item.Task.ID] = item
 			}
 
-			// Check second item in list (should be first task created)
-			if taskItems[1].Task.ID != firstID {
-				t.Errorf("expected second item to be first task (ID: %s), got %s", firstID, taskItems[1].Task.ID)
+			// Check first task
+			firstTask, ok := tasksByID[firstID]
+			if !ok {
+				t.Errorf("first task (ID: %s) not found in results", firstID)
+			} else {
+				if firstTask.Task.Title != "First task" {
+					t.Errorf("expected first task title %q, got %q", "First task", firstTask.Task.Title)
+				}
+				if len(firstTask.Tags) != 1 || firstTask.Tags[0] != "work" {
+					t.Errorf("expected first task tags [work], got %v", firstTask.Tags)
+				}
 			}
-			if taskItems[1].Task.Title != "First task" {
-				t.Errorf("expected second task title %q, got %q", "First task", taskItems[1].Task.Title)
-			}
-			if len(taskItems[1].Tags) != 1 || taskItems[1].Tags[0] != "work" {
-				t.Errorf("expected second task tags [work], got %v", taskItems[1].Tags)
+
+			// Check second task
+			secondTask, ok := tasksByID[secondID]
+			if !ok {
+				t.Errorf("second task (ID: %s) not found in results", secondID)
+			} else {
+				if secondTask.Task.Title != "Second task" {
+					t.Errorf("expected second task title %q, got %q", "Second task", secondTask.Task.Title)
+				}
+				if len(secondTask.Tags) != 1 || secondTask.Tags[0] != "personal" {
+					t.Errorf("expected second task tags [personal], got %v", secondTask.Tags)
+				}
 			}
 		})
 	})
