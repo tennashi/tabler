@@ -1,13 +1,19 @@
 package service
 
 import (
+	"fmt"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/tennashi/tabler/internal/parser"
 	"github.com/tennashi/tabler/internal/storage"
 	"github.com/tennashi/tabler/internal/task"
+)
+
+var (
+	ErrEmptyTitle = fmt.Errorf("task title cannot be empty")
 )
 
 type TaskService struct {
@@ -41,6 +47,11 @@ func (s *TaskService) Close() error {
 func (s *TaskService) CreateTaskFromInput(input string) (string, error) {
 	// Parse input
 	result := parser.Parse(input)
+
+	// Validate title is not empty
+	if strings.TrimSpace(result.Title) == "" {
+		return "", ErrEmptyTitle
+	}
 
 	// Generate task ID
 	taskID := uuid.New().String()
@@ -115,6 +126,11 @@ func (s *TaskService) DeleteTask(id string) error {
 func (s *TaskService) UpdateTaskFromInput(id string, input string) error {
 	// Parse new input
 	result := parser.Parse(input)
+
+	// Validate title is not empty
+	if strings.TrimSpace(result.Title) == "" {
+		return ErrEmptyTitle
+	}
 
 	// Get existing task to preserve creation time
 	existingTask, _, err := s.storage.GetTask(id)

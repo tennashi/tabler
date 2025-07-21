@@ -9,6 +9,42 @@ import (
 
 func TestTaskService(t *testing.T) {
 	t.Run("CreateTaskFromInput", func(t *testing.T) {
+		t.Run("should return error for empty title", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			testDir := filepath.Join(tmpDir, "empty_title_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Test cases for empty titles
+			emptyInputs := []string{
+				"",           // completely empty
+				"   ",        // only spaces
+				"#tag",       // only tag
+				"@tomorrow",  // only deadline
+				"!!",         // only priority
+				"#tag @tomorrow !!", // only shortcuts, no title
+			}
+
+			for _, input := range emptyInputs {
+				// Act
+				_, err := service.CreateTaskFromInput(input)
+				
+				// Assert
+				if err == nil {
+					t.Errorf("expected error for input %q, but got none", input)
+				}
+			}
+		})
+
 		t.Run("should create task with parsed shortcuts", func(t *testing.T) {
 			// Arrange
 			tmpDir := t.TempDir()
@@ -227,6 +263,47 @@ func TestTaskService(t *testing.T) {
 	})
 
 	t.Run("UpdateTask", func(t *testing.T) {
+		t.Run("should return error for empty title", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			testDir := filepath.Join(tmpDir, "update_empty_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create a task first
+			taskID, err := service.CreateTaskFromInput("Original task #tag")
+			if err != nil {
+				t.Fatalf("failed to create task: %v", err)
+			}
+
+			// Test cases for empty titles
+			emptyInputs := []string{
+				"",           // completely empty
+				"   ",        // only spaces
+				"#newtag",    // only tag
+				"@tomorrow",  // only deadline
+				"!!!",        // only priority
+			}
+
+			for _, input := range emptyInputs {
+				// Act
+				err := service.UpdateTaskFromInput(taskID, input)
+				
+				// Assert
+				if err == nil {
+					t.Errorf("expected error for input %q, but got none", input)
+				}
+			}
+		})
+
 		t.Run("should update task from new input", func(t *testing.T) {
 			// Arrange
 			tmpDir := t.TempDir()
