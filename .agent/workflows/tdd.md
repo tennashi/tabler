@@ -504,19 +504,30 @@ Cycle 3:
 
 1. **When implementation needs differ from design**
    - Discuss the issue with team/user
-   - Update Design Doc directly:
-     - Increment version number
-     - Modify the affected sections
-     - Update alternatives section if needed
+   - Update Design Doc:
+     - Move current approach to "Alternatives Considered" section
+     - Document why it didn't work during implementation
+     - Update main sections with new approach
+     - Example:
+       ```markdown
+       ## Alternatives Considered
+       
+       ### Channel-based Concurrency
+       Originally designed to use channels for concurrent updates.
+       **Rejected because**: Implementation revealed deadlock risks
+       when multiple goroutines access shared state.
+       
+       ## Current Design
+       Using mutex locks for thread-safe access...
+       ```
    - Commit with clear message:
      ```bash
      git add docs/design/<feature>.md
-     git commit -m "fix(design): change parser to return UTC times
+     git commit -m "fix(design): change concurrency model to mutex-based
      
-     - Design didn't specify timezone handling
-     - Implementation revealed need for consistency
-     - UTC prevents timezone-related bugs
-     - All internal times now explicitly UTC"
+     - Original channel design caused deadlocks
+     - Mutex approach is simpler and more reliable
+     - Moved original design to Alternatives Considered"
      ```
 
 2. **Question unclear design points**
