@@ -226,7 +226,7 @@ func TestTask(t *testing.T) {
 #### 2.5 COMMIT Phase - Save Clean Code
 After both implementation and test refactoring:
 
-**IMPORTANT: Read `.agent/git-conventions.md` before committing!**
+**IMPORTANT: Read `.agent/guidelines/commit.md` before committing!**
 
 ```bash
 $ go test  # Ensure all tests pass
@@ -245,7 +245,7 @@ $ git commit -m "feat: implement task creation with title"
 
 ### 3. Commit Guidelines
 
-**⚠️ MUST READ: `.agent/git-conventions.md` for commit format and rules**
+**⚠️ MUST READ: `.agent/guidelines/commit.md` for commit format and rules**
 
 **When to Commit:**
 - After REFACTOR phase when both code and tests are clean
@@ -258,7 +258,7 @@ $ git commit -m "feat: implement task creation with title"
 - Any refactoring done in both
 
 **Commit Message Format:**
-Follow the conventions in `.agent/git-conventions.md`. Example:
+Follow the conventions in `.agent/guidelines/commit.md`. Example:
 ```
 feat: implement [feature name]
 
