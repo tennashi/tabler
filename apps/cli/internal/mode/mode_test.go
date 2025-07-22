@@ -206,3 +206,34 @@ func TestModeManager(t *testing.T) {
 		})
 	})
 }
+
+func TestModeDetector(t *testing.T) {
+	t.Run("detect mode", func(t *testing.T) {
+		tests := []struct {
+			name     string
+			input    string
+			expected Mode
+		}{
+			{"very short input", "buy milk", QuickMode},
+			{"question word", "what should I prepare for meeting?", TalkMode},
+			{"planning keyword", "plan company retreat", PlanningMode},
+			{"organize keyword", "organize conference", PlanningMode},
+			{"simple task", "fix bug in login page", QuickMode},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// Arrange
+				detector := NewModeDetector()
+
+				// Act
+				mode := detector.DetectMode(tt.input)
+
+				// Assert
+				if mode != tt.expected {
+					t.Errorf("for input %q, expected mode %v, got %v", tt.input, tt.expected, mode)
+				}
+			})
+		}
+	})
+}
