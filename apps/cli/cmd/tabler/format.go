@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	idDisplayWidth   = 6
-	idColumnWidth    = 7
-	taskColumnWidth  = 23
-	statusPending    = "[ ]"
-	statusCompleted  = "[✓]"
-	dateFormat       = "Jan 2, 2006"
-	dateTimeFormat   = "Jan 2, 2006 3:04 PM"
-	
+	idDisplayWidth  = 6
+	idColumnWidth   = 7
+	taskColumnWidth = 23
+	statusPending   = "[ ]"
+	statusCompleted = "[✓]"
+	dateFormat      = "Jan 2, 2006"
+	dateTimeFormat  = "Jan 2, 2006 3:04 PM"
+
 	// Extended format column widths
 	extTaskColumnWidth     = 31
 	extTagsColumnWidth     = 12
@@ -124,34 +124,34 @@ func formatTaskDetails(task *task.Task, tags []string) string {
 
 	result.WriteString(fmt.Sprintf("ID: %s\n", task.ID))
 	result.WriteString(fmt.Sprintf("Task: %s\n", task.Title))
-	
+
 	// Status
 	status := "Pending"
 	if task.Completed {
 		status = "Completed"
 	}
 	result.WriteString(fmt.Sprintf("Status: %s\n", status))
-	
+
 	// Tags
 	if len(tags) > 0 {
 		result.WriteString(fmt.Sprintf("Tags: %s\n", strings.Join(tags, ", ")))
 	}
-	
+
 	// Priority
 	priorityName := getPriorityName(task.Priority)
 	result.WriteString(fmt.Sprintf("Priority: %s\n", priorityName))
-	
+
 	// Deadline
 	if !task.Deadline.IsZero() {
 		result.WriteString(fmt.Sprintf("Deadline: %s\n", task.Deadline.Format(dateFormat)))
 	}
-	
+
 	// Created
 	result.WriteString(fmt.Sprintf("Created: %s\n", formatDateTime(task.CreatedAt)))
-	
+
 	// Modified
 	result.WriteString(fmt.Sprintf("Modified: %s", formatDateTime(task.UpdatedAt)))
-	
+
 	return result.String()
 }
 

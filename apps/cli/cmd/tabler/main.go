@@ -101,7 +101,7 @@ func addTask(service *service.TaskService, input string) error {
 }
 
 func listTasks(service *service.TaskService) error {
-	taskItems, err := service.ListTasks()
+	taskItems, err := service.ListTasks(nil)
 	if err != nil {
 		return fmt.Errorf("failed to list tasks: %w", err)
 	}

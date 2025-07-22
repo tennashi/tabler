@@ -15,15 +15,15 @@ func TestFormatTaskDetails(t *testing.T) {
 		created := time.Date(2024, 1, 15, 10, 30, 0, 0, time.UTC)
 		modified := time.Date(2024, 1, 15, 14, 45, 0, 0, time.UTC)
 		deadline := time.Date(2024, 1, 16, 0, 0, 0, 0, time.UTC)
-		
+
 		task := &task.Task{
-			ID:         "abc123",
-			Title:      "Fix login bug",
-			Priority:   3,
-			Deadline:   deadline,
-			Completed:  false,
-			CreatedAt:  created,
-			UpdatedAt:  modified,
+			ID:        "abc123",
+			Title:     "Fix login bug",
+			Priority:  3,
+			Deadline:  deadline,
+			Completed: false,
+			CreatedAt: created,
+			UpdatedAt: modified,
 		}
 		tags := []string{"work", "urgent"}
 

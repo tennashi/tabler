@@ -12,9 +12,7 @@ import (
 	"github.com/tennashi/tabler/internal/task"
 )
 
-var (
-	ErrEmptyTitle = fmt.Errorf("task title cannot be empty")
-)
+var ErrEmptyTitle = fmt.Errorf("task title cannot be empty")
 
 type TaskService struct {
 	storage *storage.Storage
@@ -93,7 +91,13 @@ type TaskItem struct {
 	Tags []string
 }
 
-func (s *TaskService) ListTasks() ([]*TaskItem, error) {
+type FilterOptions struct {
+	Tag     string
+	Today   bool
+	Overdue bool
+}
+
+func (s *TaskService) ListTasks(filter *FilterOptions) ([]*TaskItem, error) {
 	tasks, err := s.storage.ListTasks(nil)
 	if err != nil {
 		return nil, err
@@ -106,6 +110,24 @@ func (s *TaskService) ListTasks() ([]*TaskItem, error) {
 		if err != nil {
 			return nil, err
 		}
+		
+		// Apply filters
+		if filter != nil {
+			// Tag filter
+			if filter.Tag != "" {
+				hasTag := false
+				for _, tag := range tags {
+					if tag == filter.Tag {
+						hasTag = true
+						break
+					}
+				}
+				if !hasTag {
+					continue
+				}
+			}
+		}
+		
 		taskItems = append(taskItems, &TaskItem{
 			Task: t,
 			Tags: tags,

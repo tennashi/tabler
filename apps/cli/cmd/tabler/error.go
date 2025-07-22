@@ -63,18 +63,18 @@ func formatUnknownCommandError(cmd string) string {
 			break
 		}
 	}
-	
+
 	result := fmt.Sprintf("Unknown command: %s\n\n", cmd)
-	
+
 	if suggestion != "" {
 		result += fmt.Sprintf("Did you mean '%s'?\n\n", suggestion)
 	}
-	
+
 	result += "Available commands:\n"
 	for _, c := range availableCommands {
 		result += fmt.Sprintf("  %-8s - %s\n", c.name, c.description)
 	}
-	
+
 	// Remove trailing newline
 	return strings.TrimRight(result, "\n")
 }

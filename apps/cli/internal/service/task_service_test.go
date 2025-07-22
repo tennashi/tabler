@@ -26,18 +26,18 @@ func TestTaskService(t *testing.T) {
 
 			// Test cases for empty titles
 			emptyInputs := []string{
-				"",           // completely empty
-				"   ",        // only spaces
-				"#tag",       // only tag
-				"@tomorrow",  // only deadline
-				"!!",         // only priority
+				"",                  // completely empty
+				"   ",               // only spaces
+				"#tag",              // only tag
+				"@tomorrow",         // only deadline
+				"!!",                // only priority
 				"#tag @tomorrow !!", // only shortcuts, no title
 			}
 
 			for _, input := range emptyInputs {
 				// Act
 				_, err := service.CreateTaskFromInput(input)
-				
+
 				// Assert
 				if err == nil {
 					t.Errorf("expected error for input %q, but got none", input)
@@ -138,7 +138,7 @@ func TestTaskService(t *testing.T) {
 			}
 
 			// Act
-			taskItems, err := service.ListTasks()
+			taskItems, err := service.ListTasks(nil)
 			// Assert
 			if err != nil {
 				t.Errorf("ListTasks() returned error: %v", err)
@@ -286,17 +286,17 @@ func TestTaskService(t *testing.T) {
 
 			// Test cases for empty titles
 			emptyInputs := []string{
-				"",           // completely empty
-				"   ",        // only spaces
-				"#newtag",    // only tag
-				"@tomorrow",  // only deadline
-				"!!!",        // only priority
+				"",          // completely empty
+				"   ",       // only spaces
+				"#newtag",   // only tag
+				"@tomorrow", // only deadline
+				"!!!",       // only priority
 			}
 
 			for _, input := range emptyInputs {
 				// Act
 				err := service.UpdateTaskFromInput(taskID, input)
-				
+
 				// Assert
 				if err == nil {
 					t.Errorf("expected error for input %q, but got none", input)
@@ -355,6 +355,65 @@ func TestTaskService(t *testing.T) {
 			for i, tag := range expectedTags {
 				if tags[i] != tag {
 					t.Errorf("expected tag %q, got %q", tag, tags[i])
+				}
+			}
+		})
+	})
+
+	t.Run("ListTasks", func(t *testing.T) {
+		t.Run("with tag filter should return tasks with specific tag", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			testDir := filepath.Join(tmpDir, "list_tag_filter_test")
+			if err := os.MkdirAll(testDir, 0o750); err != nil {
+				t.Fatalf("failed to create test directory: %v", err)
+			}
+			service, err := NewTaskService(testDir)
+			if err != nil {
+				t.Fatalf("failed to create service: %v", err)
+			}
+			defer func() {
+				_ = service.Close()
+			}()
+
+			// Create tasks with different tags
+			_, err = service.CreateTaskFromInput("Task 1 #work")
+			if err != nil {
+				t.Fatalf("failed to create task 1: %v", err)
+			}
+			_, err = service.CreateTaskFromInput("Task 2 #personal")
+			if err != nil {
+				t.Fatalf("failed to create task 2: %v", err)
+			}
+			_, err = service.CreateTaskFromInput("Task 3 #work #urgent")
+			if err != nil {
+				t.Fatalf("failed to create task 3: %v", err)
+			}
+
+			// Act
+			filter := &FilterOptions{Tag: "work"}
+			tasks, err := service.ListTasks(filter)
+
+			// Assert
+			if err != nil {
+				t.Fatalf("ListTasks() returned error: %v", err)
+			}
+
+			if len(tasks) != 2 {
+				t.Errorf("expected 2 tasks with tag 'work', got %d", len(tasks))
+			}
+
+			// Verify both tasks have 'work' tag
+			for _, task := range tasks {
+				hasWorkTag := false
+				for _, tag := range task.Tags {
+					if tag == "work" {
+						hasWorkTag = true
+						break
+					}
+				}
+				if !hasWorkTag {
+					t.Errorf("task %q doesn't have 'work' tag", task.Task.Title)
 				}
 			}
 		})
