@@ -83,33 +83,52 @@ git add <fixed-files>
 git commit -m "fix: resolve <tool> warnings"
 ```
 
-## Partial Staging Techniques
+## Handling Mixed Changes
 
-### When files contain mixed changes
+### When files contain multiple unrelated changes
 
-Sometimes a file contains both related and unrelated changes. Use partial staging:
+Since AI agents cannot use interactive staging (`git add -p`), use the stash-based approach:
+
+#### Step 1: Stage files with single-purpose changes
 
 ```bash
-# Interactive staging
-git add -p <file>
-
-# For each hunk, choose:
-# y - stage this hunk
-# n - do not stage this hunk
-# s - split into smaller hunks
-# e - manually edit the hunk
+# First, stage files that contain only changes for current purpose
+git add <file-with-single-purpose>
 ```
 
-### Verifying staged changes only
+#### Step 2: Handle mixed files using stash
 
-To ensure staged changes work independently:
+For files containing mixed changes:
 
 ```bash
-# 1. Stash unstaged changes
+# 1. Temporarily save ALL changes
+git stash
+
+# 2. Restore only the stashed file you need
+git checkout stash@{0} -- <mixed-file>
+
+# 3. Manually edit the file to keep only relevant changes
+# Remove unrelated changes from the file
+
+# 4. Stage the cleaned file
+git add <mixed-file>
+
+# 5. Restore remaining unstaged changes
+git stash pop
+# Resolve any conflicts if they occur
+```
+
+### Verifying staged changes work independently
+
+**Important**: Ensure staged changes can stand alone:
+
+```bash
+# 1. Stash unstaged changes (keep staged changes)
 git stash --keep-index
 
 # 2. Run tests on staged changes only
 # Use the project's test/check command
+# Build should pass with only staged changes
 
 # 3. If tests pass, commit
 git commit -m "type: description"
@@ -118,23 +137,24 @@ git commit -m "type: description"
 git stash pop
 ```
 
-### Mixed file example
+### Example: Separating formatting from features
 
-When a file has formatting fixes mixed with feature changes:
+When formatting and feature changes are mixed:
 
 ```bash
-# 1. Stage only formatting changes
-git add -p file.go
-# Select only formatting hunks
+# 1. Stash all changes
+git stash
 
-# 2. Commit formatting separately
-git commit -m "style: format file.go"
+# 2. Apply and edit for formatting only
+git stash show -p > all-changes.patch
+# Manually edit all-changes.patch to keep only formatting
+git apply all-changes.patch
+git add <files>
+git commit -m "style: format code"
 
-# 3. Stage feature changes
-git add -p file.go
-# Select feature hunks
-
-# 4. Commit feature
+# 3. Restore and handle feature changes
+git stash pop
+git add <feature-files>
 git commit -m "feat: add new functionality"
 ```
 
