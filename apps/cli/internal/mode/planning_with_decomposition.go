@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
@@ -36,6 +37,7 @@ type PlanningHandlerWithDecomposition struct {
 	detector   *decomposition.ComplexityDetector
 	decomposer Decomposer
 	presenter  Presenter
+	input      io.Reader // For testing, defaults to os.Stdin
 }
 
 // NewPlanningHandlerWithDecomposition creates a new handler with decomposition support
@@ -50,7 +52,13 @@ func NewPlanningHandlerWithDecomposition(
 		detector:   detector,
 		decomposer: decomposer,
 		presenter:  presenter,
+		input:      os.Stdin,
 	}
+}
+
+// SetInput sets the input reader (for testing)
+func (h *PlanningHandlerWithDecomposition) SetInput(input io.Reader) {
+	h.input = input
 }
 
 // Process creates a task with optional decomposition
@@ -81,7 +89,7 @@ func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input st
 	fmt.Print(presentation)
 	
 	// Get user selection
-	reader := bufio.NewReader(os.Stdin)
+	reader := bufio.NewReader(h.input)
 	selection, _ := reader.ReadString('\n')
 	selection = strings.TrimSpace(selection)
 	
