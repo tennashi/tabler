@@ -35,30 +35,16 @@ This project uses **mise** for tool version management. All tools should be inst
 - This ensures reproducible environments
 - Don't use global configurations for project tools
 
-## Common Patterns
-
-### Adding a new tool
-
-```bash
-# First, check if it exists
-mise registry | grep <toolname>
-
-# If found:
-mise use <tool>@latest
-
-# If not found, try aqua:
-mise use aqua:<org>/<tool>@latest
-
-# Always verify:
-mise exec -- <tool> --version
-```
-
-### Don't Do These
+## Anti-patterns to Avoid
 
 - ❌ Don't edit `.mise.toml` manually then run `mise install`
 - ❌ Don't use `eval "$(mise activate)"` in scripts
 - ❌ Don't assume tools are in PATH
 - ❌ Don't mix `mise global` with project tools
 - ❌ Don't use different installation methods for the same tool
+
+## Step-by-Step Workflows
+
+For detailed installation procedures and examples, see `workflows/tool-installation.md`
 
 Remember: Consistency over flexibility!

@@ -11,10 +11,10 @@ AI agents MUST read the relevant files in this directory:
   - Read this entire `.agent/README.md` file
   - Read `guidelines/project.md` for basic project rules
 - **AS NEEDED** based on the task:
-  - **BEFORE** making git commits - read `guidelines/commit.md`
+  - **BEFORE** making git commits - read `guidelines/commit.md` and `workflows/commit.md`
   - **WHEN** designing new features - read `workflows/collaborative-design.md`
   - **WHEN** creating technical designs - read `workflows/technical-design.md` and `workflows/design-review-checklist.md`
-  - **WHEN** installing tools - read `guidelines/tool-management.md`
+  - **WHEN** installing tools - read `guidelines/tool-management.md` and `workflows/tool-installation.md`
   - **WHEN** implementing logging - read `guidelines/logging.md`
   - **WHEN** implementing features using TDD - read `workflows/tdd.md`
 
@@ -32,6 +32,8 @@ AI agents MUST read the relevant files in this directory:
 **Processes and procedures** - How to execute tasks
 
 - `tdd.md` - Test-Driven Development process for AI agents
+- `commit.md` - Step-by-step git commit procedures
+- `tool-installation.md` - Installing and managing tools with mise
 - `collaborative-design.md` - Product design and PRD creation process
 - `technical-design.md` - Engineering design and implementation process
 - `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs

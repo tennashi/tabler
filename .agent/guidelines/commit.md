@@ -1,19 +1,6 @@
 # Git Conventions for AI Agents
 
-## Pre-Commit Requirements
-
-**MANDATORY before every commit:**
-```bash
-moon run check  # Or moon run <project>:check
-```
-
-This ensures:
-- All tests pass
-- Code is properly formatted
-- Linting rules are satisfied
-- Type checking passes (if applicable)
-
-**Never commit without running `moon run check` first!**
+This document defines the conventions and rules for git commits. For step-by-step commit workflows, see `workflows/commit.md`.
 
 ## Commit Granularity
 
@@ -23,18 +10,15 @@ This ensures:
 - Each commit should represent a complete, working state
 - Each commit should pass all tests and checks (lint, format, typecheck, etc.)
 
-## Commit Order
+## Commit Dependencies
 
 - Consider logical dependencies between commits
 - Infrastructure changes before features that use them
 - Tool installations before tool configurations
 - Configurations before code that depends on them
 - Bug fixes that enable tests before the tests themselves
-- Example order:
-  1. Install tooling (e.g., linter)
-  2. Add tool configuration
-  3. Add tool integration (e.g., lint tasks)
-  4. Fix issues found by the tool
+
+For specific ordering strategies and examples, see `workflows/commit.md`
 
 ## Commit Messages
 
