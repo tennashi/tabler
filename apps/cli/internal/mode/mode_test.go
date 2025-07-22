@@ -1,8 +1,23 @@
 package mode
 
 import (
+	"context"
 	"testing"
+
+	"github.com/tennashi/tabler/internal/task"
 )
+
+// mockHandler is a test implementation of ModeHandler
+type mockHandler struct {
+	processFunc func(ctx context.Context, input string) (*task.Task, error)
+}
+
+func (m *mockHandler) Process(ctx context.Context, input string) (*task.Task, error) {
+	if m.processFunc != nil {
+		return m.processFunc(ctx, input)
+	}
+	return nil, nil
+}
 
 func TestMode(t *testing.T) {
 	t.Run("prefix parsing", func(t *testing.T) {
@@ -136,6 +151,57 @@ func TestMode(t *testing.T) {
 			}
 			if hasPrefix {
 				t.Errorf("expected hasPrefix to be false, got true")
+			}
+		})
+	})
+}
+
+func TestModeManager(t *testing.T) {
+	t.Run("process input", func(t *testing.T) {
+		t.Run("should process quick mode input", func(t *testing.T) {
+			// Arrange
+			manager := NewModeManager()
+			input := "/q buy milk"
+
+			// Act
+			result, err := manager.ProcessInput(input)
+			// Assert
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result.Mode != QuickMode {
+				t.Errorf("expected mode %v, got %v", QuickMode, result.Mode)
+			}
+			if result.TaskText != "buy milk" {
+				t.Errorf("expected task %q, got %q", "buy milk", result.TaskText)
+			}
+		})
+
+		t.Run("should use mode handler for processing", func(t *testing.T) {
+			// Arrange
+			manager := NewModeManager()
+			handler := &mockHandler{
+				processFunc: func(_ context.Context, input string) (*task.Task, error) {
+					return &task.Task{
+						ID:    "test-id",
+						Title: input,
+					}, nil
+				},
+			}
+			manager.RegisterHandler(QuickMode, handler)
+			input := "/q buy milk"
+
+			// Act
+			result, err := manager.ProcessTask(context.Background(), input)
+			// Assert
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result.ID != "test-id" {
+				t.Errorf("expected task ID %q, got %q", "test-id", result.ID)
+			}
+			if result.Title != "buy milk" {
+				t.Errorf("expected title %q, got %q", "buy milk", result.Title)
 			}
 		})
 	})
