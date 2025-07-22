@@ -46,8 +46,12 @@ func (s *Storage) Init() error {
 	);
 	`
 
-	_, err := s.db.Exec(query)
-	return err
+	if _, err := s.db.Exec(query); err != nil {
+		return err
+	}
+
+	// Run migrations to update schema
+	return s.RunMigrations()
 }
 
 func (s *Storage) CreateTask(t *task.Task, tags []string) error {
