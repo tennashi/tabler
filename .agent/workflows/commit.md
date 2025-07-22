@@ -15,14 +15,14 @@ This document describes the step-by-step process for making commits.
    This helps ensure commit messages accurately reflect the intent.
 
 2. **Run quality checks**
-   ```bash
-   moon run check  # Or moon run <project>:check
-   ```
-   This ensures:
+   
+   Run the project's quality check command. This typically includes:
    - All tests pass
    - Code is properly formatted
    - Linting rules are satisfied
    - Type checking passes (if applicable)
+   
+   Check the project's README or build configuration for the specific command.
 
 3. **Review changes**
    ```bash
@@ -74,9 +74,9 @@ git commit -m "build: add <tool> for <purpose>"
 git add <tool-config-file>
 git commit -m "build(<tool>): configure <specific settings>"
 
-# 3. Integrate tool
-git add moon.yml
-git commit -m "build(moon): add <tool> task"
+# 3. Integrate tool with build system
+git add <build-config-file>
+git commit -m "build: integrate <tool> into build process"
 
 # 4. Fix issues found
 git add <fixed-files>
@@ -109,7 +109,7 @@ To ensure staged changes work independently:
 git stash --keep-index
 
 # 2. Run tests on staged changes only
-moon run check
+# Use the project's test/check command
 
 # 3. If tests pass, commit
 git commit -m "type: description"
@@ -146,8 +146,8 @@ git commit -m "feat: add new functionality"
 # 1. Check current state
 git status
 
-# 2. Run checks
-moon run check
+# 2. Run project's quality checks
+# (tests, lint, format, etc.)
 
 # 3. Stage all related changes
 git add <feature-files>
@@ -160,8 +160,7 @@ git commit -m "feat: implement <feature>"
 
 ```bash
 # 1. Fix the bug and add test
-# 2. Run tests
-moon run check
+# 2. Run project's test suite
 
 # 3. Commit test first (showing the bug exists)
 git add <test-file>
@@ -177,7 +176,7 @@ git commit -m "fix: <bug description>"
 ```bash
 # 1. Make refactoring changes
 # 2. Ensure tests still pass
-moon run check
+# Run project's test suite
 
 # 3. Commit with clear scope
 git add <refactored-files>
