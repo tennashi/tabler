@@ -1,12 +1,14 @@
 package service
 
 import (
+	"context"
 	"fmt"
 	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/tennashi/tabler/internal/metadata"
 	"github.com/tennashi/tabler/internal/parser"
 	"github.com/tennashi/tabler/internal/storage"
 	"github.com/tennashi/tabler/internal/task"
@@ -15,7 +17,8 @@ import (
 var ErrEmptyTitle = fmt.Errorf("task title cannot be empty")
 
 type TaskService struct {
-	storage *storage.Storage
+	storage  *storage.Storage
+	metadata *metadata.Service
 }
 
 func NewTaskService(dataDir string) (*TaskService, error) {
@@ -34,7 +37,29 @@ func NewTaskService(dataDir string) (*TaskService, error) {
 	}
 
 	return &TaskService{
-		storage: store,
+		storage:  store,
+		metadata: nil, // No metadata service by default
+	}, nil
+}
+
+func NewTaskServiceWithMetadata(dataDir string, metadataService *metadata.Service) (*TaskService, error) {
+	// Create data directory if it doesn't exist
+	dbPath := filepath.Join(dataDir, "tasks.db")
+
+	// Initialize storage
+	store, err := storage.New(dbPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := store.Init(); err != nil {
+		_ = store.Close()
+		return nil, err
+	}
+
+	return &TaskService{
+		storage:  store,
+		metadata: metadataService,
 	}, nil
 }
 
@@ -43,8 +68,49 @@ func (s *TaskService) Close() error {
 }
 
 func (s *TaskService) CreateTaskFromInput(input string) (string, error) {
-	// Parse input
-	result := parser.Parse(input)
+	var result *parser.ParseResult
+	var tags []string
+
+	// If we have a metadata service, use it for extraction
+	if s.metadata != nil {
+		ctx := context.Background()
+		extracted, err := s.metadata.Extract(ctx, input)
+		if err == nil && extracted != nil {
+			// Use LLM-extracted metadata
+			result = &parser.ParseResult{
+				Title: extracted.CleanedText,
+				Tags:  []string{}, // We'll use tags from extracted
+			}
+			tags = extracted.Tags
+
+			// Convert priority string to int
+			switch extracted.Priority {
+			case "high":
+				result.Priority = 3
+			case "medium":
+				result.Priority = 2
+			case "low":
+				result.Priority = 1
+			default:
+				result.Priority = 0
+			}
+
+			// Parse deadline if provided
+			if extracted.Deadline != "" {
+				if deadline, err := time.Parse("2006-01-02", extracted.Deadline); err == nil {
+					result.Deadline = &deadline
+				}
+			}
+		} else {
+			// Fallback to parser if LLM extraction fails
+			result = parser.Parse(input)
+			tags = result.Tags
+		}
+	} else {
+		// No metadata service, use parser only
+		result = parser.Parse(input)
+		tags = result.Tags
+	}
 
 	// Validate title is not empty
 	if strings.TrimSpace(result.Title) == "" {
@@ -74,7 +140,7 @@ func (s *TaskService) CreateTaskFromInput(input string) (string, error) {
 	}
 
 	// Store task with tags
-	if err := s.storage.CreateTask(task, result.Tags); err != nil {
+	if err := s.storage.CreateTask(task, tags); err != nil {
 		return "", err
 	}
 
