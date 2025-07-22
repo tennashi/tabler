@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/tennashi/tabler/internal/service"
+	service "github.com/tennashi/tabler/internal/service"
 )
 
 func main() {
@@ -56,7 +56,7 @@ func run() error {
 		input := os.Args[2]
 		return addTask(taskService, input)
 	case "list":
-		return listTasks(taskService)
+		return handleListCommand(taskService, os.Args[2:])
 	case "done":
 		if len(os.Args) < 3 {
 			return fmt.Errorf("usage: tabler done <task-id>")
@@ -100,8 +100,29 @@ func addTask(service *service.TaskService, input string) error {
 	return nil
 }
 
-func listTasks(service *service.TaskService) error {
-	taskItems, err := service.ListTasks(nil)
+func handleListCommand(taskService *service.TaskService, args []string) error {
+	filter := &service.FilterOptions{}
+
+	// Parse flags
+	i := 0
+	for i < len(args) {
+		switch args[i] {
+		case "--tag":
+			if i+1 >= len(args) {
+				return fmt.Errorf("--tag requires a value")
+			}
+			filter.Tag = args[i+1]
+			i += 2
+		default:
+			return fmt.Errorf("unknown flag: %s", args[i])
+		}
+	}
+
+	return listTasks(taskService, filter)
+}
+
+func listTasks(taskService *service.TaskService, filter *service.FilterOptions) error {
+	taskItems, err := taskService.ListTasks(filter)
 	if err != nil {
 		return fmt.Errorf("failed to list tasks: %w", err)
 	}

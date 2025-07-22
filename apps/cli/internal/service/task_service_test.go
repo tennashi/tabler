@@ -393,7 +393,6 @@ func TestTaskService(t *testing.T) {
 			// Act
 			filter := &FilterOptions{Tag: "work"}
 			tasks, err := service.ListTasks(filter)
-
 			// Assert
 			if err != nil {
 				t.Fatalf("ListTasks() returned error: %v", err)

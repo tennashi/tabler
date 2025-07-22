@@ -1,12 +1,39 @@
 package main
 
 import (
+	"bytes"
+	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/tennashi/tabler/internal/service"
 )
+
+// captureOutput captures stdout during function execution
+func captureOutput(t *testing.T, fn func() error) (string, error) {
+	t.Helper()
+
+	origStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	// Ensure stdout is restored
+	defer func() {
+		os.Stdout = origStdout
+	}()
+
+	// Execute function
+	err := fn()
+	_ = w.Close()
+
+	// Read captured output
+	var buf bytes.Buffer
+	_, _ = io.Copy(&buf, r)
+
+	return buf.String(), err
+}
 
 func TestCLI(t *testing.T) {
 	t.Run("add command", func(t *testing.T) {
@@ -66,6 +93,53 @@ func TestCLI(t *testing.T) {
 			// Assert
 			if err != nil {
 				t.Errorf("run() returned error: %v", err)
+			}
+		})
+
+		t.Run("should filter tasks by tag with --tag flag", func(t *testing.T) {
+			// Arrange
+			tmpDir := t.TempDir()
+			t.Setenv("TABLER_DATA_DIR", tmpDir)
+
+			// Create tasks with different tags
+			os.Args = []string{"tabler", "add", "Work task 1 #work"}
+			_, err := captureOutput(t, run)
+			if err != nil {
+				t.Fatalf("failed to create work task 1: %v", err)
+			}
+
+			os.Args = []string{"tabler", "add", "Personal task #personal"}
+			_, err = captureOutput(t, run)
+			if err != nil {
+				t.Fatalf("failed to create personal task: %v", err)
+			}
+
+			os.Args = []string{"tabler", "add", "Work task 2 #work #urgent"}
+			_, err = captureOutput(t, run)
+			if err != nil {
+				t.Fatalf("failed to create work task 2: %v", err)
+			}
+
+			// Act - list with tag filter
+			os.Args = []string{"tabler", "list", "--tag", "work"}
+			output, err := captureOutput(t, run)
+			// Assert
+			if err != nil {
+				t.Errorf("run() returned error: %v", err)
+			}
+
+			// Log output for debugging
+			t.Logf("Captured output:\n%s", output)
+
+			// Verify only work tasks are shown
+			if !strings.Contains(output, "Work task 1") {
+				t.Errorf("expected output to contain 'Work task 1', but it didn't")
+			}
+			if !strings.Contains(output, "Work task 2") {
+				t.Errorf("expected output to contain 'Work task 2', but it didn't")
+			}
+			if strings.Contains(output, "Personal task") {
+				t.Errorf("expected output NOT to contain 'Personal task', but it did")
 			}
 		})
 	})

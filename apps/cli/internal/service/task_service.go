@@ -110,7 +110,7 @@ func (s *TaskService) ListTasks(filter *FilterOptions) ([]*TaskItem, error) {
 		if err != nil {
 			return nil, err
 		}
-		
+
 		// Apply filters
 		if filter != nil {
 			// Tag filter
@@ -127,7 +127,7 @@ func (s *TaskService) ListTasks(filter *FilterOptions) ([]*TaskItem, error) {
 				}
 			}
 		}
-		
+
 		taskItems = append(taskItems, &TaskItem{
 			Task: t,
 			Tags: tags,
