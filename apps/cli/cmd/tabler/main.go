@@ -2,11 +2,13 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/tennashi/tabler/internal/metadata"
 	service "github.com/tennashi/tabler/internal/service"
 )
 
@@ -50,11 +52,7 @@ func run() error {
 
 	switch command {
 	case "add":
-		if len(os.Args) < 3 {
-			return fmt.Errorf("usage: tabler add <task description>")
-		}
-		input := os.Args[2]
-		return addTask(taskService, input)
+		return handleAddCommand(taskService, os.Args[2:])
 	case "list":
 		return handleListCommand(taskService, os.Args[2:])
 	case "done":
@@ -85,6 +83,68 @@ func run() error {
 	default:
 		return errors.New(formatUnknownCommandError(command))
 	}
+}
+
+func handleAddCommand(taskService *service.TaskService, args []string) error {
+	// Parse flags for add command
+	addFlags := flag.NewFlagSet("add", flag.ContinueOnError)
+	useAI := addFlags.Bool("ai", false, "Use AI to extract metadata from task description")
+
+	// Find where the task description starts (after flags)
+	var taskDescStart int
+	for i, arg := range args {
+		if !strings.HasPrefix(arg, "-") {
+			taskDescStart = i
+			break
+		}
+	}
+
+	// Parse flags up to the task description
+	if taskDescStart > 0 {
+		if err := addFlags.Parse(args[:taskDescStart]); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
+	}
+
+	// Get task description
+	if taskDescStart >= len(args) {
+		return fmt.Errorf("usage: tabler add [--ai] <task description>")
+	}
+
+	input := strings.Join(args[taskDescStart:], " ")
+
+	// If --ai flag is set, create a new service with metadata extraction
+	if *useAI {
+		// Get data directory from the existing service
+		dataDir := os.Getenv("TABLER_DATA_DIR")
+		if dataDir == "" {
+			homeDir, err := os.UserHomeDir()
+			if err != nil {
+				return fmt.Errorf("failed to get home directory: %w", err)
+			}
+			dataDir = filepath.Join(homeDir, ".tabler")
+		}
+
+		// Create metadata service
+		claude := metadata.NewClaudeClient()
+		metadataService := metadata.NewService(claude)
+
+		// Create new task service with metadata
+		aiTaskService, err := service.NewTaskServiceWithMetadata(dataDir, metadataService)
+		if err != nil {
+			return fmt.Errorf("failed to create AI-enhanced service: %w", err)
+		}
+		defer func() {
+			_ = aiTaskService.Close()
+		}()
+
+		// Use the AI-enhanced service
+		taskService = aiTaskService
+
+		fmt.Println("📋 Using AI to extract metadata...")
+	}
+
+	return addTask(taskService, input)
 }
 
 func addTask(service *service.TaskService, input string) error {
