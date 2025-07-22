@@ -27,6 +27,7 @@ AI agents MUST read the relevant files in this directory:
 - `project.md` - Language requirements for all files
 - `logging.md` - Use case-based logging guidelines
 - `tool-management.md` - How to install and manage tools (using mise)
+- `monorepo-management.md` - Task execution and management with moon
 
 ### Workflows (workflows/)
 **Processes and procedures** - How to execute tasks

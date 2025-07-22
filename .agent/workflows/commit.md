@@ -6,7 +6,15 @@ This document describes the step-by-step process for making commits.
 
 **MANDATORY before every commit:**
 
-1. **Run quality checks**
+1. **Clarify the purpose of changes**
+   Before staging any files, write down:
+   - What problem does this change solve?
+   - Why is this change necessary?
+   - What is the expected outcome?
+   
+   This helps ensure commit messages accurately reflect the intent.
+
+2. **Run quality checks**
    ```bash
    moon run check  # Or moon run <project>:check
    ```
@@ -16,17 +24,18 @@ This document describes the step-by-step process for making commits.
    - Linting rules are satisfied
    - Type checking passes (if applicable)
 
-2. **Review changes**
+3. **Review changes**
    ```bash
    git status
    git diff
    ```
 
-3. **Stage changes atomically**
+4. **Stage changes atomically**
    - Stage related changes together
    - Keep unrelated changes for separate commits
 
-4. **Write commit message following conventions**
+5. **Write commit message following conventions**
+   - Use the purpose from step 1 to craft a clear message
    - See `guidelines/commit.md` for format rules
 
 ## Commit Order Strategy
@@ -72,6 +81,61 @@ git commit -m "build(moon): add <tool> task"
 # 4. Fix issues found
 git add <fixed-files>
 git commit -m "fix: resolve <tool> warnings"
+```
+
+## Partial Staging Techniques
+
+### When files contain mixed changes
+
+Sometimes a file contains both related and unrelated changes. Use partial staging:
+
+```bash
+# Interactive staging
+git add -p <file>
+
+# For each hunk, choose:
+# y - stage this hunk
+# n - do not stage this hunk
+# s - split into smaller hunks
+# e - manually edit the hunk
+```
+
+### Verifying staged changes only
+
+To ensure staged changes work independently:
+
+```bash
+# 1. Stash unstaged changes
+git stash --keep-index
+
+# 2. Run tests on staged changes only
+moon run check
+
+# 3. If tests pass, commit
+git commit -m "type: description"
+
+# 4. Restore unstaged changes
+git stash pop
+```
+
+### Mixed file example
+
+When a file has formatting fixes mixed with feature changes:
+
+```bash
+# 1. Stage only formatting changes
+git add -p file.go
+# Select only formatting hunks
+
+# 2. Commit formatting separately
+git commit -m "style: format file.go"
+
+# 3. Stage feature changes
+git add -p file.go
+# Select feature hunks
+
+# 4. Commit feature
+git commit -m "feat: add new functionality"
 ```
 
 ## Common Scenarios
