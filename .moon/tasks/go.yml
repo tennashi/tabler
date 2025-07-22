@@ -12,6 +12,21 @@ tasks:
       - "go.mod"
       - "go.sum"
 
+  # Testing with coverage
+  test-coverage:
+    command: go
+    args: 
+      - "test"
+      - "-coverprofile=dist/coverage.out"
+      - "-covermode=count"
+      - "./..."
+    outputs:
+      - "dist/coverage.out"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+
   # Linting
   lint:
     command: golangci-lint
@@ -36,6 +51,45 @@ tasks:
       - "**/*.go"
       - "go.mod"
       - "go.sum"
+
+  # Build binary to dist/
+  build-binary:
+    command: go
+    args:
+      - "build"
+      - "-o"
+      - "dist/${projectName}"
+      - "./cmd/${projectName}"
+    outputs:
+      - "dist/"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+
+  # Generate coverage report
+  coverage-html:
+    command: go
+    args:
+      - "tool"
+      - "cover"
+      - "-html=dist/coverage.out"
+      - "-o"
+      - "dist/coverage.html"
+    deps:
+      - test-coverage
+    outputs:
+      - "dist/coverage.html"
+
+  # Clean build artifacts
+  clean:
+    command: rm
+    args:
+      - "-rf"
+      - "dist/"
+      - "${projectName}"
+      - "coverage.out"
+      - "coverage.html"
 
   # Quality check (code quality checks only)
   check:
