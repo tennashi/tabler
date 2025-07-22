@@ -18,23 +18,23 @@ if [[ "$COMMAND" =~ git\ (add|commit) ]]; then
     echo "================================"
     
     # Show key points from git-conventions.md
-    if [[ -f ".agent/git-conventions.md" ]]; then
+    if [[ -f ".agent/guidelines/commit.md" ]]; then
         echo ""
-        echo "Key reminders from .agent/git-conventions.md:"
+        echo "Key reminders from .agent/guidelines/commit.md:"
         echo ""
         
         # Extract and show commit granularity rules
-        sed -n '/## Commit Granularity/,/## Commit Order/p' .agent/git-conventions.md | grep "^-" | head -5
+        sed -n '/## Commit Granularity/,/## Commit Order/p' .agent/guidelines/commit.md | grep "^-" | head -5
         
         echo ""
         echo "Commit Order:"
-        sed -n '/## Commit Order/,/## Commit Messages/p' .agent/git-conventions.md | grep "^-" | head -5
+        sed -n '/## Commit Order/,/## Commit Messages/p' .agent/guidelines/commit.md | grep "^-" | head -5
         
         echo ""
         echo "================================"
-        echo "Full conventions at: .agent/git-conventions.md"
+        echo "Full conventions at: .agent/guidelines/commit.md"
     else
-        echo "Warning: .agent/git-conventions.md not found"
+        echo "Warning: .agent/guidelines/commit.md not found"
     fi
     
     echo ""

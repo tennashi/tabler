@@ -6,4 +6,4 @@ If no arguments provided, list unimplemented design documents and prompt for sel
 
 ## Process
 
-@.agent/tdd-conventions.md
+@.agent/workflows/tdd.md

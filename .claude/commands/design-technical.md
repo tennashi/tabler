@@ -1,6 +1,6 @@
 # Technical Design Command
 
-Follow the technical design process defined in `.agent/technical-design-process.md` to create a technical design based on a PRD.
+Follow the technical design process defined in `.agent/workflows/technical-design.md` to create a technical design based on a PRD.
 
 ## Process Overview
 
@@ -47,4 +47,4 @@ When user provides a PRD or asks for technical design:
 - Don't over-engineer solutions
 - Focus on maintainability
 
-@.agent/technical-design-process.md
+@.agent/workflows/technical-design.md

@@ -3,7 +3,7 @@
 Execute the following steps for making a git commit:
 
 1. **Review Git Conventions**
-   - Read the commit conventions from `.agent/git-conventions.md` (but don't display the entire file)
+   - Read the commit conventions from `.agent/guidelines/commit.md` (but don't display the entire file)
    - Show only a brief summary of key points:
      - Commit granularity (atomic commits)
      - Commit order
