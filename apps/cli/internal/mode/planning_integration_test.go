@@ -21,7 +21,9 @@ func TestPlanningModeIntegration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to create storage: %v", err)
 		}
-		defer store.Close()
+		defer func() {
+			_ = store.Close()
+		}()
 		
 		if err := store.Init(); err != nil {
 			t.Fatalf("failed to init storage: %v", err)
@@ -85,7 +87,7 @@ func (s *storageAdapter) CreateWithParent(t *task.Task, parentID string) error {
 // mockClaudeForIntegration is a simple mock for integration testing
 type mockClaudeForIntegration struct{}
 
-func (m *mockClaudeForIntegration) Execute(_ context.Context, prompt string) (string, error) {
+func (m *mockClaudeForIntegration) Execute(_ context.Context, _ string) (string, error) {
 	// Simple mock response for integration test
 	return `Here are the subtasks:
 
