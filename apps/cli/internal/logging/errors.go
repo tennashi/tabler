@@ -46,9 +46,9 @@ func (e *TrackedError) Unwrap() error {
 
 // StackFrame represents a single frame in a stack trace
 type StackFrame struct {
-	Function string
-	File     string
-	Line     int
+	Function string `json:"function"`
+	File     string `json:"file"`
+	Line     int    `json:"line"`
 }
 
 // CaptureStackTrace captures the current stack trace, skipping the specified number of frames
@@ -74,4 +74,15 @@ func CaptureStackTrace(skip int) []StackFrame {
 	}
 
 	return frames
+}
+
+// errorOutput is a variable for testing purposes
+var errorOutput = func(s string) {
+	fmt.Fprintln(os.Stderr, s)
+}
+
+// LogError logs an error with tracking context
+func LogError(ctx context.Context, operation string, err error) {
+	trackedErr := NewTrackedError(ctx, operation, err)
+	errorOutput(FormatErrorJSON(trackedErr))
 }

@@ -2,6 +2,7 @@ package logging
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"strings"
 	"testing"
@@ -118,6 +119,41 @@ func TestStackTrace(t *testing.T) {
 		// Assert
 		if trackedErr.StackTrace != nil {
 			t.Error("stack trace should not be captured when disabled")
+		}
+	})
+}
+
+func TestLogError(t *testing.T) {
+	t.Run("LogError should output JSON to stderr", func(t *testing.T) {
+		// Arrange
+		ctx := context.Background()
+		ctx = WithTraceID(ctx, "test-trace-123")
+		baseErr := errors.New("test error")
+
+		var capturedOutput string
+		originalOutput := errorOutput
+		errorOutput = func(s string) {
+			capturedOutput = s
+		}
+		defer func() { errorOutput = originalOutput }()
+
+		// Act
+		LogError(ctx, "TestOp", baseErr)
+
+		// Assert
+		if capturedOutput == "" {
+			t.Fatal("error should have been output")
+		}
+
+		// Verify it's valid JSON
+		var result map[string]interface{}
+		err := json.Unmarshal([]byte(capturedOutput), &result)
+		if err != nil {
+			t.Fatalf("should produce valid JSON: %v", err)
+		}
+
+		if result["use_case"] != "error_tracking" {
+			t.Errorf("expected use_case to be error_tracking, got %v", result["use_case"])
 		}
 	})
 }
