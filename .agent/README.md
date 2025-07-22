@@ -9,25 +9,39 @@ AI agents MUST read the relevant files in this directory:
 - **ALWAYS** at the start of a session:
   - Read `/README.md` for project overview
   - Read this entire `.agent/README.md` file
-  - Read `project-conventions.md` for basic project rules
+  - Read `guidelines/project.md` for basic project rules
 - **AS NEEDED** based on the task:
-  - **BEFORE** making git commits - read `git-conventions.md`
-  - **WHEN** designing new features - read `collaborative-design-process.md`
-  - **WHEN** creating technical designs - read `technical-design-process.md` and `design-review-checklist.md`
-  - **WHEN** installing tools - read `tool-installation-conventions.md`
-  - **WHEN** implementing logging - read `logging-conventions.md`
-  - **WHEN** implementing features using TDD - read `tdd-conventions.md`
+  - **BEFORE** making git commits - read `guidelines/commit.md`
+  - **WHEN** designing new features - read `workflows/collaborative-design.md`
+  - **WHEN** creating technical designs - read `workflows/technical-design.md` and `workflows/design-review-checklist.md`
+  - **WHEN** installing tools - read `guidelines/tool-management.md`
+  - **WHEN** implementing logging - read `guidelines/logging.md`
+  - **WHEN** implementing features using TDD - read `workflows/tdd.md`
 
-## Directory Contents
+## Directory Structure
 
-- `git-conventions.md` - Conventional Commits format rules
-- `project-conventions.md` - Language requirements for all files
-- `collaborative-design-process.md` - Product design and PRD creation process
-- `technical-design-process.md` - Engineering design and implementation process
+### Guidelines (guidelines/)
+**Conventions and rules** - What to do and why
+
+- `commit.md` - Git commit conventions (Conventional Commits)
+- `project.md` - Language requirements for all files
+- `logging.md` - Use case-based logging guidelines
+- `tool-management.md` - How to install and manage tools (using mise)
+
+### Workflows (workflows/)
+**Processes and procedures** - How to execute tasks
+
+- `tdd.md` - Test-Driven Development process for AI agents
+- `collaborative-design.md` - Product design and PRD creation process
+- `technical-design.md` - Engineering design and implementation process
 - `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
-- `tool-installation-conventions.md` - How to install tools (using mise)
-- `logging-conventions.md` - Use case-based logging guidelines
-- `tdd-conventions.md` - Test-Driven Development process for AI agents
+
+### Temporary Files (tmp/)
+**Working directory** - For AI agent temporary work
+
+- Git-ignored directory for temporary files
+- Use for drafts, debugging files, session notes
+- Files persist between sessions but are not tracked by git
 
 ## For AI Agent Developers
 
