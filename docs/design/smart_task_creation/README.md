@@ -16,41 +16,41 @@ This directory contains technical design documents for the Smart Task Creation f
 
 ### Completed Features ✅
 
-1. **[Minimal Task Management](../minimal-task-management.md)**
+1. **[Minimal Task Management](./minimal_task_management.md)**
    - Basic task creation, listing, and completion
    - Foundation for task management system
 
-2. **[Task Shortcuts](../task-shortcuts.md)**
+2. **[Task Shortcuts](./task_shortcuts.md)**
    - Inline shortcuts (@, #, !) for quick metadata entry
    - Natural language patterns for dates and priorities
 
-3. **[Task Management Commands](../task-management-commands.md)**
+3. **[Task Management Commands](./task_management_commands.md)**
    - Full CRUD operations for tasks
    - Show, update, and delete functionality
 
 ### Designed Features 📋
 
-4. **[LLM-based Metadata Extraction](./llm-metadata-extraction.md)**
+4. **[LLM-based Metadata Extraction](./llm_metadata_extraction.md)**
    - Natural language date parsing
    - Category and priority inference
    - Single Claude call for all metadata
 
-5. **[Smart Task Decomposition](./smart-decomposition.md)**
+5. **[Smart Task Decomposition](./smart_decomposition.md)**
    - Detect complex tasks
    - Suggest logical subtasks
    - Parent-child relationships
 
-6. **[Interactive Task Clarification](./interactive-clarification.md)**
+6. **[Interactive Task Clarification](./interactive_clarification.md)**
    - AI-powered dialogue for vague inputs
    - Context-aware questioning
    - Brief, focused conversations
 
-7. **[Input Mode System](./input-modes.md)**
+7. **[Input Mode System](./input_modes.md)**
    - Three modes: Quick, Talk, Planning
    - Manual control and auto-detection
    - Optimized for different workflows
 
-8. **[Context Learning Foundation](./context-learning.md)**
+8. **[Context Learning Foundation](./context_learning.md)**
    - Local-only pattern tracking
    - Personalized suggestions
    - Complete privacy control
