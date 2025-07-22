@@ -1,14 +1,15 @@
 # Commit Workflow
 
-Execute the following steps for making a git commit:
+Execute the commit workflow defined in `.agent/workflows/commit.md`:
 
 1. **Review Git Conventions**
    - Read the commit conventions from `.agent/guidelines/commit.md` (but don't display the entire file)
+   - Read the commit workflow from `.agent/workflows/commit.md` for detailed steps
    - Show only a brief summary of key points:
-     - Commit granularity (atomic commits)
-     - Commit order
+     - Purpose clarification before staging
+     - Quality checks requirement
+     - Atomic commits principle
      - Commit message format
-     - Testing requirements
 
 2. **Check Current Status**
    - Run `git status` to show current changes
