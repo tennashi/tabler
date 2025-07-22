@@ -303,6 +303,62 @@ Shall I create separate design docs for each phase?"
 Ready to begin implementation?"
 ```
 
+## Phase 6: PRD Feedback During Design
+
+### When to Update PRD
+
+During technical design, you may discover that PRD requirements need adjustment:
+
+1. **Technical Impossibilities**
+   - Requirement cannot be implemented as specified
+   - Platform/technology limitations discovered
+   - Security constraints prevent implementation
+
+2. **Significant Complexity**
+   - Requirement adds disproportionate complexity
+   - Simpler alternative achieves same user value
+   - Implementation cost exceeds projected benefit
+
+3. **Missing Requirements**
+   - Discovered edge cases not in PRD
+   - Required supporting features not specified
+   - Integration requirements not documented
+
+### How to Provide Feedback
+
+1. **Document the issue in design doc**
+2. **Discuss with product owner/user**
+3. **Update PRD directly:**
+   - Increment version number in PRD
+   - Make necessary changes
+   - Commit with clear message:
+     ```bash
+     git add docs/prd/<feature>.md
+     git commit -m "fix(prd): update real-time sync to polling approach
+     
+     - Changed from WebSocket to 5-second polling
+     - Reason: WebSocket requires new infrastructure (3x complexity)
+     - Polling meets user needs with existing architecture
+     - Design doc identified this during technical assessment"
+     ```
+4. **Continue design with updated requirements**
+
+### Example Flow
+
+```
+"During technical design, I discovered that the real-time sync requirement 
+would require WebSocket infrastructure, increasing complexity by 3x.
+
+A 5-second polling approach would meet the user's actual need (staying updated)
+using our existing architecture.
+
+Shall I update the PRD with this change?"
+
+[After confirmation]
+"I've updated the PRD v1.1 with the polling approach and committed the change.
+Continuing with the technical design based on this update..."
+```
+
 ## Key Principles
 
 - **Start with understanding** - Don't jump to solutions

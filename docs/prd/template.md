@@ -1,5 +1,7 @@
 # PRD: [Feature Name]
 
+**Version**: 1.0
+
 ## Problem Statement
 
 [What problem are we solving? Why does this problem exist?]

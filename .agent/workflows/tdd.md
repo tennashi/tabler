@@ -502,74 +502,57 @@ Cycle 3:
 
 **During implementation:**
 
-1. **Document differences immediately**
-   - When implementation differs from design, update the design doc
-   - Add "Implementation Notes" section to design doc
-   - Explain why the change was necessary
-   - Example:
-     ```markdown
-     ## Implementation Notes
+1. **When implementation needs differ from design**
+   - Discuss the issue with team/user
+   - Update Design Doc directly:
+     - Increment version number
+     - Modify the affected sections
+     - Update alternatives section if needed
+   - Commit with clear message:
+     ```bash
+     git add docs/design/<feature>.md
+     git commit -m "fix(design): change parser to return UTC times
      
-     ### Deviation: Parser returns UTC times
-     Design didn't specify timezone handling.
-     Decision: All internal times in UTC for consistency.
+     - Design didn't specify timezone handling
+     - Implementation revealed need for consistency
+     - UTC prevents timezone-related bugs
+     - All internal times now explicitly UTC"
      ```
 
 2. **Question unclear design points**
    - If design seems wrong or unclear, ask before proceeding
    - "The design says X, but that would cause Y issue. Should I do Z instead?"
 
-3. **Update task estimates**
-   - Note if tasks take significantly longer/shorter than expected
-   - Helps improve future design estimates
+3. **Continue implementation with updated design**
+   - Implementation always follows current design doc
+   - No divergence between design and implementation
 
 ### Post-Implementation Verification
 
 **After completing all TODO items:**
 
-1. **Compare implementation with design doc**
-   ```
-   "Implementation complete. Verifying against design doc:
-   - ✅ All 6 commands implemented
-   - ✅ Parser with shortcuts
-   - ✅ SQLite storage
-   - ⚠️ Added t.Cleanup() usage (not in design, but good practice)
-   - ❌ Batch operations (deferred - too complex for this phase)"
-   ```
+1. **Verify implementation matches current design doc**
+   - Design doc should already reflect all changes made during implementation
+   - Any deviations should have been resolved during implementation
+   - Final implementation should match design doc exactly
 
-2. **Update design doc with results**
-   - Add "Post-Implementation Review" section
-   - Document what was built vs. planned
-   - Include metrics (commits, time, test count)
-   - Note lessons for future designs
+2. **Document lessons learned (optional)**
+   - If significant insights were gained, consider:
+     - Creating an ADR for architectural decisions
+     - Updating project conventions
+     - Sharing learnings with team
 
-3. **Reflect on design granularity**
-   - Was the design doc appropriately sized?
-   - Did it result in 5-10 tasks as intended?
-   - Should similar features be split differently?
+### Example Implementation Flow
 
-### Example Post-Implementation Review
+```
+"During implementation, I discovered the design's approach to handling 
+concurrent updates could cause race conditions.
 
-```markdown
-## Post-Implementation Review
+I'll update the design doc to use mutex locks instead of channels."
 
-Completed: 2024-11-21
-
-### Metrics
-- Design estimated: 5-10 tasks
-- Actual TODO items: 17 (too many!)
-- Commits: 45 (expected 15-30)
-- Time: 4 days (expected 2-3)
-
-### Key Learnings
-1. Parser complexity underestimated
-2. Should have split shortcuts into separate phase
-3. Test setup more complex than expected
-
-### Recommendations for next design
-- Keep parser features minimal in phase 1
-- Consider shortcuts as enhancement
-- Budget more time for test infrastructure
+[After confirmation]
+"I've updated the Design Doc v1.1 with the mutex approach and committed.
+Continuing implementation with the updated design..."
 ```
 
 ## Remember
