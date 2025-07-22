@@ -2,6 +2,7 @@ package storage
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
@@ -299,4 +300,100 @@ func (s *Storage) UpdateTaskFull(t *task.Task, tags []string) error {
 
 	// Commit transaction
 	return tx.Commit()
+}
+
+// CreateWithParent creates a task with a parent relationship
+func (s *Storage) CreateWithParent(t *task.Task, parentID string) error {
+	// First verify parent exists
+	_, _, err := s.GetTask(parentID)
+	if err != nil {
+		return fmt.Errorf("parent task not found: %w", err)
+	}
+	
+	// Start transaction
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
+	// Insert task with parent_task_id
+	query := `
+	INSERT INTO tasks (
+		id, title, deadline, priority, completed, 
+		created_at, updated_at, parent_task_id
+	) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	`
+
+	_, err = tx.Exec(query,
+		t.ID, t.Title, t.Deadline.Unix(), t.Priority, t.Completed,
+		t.CreatedAt.Unix(), t.UpdatedAt.Unix(), parentID)
+	if err != nil {
+		return err
+	}
+
+	// Commit transaction
+	return tx.Commit()
+}
+
+// GetChildren retrieves all child tasks of a parent task
+func (s *Storage) GetChildren(parentID string) ([]*task.Task, error) {
+	query := `
+	SELECT id, title, deadline, priority, completed, created_at, updated_at
+	FROM tasks
+	WHERE parent_task_id = ?
+	ORDER BY created_at DESC
+	`
+
+	rows, err := s.db.Query(query, parentID)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = rows.Close()
+	}()
+
+	var tasks []*task.Task
+	for rows.Next() {
+		var t task.Task
+		var deadline, createdAt, updatedAt int64
+
+		err = rows.Scan(
+			&t.ID, &t.Title, &deadline, &t.Priority,
+			&t.Completed, &createdAt, &updatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		t.Deadline = time.Unix(deadline, 0)
+		t.CreatedAt = time.Unix(createdAt, 0)
+		t.UpdatedAt = time.Unix(updatedAt, 0)
+
+		tasks = append(tasks, &t)
+	}
+
+	return tasks, rows.Err()
+}
+
+// GetParent retrieves the parent task of a child task
+func (s *Storage) GetParent(childID string) (*task.Task, error) {
+	// First get the parent_task_id
+	var parentID sql.NullString
+	query := `SELECT parent_task_id FROM tasks WHERE id = ?`
+	err := s.db.QueryRow(query, childID).Scan(&parentID)
+	if err != nil {
+		return nil, err
+	}
+
+	// If no parent, return nil
+	if !parentID.Valid {
+		return nil, nil
+	}
+
+	// Get the parent task
+	parent, _, err := s.GetTask(parentID.String)
+	return parent, err
 }
