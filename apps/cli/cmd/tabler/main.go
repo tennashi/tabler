@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"flag"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/tennashi/tabler/internal/metadata"
+	"github.com/tennashi/tabler/internal/mode"
 	service "github.com/tennashi/tabler/internal/service"
 )
 
@@ -144,7 +146,35 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 		fmt.Println("📋 Using AI to extract metadata...")
 	}
 
+	// Check if mode prefixes are used
+	if strings.HasPrefix(input, "/") {
+		// Use mode system for inputs with mode prefixes
+		return addTaskWithMode(taskService, input)
+	}
+
+	// For backward compatibility, use original method without prefix
 	return addTask(taskService, input)
+}
+
+func addTaskWithMode(service *service.TaskService, input string) error {
+	// Create mode manager
+	modeManager := mode.NewModeManager()
+
+	// Process task with mode system
+	ctx := context.Background()
+	task, err := modeManager.ProcessTask(ctx, input)
+	if err != nil {
+		return fmt.Errorf("failed to process task: %w", err)
+	}
+
+	// Store task
+	taskID, err := service.StoreTask(task)
+	if err != nil {
+		return fmt.Errorf("failed to store task: %w", err)
+	}
+
+	fmt.Printf("Task created: %s\n", taskID)
+	return nil
 }
 
 func addTask(service *service.TaskService, input string) error {

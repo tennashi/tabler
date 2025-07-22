@@ -67,7 +67,24 @@ func (s *TaskService) Close() error {
 	return s.storage.Close()
 }
 
+func (s *TaskService) StoreTask(t *task.Task) (string, error) {
+	// Validate task
+	if strings.TrimSpace(t.Title) == "" {
+		return "", ErrEmptyTitle
+	}
+
+	// Store the task with empty tags for now
+	// TODO: Extract tags from task when tag support is added to mode handlers
+	if err := s.storage.CreateTask(t, []string{}); err != nil {
+		return "", err
+	}
+
+	return t.ID, nil
+}
+
 func (s *TaskService) CreateTaskFromInput(input string) (string, error) {
+	// TODO: Integrate with mode system
+	// For now, keep existing implementation
 	var result *parser.ParseResult
 	var tags []string
 

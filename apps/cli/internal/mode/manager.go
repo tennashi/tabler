@@ -21,13 +21,22 @@ type ProcessResult struct {
 // ModeManager coordinates mode selection and processing
 type ModeManager struct {
 	handlers map[Mode]ModeHandler
+	detector *ModeDetector
 }
 
 // NewModeManager creates a new mode manager
 func NewModeManager() *ModeManager {
-	return &ModeManager{
+	manager := &ModeManager{
 		handlers: make(map[Mode]ModeHandler),
+		detector: NewModeDetector(),
 	}
+
+	// Register default handlers
+	manager.RegisterHandler(QuickMode, NewQuickHandler())
+	manager.RegisterHandler(TalkMode, NewTalkHandler())
+	manager.RegisterHandler(PlanningMode, NewPlanningHandler())
+
+	return manager
 }
 
 // RegisterHandler registers a handler for a specific mode
@@ -47,7 +56,12 @@ func (m *ModeManager) ProcessInput(input string) (*ProcessResult, error) {
 
 // ProcessTask processes the input using the appropriate mode handler
 func (m *ModeManager) ProcessTask(ctx context.Context, input string) (*task.Task, error) {
-	mode, taskText, _ := ParseModePrefix(input)
+	mode, taskText, hasPrefix := ParseModePrefix(input)
+
+	// If no prefix, use auto-detection
+	if !hasPrefix && m.detector != nil {
+		mode = m.detector.DetectMode(input)
+	}
 
 	handler, exists := m.handlers[mode]
 	if !exists {
