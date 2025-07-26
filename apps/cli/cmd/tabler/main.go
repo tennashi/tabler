@@ -91,6 +91,7 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 	// Parse flags for add command
 	addFlags := flag.NewFlagSet("add", flag.ContinueOnError)
 	useAI := addFlags.Bool("ai", false, "Use AI to extract metadata from task description")
+	useTalk := addFlags.Bool("talk", false, "Use interactive dialogue to clarify vague tasks")
 
 	// Find where the task description starts (after flags)
 	var taskDescStart int
@@ -110,7 +111,7 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 
 	// Get task description
 	if taskDescStart >= len(args) {
-		return fmt.Errorf("usage: tabler add [--ai] <task description>")
+		return fmt.Errorf("usage: tabler add [--ai] [--talk] <task description>")
 	}
 
 	input := strings.Join(args[taskDescStart:], " ")
@@ -146,6 +147,12 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 		fmt.Println("📋 Using AI to extract metadata...")
 	}
 
+	// Check if talk mode is forced via flag
+	if *useTalk {
+		// Prepend /talk to use talk mode with clarification
+		return addTaskWithMode(taskService, "/talk " + input)
+	}
+
 	// Check if mode prefixes are used
 	if strings.HasPrefix(input, "/") {
 		// Use mode system for inputs with mode prefixes
@@ -157,8 +164,10 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 }
 
 func addTaskWithMode(service *service.TaskService, input string) error {
-	// Create mode manager
-	modeManager := mode.NewModeManager()
+	// Create mode manager with enhanced features
+	modeManager := mode.NewManagerBuilder().
+		WithClarification().
+		Build()
 
 	// Process task with mode system
 	ctx := context.Background()

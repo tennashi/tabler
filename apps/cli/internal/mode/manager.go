@@ -24,19 +24,10 @@ type ModeManager struct {
 	detector *ModeDetector
 }
 
-// NewModeManager creates a new mode manager
+// NewModeManager creates a new mode manager with basic handlers
 func NewModeManager() *ModeManager {
-	manager := &ModeManager{
-		handlers: make(map[Mode]ModeHandler),
-		detector: NewModeDetector(),
-	}
-
-	// Register default handlers
-	manager.RegisterHandler(QuickMode, NewQuickHandler())
-	manager.RegisterHandler(TalkMode, NewTalkHandler())
-	manager.RegisterHandler(PlanningMode, NewPlanningHandler())
-
-	return manager
+	// Use builder for consistent initialization
+	return NewManagerBuilder().Build()
 }
 
 // RegisterHandler registers a handler for a specific mode
