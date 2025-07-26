@@ -1,5 +1,7 @@
 # Design Doc: Interactive Task Clarification
 
+**Status**: Implemented ✅
+
 <!-- 
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
