@@ -271,14 +271,14 @@ git commit -m "refactor(<scope>): <what was refactored>"
    - If **no** → End workflow (changes remain local)
    - If **yes** → Continue to step 2
 
-2. **Create PR using gh CLI** (automatically pushes)
-   ```bash
-   # gh pr create will push automatically if needed
-   gh pr create
-   ```
+2. **Create PR using gh CLI**
    
-   Or with more details:
+   For non-interactive environments (like AI agents), use:
    ```bash
+   # First push the branch
+   git push -u origin $(git branch --show-current)
+   
+   # Then create PR with explicit options
    gh pr create \
      --title "Brief description of changes" \
      --body "## What
@@ -288,8 +288,16 @@ git commit -m "refactor(<scope>): <what was refactored>"
    - Reason for changes
 
    ## Testing
-   - How to test" \
-     --base main
+   - How to test"
+   ```
+   
+   Alternative: Use `--head` flag to create PR before pushing:
+   ```bash
+   gh pr create \
+     --head $(git branch --show-current) \
+     --title "Brief description" \
+     --body "Description"
+   # This will push automatically
    ```
 
 3. **Share PR link**
@@ -298,10 +306,10 @@ git commit -m "refactor(<scope>): <what was refactored>"
 
 ### Note about gh pr create
 
-- `gh pr create` automatically pushes unpushed commits
-- No need to manually push before creating PR
-- If branch doesn't exist on remote, it creates it
-- Uses current branch name by default
+- In non-interactive mode, `--title` and `--body` are required
+- Use `--head` flag to create PR before pushing (will push automatically)
+- Or push first, then create PR without `--head`
+- For interactive use, run `gh pr create` without arguments
 
 ## References
 
