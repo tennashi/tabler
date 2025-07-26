@@ -2,6 +2,65 @@
 
 This document describes the step-by-step process for making commits.
 
+## Branch Decision Criteria
+
+**FIRST RULE: Check current branch**
+
+```bash
+# Check what branch you're on
+git branch --show-current
+```
+
+### If on main/master branch → ALWAYS create a new branch
+
+**NO EXCEPTIONS** - Never commit directly to main/master
+
+### Creating a new branch - ALWAYS from latest main
+
+```bash
+# 1. Save any uncommitted work
+git stash
+
+# 2. Switch to main and update
+git checkout main
+git pull origin main
+
+# 3. Create and switch to new branch from latest main
+git checkout -b <descriptive-branch-name>
+
+# 4. Restore your work if needed
+git stash pop
+```
+
+### When to create a new branch:
+
+- **On main branch** → Always
+- **Starting a new task or feature**
+- **Experimenting with approaches** that might not work out
+- **Working on someone else's branch** without explicit permission
+- **The current branch is a release or develop branch**
+
+### Work directly on current branch when:
+
+- **Already on your own feature branch** for the SAME task
+- **Continuing work** you just started in the same session
+- **Making fixes to work** you just committed
+- **Explicitly told to work on current branch**
+
+### Branch naming conventions:
+```bash
+# Task/Issue based (preferred)
+git checkout -b issue-123-user-authentication
+git checkout -b task/add-payment-processing
+
+# Descriptive purpose
+git checkout -b improve-search-performance
+git checkout -b fix-memory-leak-in-parser
+
+# Personal work branches
+git checkout -b yourname/experiment-with-new-api
+```
+
 ## Pre-Commit Checklist
 
 **MANDATORY before every commit:**
@@ -202,6 +261,42 @@ git commit -m "fix: <bug description>"
 git add <refactored-files>
 git commit -m "refactor(<scope>): <what was refactored>"
 ```
+
+## Post-Commit: Pull Request Creation
+
+### After committing changes on a feature branch:
+
+1. **Ask about PR creation**
+   - "Would you like to create a pull request now?"
+   - If **no** → End workflow (changes remain local)
+   - If **yes** → Continue to step 2
+
+2. **Create PR using gh CLI**
+   ```bash
+   # Create PR with --head flag (automatically pushes)
+   gh pr create \
+     --head $(git branch --show-current) \
+     --title "Brief description of changes" \
+     --body "## What
+   - Summary of changes
+
+   ## Why  
+   - Reason for changes
+
+   ## Testing
+   - How to test"
+   ```
+
+3. **Share PR link**
+   - Copy and share the PR URL that gh returns
+   - The PR is now ready for review
+
+### Note about gh pr create
+
+- Always use `--head $(git branch --show-current)` flag
+- This automatically pushes unpushed commits
+- In non-interactive mode, `--title` and `--body` are required
+- No need to manually push before creating PR
 
 ## References
 
