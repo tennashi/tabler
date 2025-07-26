@@ -58,38 +58,53 @@ This document describes the branch protection settings for this repository using
 
 ```bash
 # Create ruleset using gh api
+CONDITIONS_JSON=$(cat <<EOF
+{
+  "ref_name": {
+    "include": ["refs/heads/main"],
+    "exclude": []
+  }
+}
+EOF
+)
+
+RULES_JSON=$(cat <<EOF
+[
+  {
+    "type": "pull_request",
+    "parameters": {
+      "required_approving_review_count": 1,
+      "dismiss_stale_reviews_on_push": true,
+      "require_code_owner_review": false,
+      "require_last_push_approval": false,
+      "required_review_thread_resolution": true
+    }
+  },
+  {
+    "type": "required_status_checks",
+    "parameters": {
+      "strict_required_status_checks_policy": true,
+      "required_status_checks": []
+    }
+  },
+  {
+    "type": "deletion"
+  },
+  {
+    "type": "non_fast_forward"
+  }
+]
+EOF
+)
+
 gh api repos/{owner}/{repo}/rulesets \
   --method POST \
   --field name='Protect main branch' \
   --field target='branch' \
   --field enforcement='active' \
-  --field conditions='{"ref_name":{"include":["refs/heads/main"],"exclude":[]}}' \
+  --field conditions="$CONDITIONS_JSON" \
   --field bypass_actors='[]' \
-  --field rules='[
-    {
-      "type": "pull_request",
-      "parameters": {
-        "required_approving_review_count": 1,
-        "dismiss_stale_reviews_on_push": true,
-        "require_code_owner_review": false,
-        "require_last_push_approval": false,
-        "required_review_thread_resolution": true
-      }
-    },
-    {
-      "type": "required_status_checks",
-      "parameters": {
-        "strict_required_status_checks_policy": true,
-        "required_status_checks": []
-      }
-    },
-    {
-      "type": "deletion"
-    },
-    {
-      "type": "non_fast_forward"
-    }
-  ]'
+  --field rules="$RULES_JSON"
 ```
 
 ## Rationale
