@@ -272,14 +272,10 @@ git commit -m "refactor(<scope>): <what was refactored>"
    - If **yes** → Continue to step 2
 
 2. **Create PR using gh CLI**
-   
-   For non-interactive environments (like AI agents), use:
    ```bash
-   # First push the branch
-   git push -u origin $(git branch --show-current)
-   
-   # Then create PR with explicit options
+   # Create PR with --head flag (automatically pushes)
    gh pr create \
+     --head $(git branch --show-current) \
      --title "Brief description of changes" \
      --body "## What
    - Summary of changes
@@ -290,15 +286,6 @@ git commit -m "refactor(<scope>): <what was refactored>"
    ## Testing
    - How to test"
    ```
-   
-   Alternative: Use `--head` flag to create PR before pushing:
-   ```bash
-   gh pr create \
-     --head $(git branch --show-current) \
-     --title "Brief description" \
-     --body "Description"
-   # This will push automatically
-   ```
 
 3. **Share PR link**
    - Copy and share the PR URL that gh returns
@@ -306,10 +293,10 @@ git commit -m "refactor(<scope>): <what was refactored>"
 
 ### Note about gh pr create
 
+- Always use `--head $(git branch --show-current)` flag
+- This automatically pushes unpushed commits
 - In non-interactive mode, `--title` and `--body` are required
-- Use `--head` flag to create PR before pushing (will push automatically)
-- Or push first, then create PR without `--head`
-- For interactive use, run `gh pr create` without arguments
+- No need to manually push before creating PR
 
 ## References
 
