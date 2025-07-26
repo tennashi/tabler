@@ -13,7 +13,7 @@ This document describes the branch protection settings for this repository using
 ### Pull Request Requirements
 
 - ✅ **Require a pull request before merging**
-  - Required approving reviews: **1**
+  - Required approving reviews: **0** (no reviews required)
   - ✅ Dismiss stale pull request approvals when new commits are pushed
   - ✅ Require conversation resolution before merging
   - ❌ Require approval of the most recent push
@@ -73,7 +73,7 @@ RULES_JSON=$(cat <<EOF
   {
     "type": "pull_request",
     "parameters": {
-      "required_approving_review_count": 1,
+      "required_approving_review_count": 0,
       "dismiss_stale_reviews_on_push": true,
       "require_code_owner_review": false,
       "require_last_push_approval": false,
@@ -111,7 +111,7 @@ gh api repos/{owner}/{repo}/rulesets \
 
 This configuration provides:
 
-1. **Code Review**: All changes must be reviewed before merging
+1. **Pull Request Process**: All changes must go through a pull request
 2. **Up-to-date Checks**: Ensures branches are tested with latest main
 3. **Conversation Tracking**: All feedback must be addressed
 4. **History Protection**: No force pushes or branch deletion
