@@ -1,6 +1,6 @@
 # Design Doc: Context Learning Foundation
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -11,13 +11,17 @@ DETAIL LEVEL GUIDANCE:
 
 ## Overview
 
-This feature tracks user patterns in task creation to provide personalized suggestions and improve the task creation experience over time. The system learns from usage patterns while maintaining complete user privacy through local-only storage.
+This feature tracks user patterns in task creation to provide personalized suggestions and improve the task
+creation experience over time. The system learns from usage patterns while maintaining complete user privacy
+through local-only storage.
 
 ## Background
 
 [Link to PRD: ../../prd/smart_task_creation.md](../../prd/smart_task_creation.md)
 
-This implements the "Should Have" requirements for context learning from usage patterns, autocomplete for frequently used tags/categories, and personalized suggestions. All learning happens locally to protect user privacy.
+This implements the "Should Have" requirements for context learning from usage patterns, autocomplete for
+frequently used tags/categories, and personalized suggestions. All learning happens locally to protect user
+privacy.
 
 ## Goals
 
@@ -31,7 +35,7 @@ This implements the "Should Have" requirements for context learning from usage p
 ## Non-Goals
 
 - Cross-device synchronization
-- Sharing patterns between users  
+- Sharing patterns between users
 - Complex ML models (keep it simple)
 - Predicting task content
 - Learning from task completion patterns
@@ -40,7 +44,7 @@ This implements the "Should Have" requirements for context learning from usage p
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
 │   CLI Add   │────▶│ Context Learning │────▶│   Pattern   │
 │   Command   │     │     Service      │     │   Storage   │
@@ -51,7 +55,7 @@ This implements the "Should Have" requirements for context learning from usage p
                     │   Suggestion     │
                     │   Generator      │
                     └──────────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -62,12 +66,14 @@ This implements the "Should Have" requirements for context learning from usage p
 **Purpose**: Record usage patterns from task creation
 
 **Responsibilities**:
+
 - Extract patterns from created tasks
 - Record frequency and recency of patterns
 - Update pattern database
 - Respect privacy settings
 
 **Interface**:
+
 - Input: Created task with metadata
 - Output: Extracted patterns stored in database
 
@@ -76,12 +82,14 @@ This implements the "Should Have" requirements for context learning from usage p
 **Purpose**: Persist learned patterns locally
 
 **Responsibilities**:
+
 - Store pattern data in SQLite
 - Implement retention policies
 - Handle data expiration
 - Support export/delete operations
 
 **Interface**:
+
 - Input: Pattern records
 - Output: Stored patterns with metadata
 
@@ -90,12 +98,14 @@ This implements the "Should Have" requirements for context learning from usage p
 **Purpose**: Generate contextual suggestions from patterns
 
 **Responsibilities**:
+
 - Query relevant patterns
 - Rank suggestions by relevance
 - Consider time context
 - Format suggestions for display
 
 **Interface**:
+
 - Input: Current context (time, partial input)
 - Output: Ranked suggestions list
 
@@ -104,12 +114,14 @@ This implements the "Should Have" requirements for context learning from usage p
 **Purpose**: Provide real-time completions during input
 
 **Responsibilities**:
+
 - Monitor user input
 - Match against frequent patterns
 - Provide fast completions
 - Handle partial matches
 
 **Interface**:
+
 - Input: Partial tag or category
 - Output: Completion suggestions
 
@@ -118,12 +130,14 @@ This implements the "Should Have" requirements for context learning from usage p
 **Purpose**: Give users control over their data
 
 **Responsibilities**:
+
 - Enable/disable learning
 - Clear stored patterns
 - Export user data
 - Implement retention limits
 
 **Interface**:
+
 - Input: User privacy commands
 - Output: Privacy action confirmation
 
@@ -132,12 +146,14 @@ This implements the "Should Have" requirements for context learning from usage p
 <!-- Show logical data model, not physical implementation -->
 
 **Pattern Types**:
+
 - Tag frequency (tag → usage count)
 - Time patterns (time of day → task types)
 - Priority patterns (keywords → priority)
 - Mode preferences (context → preferred mode)
 
 **Pattern Record Structure**:
+
 - Pattern type
 - Pattern key
 - Pattern value
@@ -146,6 +162,7 @@ This implements the "Should Have" requirements for context learning from usage p
 - First seen timestamp
 
 **Privacy Controls**:
+
 - Learning enabled flag
 - Retention period setting
 - Excluded pattern list
@@ -155,21 +172,24 @@ This implements the "Should Have" requirements for context learning from usage p
 <!-- Describe API behavior and contracts, not exact schemas -->
 
 **Autocomplete Example**:
-```
+
+```text
 $ tabler add finish report #wo[TAB]
                             ^^^
 Suggestions: #work (used 45 times)
             #workshop (used 3 times)
-```
+```text
 
 **Time-based Suggestions**:
-```
+
+```text
 $ tabler add [morning]
 Suggested tags: #morning-routine, #exercise (based on past patterns)
-```
+```text
 
 **Privacy Commands**:
-```
+
+```text
 $ tabler privacy status
 Learning: enabled
 Patterns stored: 127
@@ -180,7 +200,7 @@ Clear all learned patterns? [y/N]
 
 $ tabler privacy export
 Exported patterns to: tabler-patterns-2024-01-15.json
-```
+```text
 
 ### Error Handling
 
@@ -192,6 +212,7 @@ Exported patterns to: tabler-patterns-2024-01-15.json
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] User Behavior - Track learning effectiveness
 - [x] Performance - Pattern matching speed
 - [ ] Error Tracking - Minimal errors expected
@@ -200,7 +221,8 @@ Exported patterns to: tabler-patterns-2024-01-15.json
 - [x] Business Metrics - Feature adoption
 
 **Implementation Details**:
-```
+
+```text
 User Behavior:
 - Events: pattern_learned, suggestion_accepted, learning_disabled
 - Fields: pattern_type, suggestion_rank, acceptance_rate
@@ -216,9 +238,10 @@ Business Metrics:
 - Events: learning_engagement
 - Fields: patterns_stored, suggestions_used
 - Retention: 90 days
-```
+```text
 
 **Privacy Considerations**:
+
 - Never log actual task content
 - Only track pattern types and counts
 - Aggregate metrics only
@@ -253,7 +276,8 @@ Business Metrics:
 
 Store patterns in cloud for cross-device sync.
 
-**Why not chosen**: Privacy concerns, requires user accounts, adds infrastructure complexity, contradicts local-first principle.
+**Why not chosen**: Privacy concerns, requires user accounts, adds infrastructure complexity, contradicts
+local-first principle.
 
 ### Alternative 2: Pre-Built Pattern Library
 
@@ -266,3 +290,4 @@ Ship with common patterns pre-loaded.
 Use sophisticated ML for pattern recognition.
 
 **Why not chosen**: Overkill for this use case, harder to explain to users, increased complexity, larger resource usage.
+````

@@ -76,8 +76,9 @@ Not every feature needs an ADR. Create one when:
 **Critical: Keep Design Docs Small and Implementable**
 
 Each Design Doc should be:
+
 - **5-10 implementation tasks** maximum
-- **2-3 days** of implementation work  
+- **2-3 days** of implementation work
 - **15-30 commits** when complete
 - Delivers **one clear value** to users
 
@@ -151,6 +152,7 @@ docs/design/[feature-name]/
 **IMPORTANT: Focus on Features, Not Phases**
 
 When creating design docs from a PRD:
+
 - Ignore phase divisions in the PRD
 - Focus on individual features that can be implemented independently
 - Each design doc should represent one complete vertical feature
@@ -179,6 +181,7 @@ docs/design/smart-task-creation/
 ### Design Document Structure
 
 **IMPORTANT: Always use the design doc template**
+
 - Use `/docs/design/template.md` as the starting point
 - Copy the template and fill in all sections
 - Do not skip sections - mark as "Not applicable" if needed
@@ -261,12 +264,14 @@ Shall I create separate design docs for each phase?"
 ```
 
 **Red flags that indicate splitting:**
+
 - More than 10 implementation tasks
 - Estimated time > 3 days
 - Mixed core and "nice-to-have" features
 - Complex dependencies between task groups
 
 **How to split:**
+
 1. Identify the minimal valuable feature
 2. Group tasks that deliver that value
 3. Move enhancements to next phase
@@ -335,7 +340,7 @@ During technical design, you may discover that PRD requirements need adjustment:
      ```bash
      git add docs/prd/<feature>.md
      git commit -m "fix(prd): update real-time sync to polling approach
-     
+
      - Changed from WebSocket to 5-second polling
      - Reason: WebSocket requires new infrastructure (3x complexity)
      - Polling meets user needs with existing architecture

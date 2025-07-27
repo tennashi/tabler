@@ -48,6 +48,7 @@ git stash pop
 - **Explicitly told to work on current branch**
 
 ### Branch naming conventions:
+
 ```bash
 # Task/Issue based (preferred)
 git checkout -b issue-123-user-authentication
@@ -70,17 +71,17 @@ git checkout -b yourname/experiment-with-new-api
    - What problem does this change solve?
    - Why is this change necessary?
    - What is the expected outcome?
-   
+
    This helps ensure commit messages accurately reflect the intent.
 
 2. **Run quality checks**
-   
+
    Run the project's quality check command. This typically includes:
    - All tests pass
    - Code is properly formatted
    - Linting rules are satisfied
    - Type checking passes (if applicable)
-   
+
    Check the project's README or build configuration for the specific command.
 
 3. **Review changes**

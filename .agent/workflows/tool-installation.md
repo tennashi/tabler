@@ -17,11 +17,13 @@ mise registry | grep "^<toolname>$"
 ### Step 2: Install the tool
 
 If found in standard registry:
+
 ```bash
 mise use <tool>@latest
 ```
 
 If not found, try aqua backend:
+
 ```bash
 mise use aqua:<org>/<tool>@latest
 ```

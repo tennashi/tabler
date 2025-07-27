@@ -21,6 +21,7 @@ AI agents MUST read the relevant files in this directory:
 ## Directory Structure
 
 ### Guidelines (guidelines/)
+
 **Conventions and rules** - What to do and why
 
 - `commit.md` - Git commit conventions (Conventional Commits)
@@ -30,6 +31,7 @@ AI agents MUST read the relevant files in this directory:
 - `monorepo-management.md` - Task execution and management with moon
 
 ### Workflows (workflows/)
+
 **Processes and procedures** - How to execute tasks
 
 - `tdd.md` - Test-Driven Development process for AI agents
@@ -40,6 +42,7 @@ AI agents MUST read the relevant files in this directory:
 - `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
 
 ### Temporary Files (tmp/)
+
 **Working directory** - For AI agent temporary work
 
 - Git-ignored directory for temporary files

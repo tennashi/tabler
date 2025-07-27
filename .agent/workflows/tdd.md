@@ -16,6 +16,7 @@ Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
 ### 1. Understand the Requirement
 
 When given a feature request:
+
 - Break it down into small, testable behaviors
 - Create a TODO list of test cases
 - **Clearly state the implementation approach:**
@@ -25,6 +26,7 @@ When given a feature request:
 - Share the TODO list with the user for confirmation
 
 Example interaction:
+
 ```
 User: "Implement task creation with inline shortcuts"
 
@@ -50,6 +52,7 @@ Shall I start with the first test?"
 For each TODO item, follow this cycle:
 
 #### 2.1 RED Phase - Write Failing Test
+
 ```go
 func TestTask(t *testing.T) {
     t.Run("creation with valid title should succeed", func(t *testing.T) {
@@ -68,6 +71,7 @@ func TestTask(t *testing.T) {
 ```
 
 Run and show failure:
+
 ```bash
 $ go test
 # undefined: NewTask
@@ -76,7 +80,9 @@ $ go test
 **⚠️ DO NOT COMMIT - Test is failing**
 
 #### 2.2 GREEN Phase - Make Test Pass
+
 Write minimal code:
+
 ```go
 type Task struct {
     Title string
@@ -88,6 +94,7 @@ func NewTask(title string) *Task {
 ```
 
 Run and show success:
+
 ```bash
 $ go test
 PASS
@@ -117,6 +124,7 @@ If a test doesn't pass as expected during the GREEN phase:
    - Document why the test expectation was changed
 
 **Example:**
+
 ```
 Problem: Test expects tasks in creation order, but they have same timestamp
 Solutions in order of preference:
@@ -126,12 +134,14 @@ Solutions in order of preference:
 ```
 
 #### 2.3 REFACTOR Phase - Improve Implementation
+
 - Keep tests passing
 - Remove duplication
 - Improve naming
 - Extract constants or helper functions
 
 **Self-Review Checklist - Cohesion and Coupling:**
+
 - [ ] **Cohesion**: Does each function have a single, clear responsibility?
 - [ ] **Coupling**: Are functions passing only necessary data as parameters?
 - [ ] **Magic Numbers**: Are all literals extracted as named constants?
@@ -139,6 +149,7 @@ Solutions in order of preference:
 - [ ] **Naming**: Do function names accurately describe their single responsibility?
 
 Example:
+
 ```go
 // Low cohesion: Parse does too many things
 func Parse(input string) *Result {
@@ -152,14 +163,17 @@ func extractDeadline(part string) (*time.Time, bool)
 ```
 
 #### 2.4 TEST REFACTOR Phase - Improve Test Code
+
 After implementation is clean, refactor the test:
 
 **IMPORTANT: This phase is for refactoring the CURRENT test only, not for adding new test cases!**
+
 - New test cases require starting a new RED-GREEN-REFACTOR cycle
 - Only refactor if the current test has duplication or clarity issues
 - If the test is already clean and simple, skip this phase
 
 **Look for:**
+
 - Duplicate test setup → Extract helper functions
 - Similar test patterns → Convert to table-driven tests
 - Complex assertions → Create custom assertion helpers
@@ -168,6 +182,7 @@ After implementation is clean, refactor the test:
 **Table-Driven Test Criteria:**
 
 Use table-driven tests when:
+
 - **Same function with different inputs**: Testing one function with various input patterns
 - **Clear input-output mapping**: Input → Expected output is straightforward
 - **Repeated assertion patterns**: Same checks performed across multiple tests
@@ -175,6 +190,7 @@ Use table-driven tests when:
 - **DRY principle**: Same test code repeated 3+ times
 
 Avoid table-driven tests when:
+
 - **Complex setup required**: Each test needs significantly different mocks, DB setup, etc.
 - **State sharing between tests**: Tests depend on results from previous tests (avoid this pattern anyway)
 - **Detailed error inspection**: Need to check error types, wrapped errors, or error fields in detail
@@ -182,6 +198,7 @@ Avoid table-driven tests when:
 - **Complex test flow**: Multi-step tests with branching logic that doesn't fit well in a table
 
 **Example refactoring:**
+
 ```go
 // Before: Duplicate setup in multiple tests
 func TestTask(t *testing.T) {
@@ -224,6 +241,7 @@ func TestTask(t *testing.T) {
 ```
 
 #### 2.5 COMMIT Phase - Save Clean Code
+
 After both implementation and test refactoring:
 
 **IMPORTANT: Read `.agent/guidelines/commit.md` before committing!**
@@ -237,6 +255,7 @@ $ git commit -m "feat: implement task creation with title"
 **✅ NOW IT'S SAFE TO COMMIT - Code and tests are clean**
 
 #### 2.6 Update TODO List
+
 ```
 - [x] Task can be created with just a title
 - [ ] Empty title should return an error
@@ -248,17 +267,20 @@ $ git commit -m "feat: implement task creation with title"
 **⚠️ MUST READ: `.agent/guidelines/commit.md` for commit format and rules**
 
 **When to Commit:**
+
 - After REFACTOR phase when both code and tests are clean
 - When switching context or taking a break
 - After completing a logical group of related tests
 
 **What to Include in Commit:**
+
 - Test file(s)
 - Implementation file(s)
 - Any refactoring done in both
 
 **Commit Message Format:**
 Follow the conventions in `.agent/guidelines/commit.md`. Example:
+
 ```
 feat: implement [feature name]
 
@@ -270,6 +292,7 @@ feat: implement [feature name]
 ### 4. Complete Cycle Before Moving On
 
 Only proceed to the next TODO item after:
+
 - Implementation code is clean
 - Test code is clean
 - All tests are passing
@@ -277,6 +300,7 @@ Only proceed to the next TODO item after:
 - TODO list is updated
 
 **CRITICAL: Each test case is a separate cycle!**
+
 - One test case = One complete RED-GREEN-REFACTOR-COMMIT cycle
 - Do NOT write multiple test cases in RED phase
 - Do NOT add new test cases during TEST REFACTOR phase
@@ -285,6 +309,7 @@ Only proceed to the next TODO item after:
 ### 5. Integration Tests Come Later
 
 After all unit tests pass:
+
 - Write integration tests for external dependencies
 - Use real implementations (database, file system)
 - Mark as integration tests with build tags or skip conditions
@@ -511,20 +536,22 @@ Cycle 3:
      - Example:
        ```markdown
        ## Alternatives Considered
-       
+
        ### Channel-based Concurrency
+
        Originally designed to use channels for concurrent updates.
        **Rejected because**: Implementation revealed deadlock risks
        when multiple goroutines access shared state.
-       
+
        ## Current Design
+
        Using mutex locks for thread-safe access...
        ```
    - Commit with clear message:
      ```bash
      git add docs/design/<feature>.md
      git commit -m "fix(design): change concurrency model to mutex-based
-     
+
      - Original channel design caused deadlocks
      - Mutex approach is simpler and more reliable
      - Moved original design to Alternatives Considered"

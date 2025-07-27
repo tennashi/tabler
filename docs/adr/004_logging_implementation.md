@@ -7,6 +7,7 @@ Proposed
 ## Context
 
 ADR-003 established use-case-based logging classification with six categories:
+
 1. Tracing - Track execution flow
 2. Error Tracking - Identify and resolve issues
 3. User Behavior - Analyze for UX improvements
@@ -15,6 +16,7 @@ ADR-003 established use-case-based logging classification with six categories:
 6. Business Metrics - KPIs and analytics
 
 Now we need to decide on the concrete implementation approach for each use case, considering:
+
 - Tabler is a CLI application with different needs than web services
 - Need to minimize dependencies and complexity
 - Some use cases may not be immediately relevant
@@ -46,20 +48,20 @@ Now we need to decide on the concrete implementation approach for each use case,
 
 ### Phase 2: Advanced Use Cases (Future)
 
-4. **Performance** - Not immediately needed
+1. **Performance** - Not immediately needed
    - CLI commands typically complete quickly
    - Can add later if performance issues arise
 
-5. **Security Audit** - Not immediately needed
+2. **Security Audit** - Not immediately needed
    - No multi-user access in current scope
    - No sensitive operations requiring audit
 
-6. **Business Metrics** - Not immediately needed
+3. **Business Metrics** - Not immediately needed
    - No business KPIs for personal task management
 
 ### Implementation Structure
 
-```
+```text
 internal/logging/
 ├── trace.go          # Tracing implementation
 ├── errors.go         # Error tracking
@@ -71,6 +73,7 @@ internal/logging/
 ### Common Requirements
 
 All logging modules will:
+
 - Include mandatory fields: `use_case`, `timestamp`, `trace_id`
 - Support JSON output format
 - Be controllable via environment variables
@@ -106,12 +109,12 @@ All logging modules will:
 
 Use one library (like zap or logrus) for all use cases.
 
-- **Pros**: 
+- **Pros**:
   - Single dependency
   - Consistent API
   - Well-tested code
   - Tool ecosystem
-- **Cons**: 
+- **Cons**:
   - Doesn't naturally fit use-case model
   - May include unnecessary features
   - Harder to customize per use case
@@ -121,11 +124,11 @@ Use one library (like zap or logrus) for all use cases.
 
 Use OpenTelemetry SDK for all logging needs.
 
-- **Pros**: 
+- **Pros**:
   - Industry standard
   - Covers tracing, metrics, logs
   - Rich ecosystem
-- **Cons**: 
+- **Cons**:
   - Very heavy for CLI
   - Complex configuration
   - Designed for distributed systems
@@ -136,12 +139,12 @@ Use OpenTelemetry SDK for all logging needs.
 
 Build lightweight modules for immediate needs.
 
-- **Pros**: 
+- **Pros**:
   - Start simple, grow as needed
   - Perfect fit for requirements
   - No unnecessary complexity
   - Learn from usage
-- **Cons**: 
+- **Cons**:
   - More code to maintain
   - No immediate tool support
   - Risk of inconsistency
@@ -151,11 +154,11 @@ Build lightweight modules for immediate needs.
 
 Use different libraries for different use cases.
 
-- **Pros**: 
+- **Pros**:
   - Best tool for each job
   - Leverage existing work
   - Feature-rich options
-- **Cons**: 
+- **Cons**:
   - Multiple dependencies
   - Inconsistent APIs
   - Complex dependency management

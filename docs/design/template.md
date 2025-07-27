@@ -1,6 +1,6 @@
 # Design Doc: [Feature Name]
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -46,10 +46,12 @@ DETAIL LEVEL GUIDANCE:
 **Purpose**: [One sentence description]
 
 **Responsibilities**:
+
 - [What this component is responsible for]
 - [Keep at conceptual level]
 
 **Interface**:
+
 - Input: [What data/requests it receives]
 - Output: [What data/responses it provides]
 - [No code signatures - describe conceptually]
@@ -57,6 +59,7 @@ DETAIL LEVEL GUIDANCE:
 ### Data Model
 
 <!-- Show logical data model, not physical implementation -->
+
 [Describe entities, relationships, and key fields]
 [Use simple diagrams or bullet points]
 [Avoid SQL DDL unless critical to design]
@@ -64,6 +67,7 @@ DETAIL LEVEL GUIDANCE:
 ### API Design
 
 <!-- Describe API behavior and contracts, not exact schemas -->
+
 [Describe operations available]
 [Show example interactions]
 [Focus on behavior, not exact field names]
@@ -77,6 +81,7 @@ DETAIL LEVEL GUIDANCE:
 Define which use cases apply to this feature and what specific data to log:
 
 **Applicable Use Cases**:
+
 - [ ] Tracing - Execution flow and timing
 - [ ] Error Tracking - Problem identification and diagnosis
 - [ ] User Behavior - UX improvement insights
@@ -85,7 +90,8 @@ Define which use cases apply to this feature and what specific data to log:
 - [ ] Business Metrics - KPIs and analytics
 
 **Implementation Details**:
-```
+
+```text
 [For each selected use case, specify:]
 - What specific events/data to log
 - Required fields beyond standard (use_case, timestamp, trace_id)

@@ -1,6 +1,6 @@
 # Design Doc: Task Management Commands
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -11,13 +11,15 @@ DETAIL LEVEL GUIDANCE:
 
 ## Overview
 
-This feature completes the basic CRUD operations by adding commands to show task details, update tasks, and delete tasks. These commands provide full task lifecycle management beyond just creation and listing.
+This feature completes the basic CRUD operations by adding commands to show task details, update tasks, and
+delete tasks. These commands provide full task lifecycle management beyond just creation and listing.
 
 ## Background
 
 [Link to PRD: ../prd/smart_task_creation.md](../prd/smart_task_creation.md)
 
-After implementing task creation with shortcuts, users need ways to view full details, modify existing tasks, and remove completed or unwanted tasks. This completes the foundation for task management.
+After implementing task creation with shortcuts, users need ways to view full details, modify existing tasks,
+and remove completed or unwanted tasks. This completes the foundation for task management.
 
 ## Goals
 
@@ -40,7 +42,7 @@ After implementing task creation with shortcuts, users need ways to view full de
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
 │ Command Input   │────▶│  Operation   │────▶│ Persistence │
 │ (show/up/del)   │     │  Handler     │     │    Layer    │
@@ -51,7 +53,7 @@ After implementing task creation with shortcuts, users need ways to view full de
                         │   Parser     │
                         │ (for update) │
                         └──────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -62,12 +64,14 @@ After implementing task creation with shortcuts, users need ways to view full de
 **Purpose**: Display complete task information
 
 **Responsibilities**:
+
 - Retrieve task by identifier
 - Gather all associated metadata
 - Format for human readability
 - Handle non-existent tasks
 
 **Interface**:
+
 - Input: Task identifier
 - Output: Formatted task details or not found
 
@@ -76,6 +80,7 @@ After implementing task creation with shortcuts, users need ways to view full de
 **Purpose**: Modify existing task content
 
 **Responsibilities**:
+
 - Validate task exists
 - Parse new content with shortcuts
 - Replace task data completely
@@ -83,6 +88,7 @@ After implementing task creation with shortcuts, users need ways to view full de
 - Track modification time
 
 **Interface**:
+
 - Input: Task identifier and new content
 - Output: Success confirmation or error
 
@@ -91,6 +97,7 @@ After implementing task creation with shortcuts, users need ways to view full de
 **Purpose**: Remove tasks permanently
 
 **Responsibilities**:
+
 - Verify task exists
 - Request user confirmation
 - Remove task and relationships
@@ -98,6 +105,7 @@ After implementing task creation with shortcuts, users need ways to view full de
 - Report successful deletion
 
 **Interface**:
+
 - Input: Task identifier
 - Output: Confirmation prompt, then result
 
@@ -106,12 +114,14 @@ After implementing task creation with shortcuts, users need ways to view full de
 **Purpose**: Protect against accidental deletions
 
 **Responsibilities**:
+
 - Display task summary before deletion
 - Request explicit confirmation
 - Default to safe choice (no)
 - Handle user response
 
 **Interface**:
+
 - Input: Task to be deleted
 - Output: User's confirmation decision
 
@@ -120,11 +130,13 @@ After implementing task creation with shortcuts, users need ways to view full de
 <!-- Show logical data model, not physical implementation -->
 
 **Task Tracking Updates**:
+
 - Add modification timestamp
 - Preserve creation timestamp
 - Track last update time
 
 **Data Integrity**:
+
 - Cascading deletion of related data
 - No partial updates allowed
 - Atomic operations required
@@ -151,7 +163,8 @@ After implementing task creation with shortcuts, users need ways to view full de
    - Output: Deletion confirmation
 
 **Show Format Example**:
-```
+
+```text
 ID: abc123
 Task: Fix login bug
 Status: Pending
@@ -160,18 +173,20 @@ Priority: High
 Deadline: Tomorrow (Jan 16, 2024)
 Created: Jan 15, 2024 10:30 AM
 Modified: Jan 15, 2024 2:45 PM
-```
+```text
 
 **Update Behavior**:
+
 - Complete content replacement
 - All shortcuts re-parsed
 - Creation time preserved
 - Modification time updated
 
 **Delete Flow**:
-```
+
+```text
 Delete task "Fix login bug"? (y/N): _
-```
+```text
 
 ### Error Handling
 
@@ -183,6 +198,7 @@ Delete task "Fix login bug"? (y/N): _
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] User Behavior - Command usage patterns
 - [x] Error Tracking - Failed operations
 - [ ] Tracing - Not needed
@@ -191,7 +207,8 @@ Delete task "Fix login bug"? (y/N): _
 - [ ] Business Metrics - Covered by user behavior
 
 **Implementation Details**:
-```
+
+```text
 User Behavior:
 - Events: command_executed
 - Fields: command_type, success_status
@@ -206,9 +223,10 @@ Security Audit:
 - Events: task_deleted
 - Fields: timestamp, confirmed
 - Retention: 180 days
-```
+```text
 
 **Privacy Considerations**:
+
 - No task content in logs
 - Only operation metadata tracked
 
@@ -239,16 +257,20 @@ Security Audit:
 
 Allow updating specific fields only.
 
-**Why not chosen**: Complex interface, inconsistent with shortcut parsing approach, minimal benefit for command-line usage.
+**Why not chosen**: Complex interface, inconsistent with shortcut parsing approach, minimal benefit for
+command-line usage.
 
 ### Alternative 2: Versioned Tasks
 
 Keep history of all changes.
 
-**Why not chosen**: Adds storage complexity, requires version management commands, exceeds requirements for simple task manager.
+**Why not chosen**: Adds storage complexity, requires version management commands, exceeds requirements for
+simple task manager.
 
 ### Alternative 3: Trash/Archive System
 
 Move deleted tasks to recoverable storage.
 
-**Why not chosen**: Adds state complexity, requires additional commands, users expect permanent deletion in simple tools.
+**Why not chosen**: Adds state complexity, requires additional commands, users expect permanent deletion in
+simple tools.
+````
