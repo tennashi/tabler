@@ -6,8 +6,6 @@ This document describes the step-by-step process for making commits.
 
 ### 1.1 Task Analysis & Commit Planning
 
-**Quickly analyze the task and plan commits:**
-
 1. **What needs to be done?**
    - Parse user request → identify subtasks
    - Check existing code if modifying (use grep/find as needed)
@@ -20,14 +18,24 @@ This document describes the step-by-step process for making commits.
    | Refactoring | `refactor` | refactor(utils): extract validation |
    | Other | `docs`/`test`/`style`/`build`/`ci` | docs(readme): update API section |
 
-2. **Plan commit(s) now:**
+2. **Plan commit(s) and branch name:**
+   
+   **First, check commit message guidelines:**
+   - See `guidelines/commit.md` for format and conventions
+   - Follow Conventional Commits format: `<type>(<scope>): <subject>`
+   
    ```
+   Branch: feat/date-filter
+   
    Single commit: feat(search): add date filter
    
+   OR
+   
+   Branch: feat/oauth-login
    Multiple commits:
-   1. build(deps): add date-fns library
-   2. feat(search): implement date filter logic
-   3. test(search): add date filter tests
+   1. build(deps): add OAuth2 library
+   2. feat(auth): implement OAuth2 provider
+   3. test(auth): add OAuth2 tests
    ```
 
 ### 1.2 Branch Strategy
@@ -55,7 +63,7 @@ git status
 
 ### 2.1 Creating a New Branch
 
-When the planning phase determines a new branch is needed:
+When planning determines a new branch is needed:
 
 ```bash
 # 1. Save any uncommitted work
@@ -66,269 +74,106 @@ git checkout main
 git pull origin main
 
 # 3. Create and switch to new branch from latest main
-git checkout -b <descriptive-branch-name>
+git checkout -b <branch-name-from-phase-1>
 
 # 4. Restore your work if needed
 git stash pop
 ```
 
-### 2.2 Branch Naming Conventions
 
-Choose names that reflect the purpose from Phase 1:
+## Phase 3: Commit Execution (role: maintainer)
 
-```bash
-# Task/Issue based (preferred)
-git checkout -b issue-123-user-authentication
-git checkout -b task/add-payment-processing
+**Loop through each commit planned in Phase 1:**
 
-# Type-based with description
-git checkout -b feat/user-profile-page
-git checkout -b fix/memory-leak-in-parser
-git checkout -b refactor/payment-service
+### For each planned commit:
 
-# Personal work branches
-git checkout -b yourname/experiment-with-new-api
-```
+#### Step 1: Stage files for current commit
 
-## Phase 3: Implementation (role: builder)
-
-Execute the changes according to the purpose defined in Phase 1.
-
-## Phase 4: Pre-Commit Quality Checks (role: maintainer)
-
-**MANDATORY before every commit:**
-
-1. **Run quality checks**
-
-   Run the project's quality check command. This typically includes:
-   - All tests pass
-   - Code is properly formatted
-   - Linting rules are satisfied
-   - Type checking passes (if applicable)
-
-   Check the project's README or build configuration for the specific command.
-
-2. **Review changes**
+1. **First, stage whole files that match the commit purpose**
    ```bash
    git status
    git diff
+   
+   # Stage files where ALL changes belong to current commit
+   git add <file1> <file2>  # Files fully dedicated to this commit
    ```
 
-3. **Stage changes atomically**
-   - Stage related changes together
-   - Keep unrelated changes for separate commits
+2. **Then, handle mixed files using patch method**
+   ```bash
+   # If files contain mixed changes:
+   git stash --keep-index  # Keep already staged files
+   git stash show -p stash@{0} > changes.patch
+   # Edit changes.patch to keep only parts for current commit
+   git apply changes.patch
+   git add <mixed-files>
+   git stash pop  # May cause conflicts - resolve if needed
+   ```
 
-4. **Finalize commit message**
-   - Use the pre-drafted title from Phase 1, Step 5
-   - Add detailed body if needed (for complex changes)
-   - See `guidelines/commit.md` for format rules
+#### Step 2: Quality check staged changes
+```bash
+# Isolate staged changes
+git stash --keep-index
 
-## Phase 5: Commit Execution (role: maintainer)
+# Run tests/linting/formatting on staged changes only
+# (Use project-specific commands)
+
+# If checks fail:
+git reset          # Unstage
+git stash pop      # Restore all changes
+# Fix issues and return to Step 1
+```
+
+#### Step 3: Create commit
+```bash
+# If checks pass, commit with planned message
+git commit -m "<message from Phase 1>"
+
+# Restore unstaged changes for next commit
+git stash pop
+```
+
+#### Step 4: Continue to next planned commit
+Repeat Steps 1-3 for each commit in your Phase 1 plan.
 
 ### Commit Order Strategy
 
 When making multiple commits, follow this order:
 
-1. **Infrastructure first**
-   - Tool installations
-   - Build configurations
-   - CI/CD changes
+1. **Infrastructure first** (tools, build configs, CI/CD)
+2. **Dependencies next** (libraries, configs)
+3. **Implementation** (features, tests, docs)
+4. **Fixes last** (linting, test failures)
 
-2. **Dependencies next**
-   - Library additions
-   - Configuration files
-   - Environment setup
+## Phase 4: Post-Commit Actions (role: maintainer)
 
-3. **Implementation**
-   - Core functionality
-   - Tests
-   - Documentation
-
-4. **Fixes last**
-   - Issues found by new tools
-   - Test failures
-   - Linting errors
-
-### Example Sequence
-
-**Note**: Use the commit titles you pre-planned in Phase 1, Step 5.
-
-```bash
-# 1. Install new tool
-mise use <tool>@latest
-git add .mise.toml
-git commit -m "build: add <tool> for <purpose>"
-
-# 2. Add tool configuration
-git add <tool-config-file>
-git commit -m "build(<tool>): configure <specific settings>"
-
-# 3. Integrate tool with build system
-git add <build-config-file>
-git commit -m "build: integrate <tool> into build process"
-
-# 4. Fix issues found
-git add <fixed-files>
-git commit -m "fix: resolve <tool> warnings"
-```
-
-## Handling Mixed Changes (role: maintainer)
-
-### When files contain multiple unrelated changes
-
-Since AI agents cannot use interactive staging (`git add -p`), use the stash-based approach:
-
-#### Step 1: Stage files with single-purpose changes
-
-```bash
-# First, stage files that contain only changes for current purpose
-git add <file-with-single-purpose>
-```
-
-#### Step 2: Handle mixed files using stash
-
-For files containing mixed changes:
-
-```bash
-# 1. Temporarily save ALL changes
-git stash
-
-# 2. Restore only the stashed file you need
-git checkout stash@{0} -- <mixed-file>
-
-# 3. Manually edit the file to keep only relevant changes
-# Remove unrelated changes from the file
-
-# 4. Stage the cleaned file
-git add <mixed-file>
-
-# 5. Restore remaining unstaged changes
-git stash pop
-# Resolve any conflicts if they occur
-```
-
-### Verifying staged changes work independently
-
-**Important**: Ensure staged changes can stand alone:
-
-```bash
-# 1. Stash unstaged changes (keep staged changes)
-git stash --keep-index
-
-# 2. Run tests on staged changes only
-# Use the project's test/check command
-# Build should pass with only staged changes
-
-# 3. If tests pass, commit
-git commit -m "type: description"
-
-# 4. Restore unstaged changes
-git stash pop
-```
-
-### Example: Separating formatting from features
-
-When formatting and feature changes are mixed:
-
-```bash
-# 1. Stash all changes
-git stash
-
-# 2. Apply and edit for formatting only
-git stash show -p > all-changes.patch
-# Manually edit all-changes.patch to keep only formatting
-git apply all-changes.patch
-git add <files>
-git commit -m "style: format code"
-
-# 3. Restore and handle feature changes
-git stash pop
-git add <feature-files>
-git commit -m "feat: add new functionality"
-```
-
-## Common Scenarios (role: maintainer)
-
-**Remember**: Use the commit messages you drafted in Phase 1, Step 5. The examples below show the format, but your actual messages should come from your planning phase.
-
-### Single Feature Implementation
-
-```bash
-# 1. Check current state
-git status
-
-# 2. Run project's quality checks
-# (tests, lint, format, etc.)
-
-# 3. Stage all related changes
-git add <feature-files>
-
-# 4. Commit with descriptive message
-git commit -m "feat: implement <feature>"
-```
-
-### Bug Fix with Tests
-
-```bash
-# 1. Fix the bug and add test
-# 2. Run project's test suite
-
-# 3. Commit test first (showing the bug exists)
-git add <test-file>
-git commit -m "test: add test for <bug description>"
-
-# 4. Commit the fix
-git add <fix-files>
-git commit -m "fix: <bug description>"
-```
-
-### Refactoring
-
-```bash
-# 1. Make refactoring changes
-# 2. Ensure tests still pass
-# Run project's test suite
-
-# 3. Commit with clear scope
-git add <refactored-files>
-git commit -m "refactor(<scope>): <what was refactored>"
-```
-
-## Phase 6: Post-Commit Actions (role: maintainer)
-
-### After committing changes on a feature branch:
+### Creating a Pull Request
 
 1. **Ask about PR creation**
    - "Would you like to create a pull request now?"
-   - If **no** → End workflow (changes remain local)
-   - If **yes** → Continue to step 2
+   - If no → End workflow
 
-2. **Create PR using gh CLI**
+2. **If yes, push changes to remote**
    ```bash
-   # Create PR with --head flag (automatically pushes)
-   gh pr create \
-     --head $(git branch --show-current) \
-     --title "Brief description of changes" \
-     --body "## What
-   - Summary of changes
-
-   ## Why  
-   - Reason for changes
-
-   ## Testing
-   - How to test"
+   git push -u origin $(git branch --show-current)
    ```
 
-3. **Share PR link**
-   - Copy and share the PR URL that gh returns
+3. **Create PR using gh CLI**
+   ```bash
+   gh pr create \
+     --title "<summarize the changes>" \
+     --body "## Changes
+   <list commits from Phase 1>
+   
+   ## Why
+   <main reason for these changes>
+   
+   ## Testing
+   <how to verify these changes work>"
+   ```
+
+4. **Share PR link**
+   - Copy the URL that gh returns
    - The PR is now ready for review
-
-### Note about gh pr create
-
-- Always use `--head $(git branch --show-current)` flag
-- This automatically pushes unpushed commits
-- In non-interactive mode, `--title` and `--body` are required
-- No need to manually push before creating PR
 
 ## References
 
