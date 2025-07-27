@@ -65,7 +65,8 @@ C. Hybrid approach - IndexedDB + sync
 
 Let's evaluate trade-offs..."
 
-````
+```text
+
 3. **Document the decision**
 - Use the project's ADR template
 - Include context, options, decision, consequences

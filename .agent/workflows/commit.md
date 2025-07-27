@@ -4,7 +4,7 @@ This document describes the step-by-step process for making commits.
 
 ## Branch Decision Criteria
 
-**FIRST RULE: Check current branch**
+### First Rule: Check Current Branch
 
 ````bash
 # Check what branch you're on
@@ -90,11 +90,11 @@ git checkout -b yourname/experiment-with-new-api
    git diff
 ````
 
-4. **Stage changes atomically**
+1. **Stage changes atomically**
    - Stage related changes together
    - Keep unrelated changes for separate commits
 
-5. **Write commit message following conventions**
+2. **Write commit message following conventions**
    - Use the purpose from step 1 to craft a clear message
    - See `guidelines/commit.md` for format rules
 
@@ -288,7 +288,7 @@ git commit -m "refactor(<scope>): <what was refactored>"
    - How to test"
 ````
 
-3. **Share PR link**
+1. **Share PR link**
    - Copy and share the PR URL that gh returns
    - The PR is now ready for review
 

@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document defines logging conventions based on use cases. Logs are classified solely by their intended use, without traditional log levels. When implementing logging in design documents, specify which use cases apply and how logs will be structured for those specific purposes.
+This document defines logging conventions based on use cases. Logs are classified solely by their intended use,
+without traditional log levels. When implementing logging in design documents, specify which use cases apply and how
+logs will be structured for those specific purposes.
 
 ## Logging Use Cases and What to Record
 

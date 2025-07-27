@@ -503,7 +503,8 @@ Cycle 3:
    }
 ````
 
-2. **Order-independent assertions**
+1. **Order-independent assertions**
+
    ```go
    // Don't rely on order, verify by ID or content
    tasksByID := make(map[string]*Task)
@@ -513,7 +514,8 @@ Cycle 3:
    // Assert using the map
    ```
 
-3. **Use interfaces for time providers**
+2. **Use interfaces for time providers**
+
    ```go
    type TimeProvider interface {
        Now() time.Time
@@ -534,6 +536,7 @@ Cycle 3:
      - Document why it didn't work during implementation
      - Update main sections with new approach
      - Example:
+
        ```markdown
        ## Alternatives Considered
 
@@ -547,7 +550,9 @@ Cycle 3:
 
        Using mutex locks for thread-safe access...
        ```
+
    - Commit with clear message:
+
      ```bash
      git add docs/design/<feature>.md
      git commit -m "fix(design): change concurrency model to mutex-based

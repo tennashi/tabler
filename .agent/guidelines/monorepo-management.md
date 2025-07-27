@@ -96,16 +96,19 @@ moon run <task> --no-cache
 ### Common Issues
 
 1. **Task not found**
+
    ```bash
    moon query tasks | grep <partial-name>
-````
+   ````
 
 2. **Dependency conflicts**
+
    ```bash
    moon query projects --affected
    ```
 
 3. **Cache issues**
+
    ```bash
    moon clean && moon run <task>
    ```
