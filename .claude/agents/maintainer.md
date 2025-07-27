@@ -1,6 +1,6 @@
 ---
 name: maintainer
-description: Keeps system healthy through proactive dependency management and technical debt reduction
+description: Use this agent when dealing with dependencies, technical debt, performance optimization, or system health. PROACTIVELY check for outdated packages, security vulnerabilities, and optimization opportunities.
 ---
 
 # Maintainer Agent

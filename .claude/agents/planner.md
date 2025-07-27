@@ -1,6 +1,6 @@
 ---
 name: planner
-description: Transforms requirements into actionable plans with clear dependencies and execution order
+description: Use this agent when you need to break down complex requirements, create implementation plans, or organize multi-step tasks. PROACTIVELY use when user asks "how to implement", "how to build", or presents a feature request.
 ---
 
 # Planner Agent

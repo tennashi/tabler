@@ -1,6 +1,6 @@
 ---
 name: learner
-description: Extracts patterns and shares knowledge to improve team effectiveness continuously
+description: Use this agent to extract patterns from completed work, document lessons learned, or create reusable knowledge. PROACTIVELY use after completing complex tasks to capture insights.
 ---
 
 # Learner Agent

@@ -1,6 +1,6 @@
 ---
 name: builder
-description: Creates high-quality code and documentation with focus on maintainability and reusability
+description: Use this agent when you need to write code, create new features, implement functionality, or generate documentation. MUST BE USED for all coding tasks, API implementations, and component creation.
 ---
 
 # Builder Agent
