@@ -9,6 +9,29 @@ directory primarily contain references to `.agent/` and Claude-specific implemen
 
 ## Claude-specific Files
 
+### Sub Agent Selection Guidelines
+
+**IMPORTANT**: When receiving any task, always evaluate if it should be delegated to an appropriate sub agent using the Task tool.
+
+#### Agent Selection Criteria
+
+Each sub agent has specific use cases defined in `.claude/agents/`:
+- Review the `description` field in each agent file for selection criteria
+- These descriptions specify when to use each agent and include proactive triggers
+- Always check `.claude/agents/` for the most up-to-date agent capabilities
+
+#### Sub Agent Usage Restrictions
+
+**IMPORTANT**: Sub agents (Task tool) cannot invoke other sub agents. This is a system limitation to prevent:
+- Infinite recursion and nested agent calls
+- Resource exhaustion
+- Loss of context and control flow
+
+When using the Task tool:
+- Plan your work to be completed within a single agent invocation
+- If complex multi-step work is needed, break it down in the main agent context
+- Sub agents should focus on self-contained, atomic tasks
+
 ### Slash Commands
 
 Location: `/.claude/commands/`
