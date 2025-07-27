@@ -2,6 +2,7 @@ package metadata_test
 
 import (
 	"context"
+	"os/exec"
 	"testing"
 	"time"
 
@@ -31,6 +32,11 @@ func TestClaudeClient(t *testing.T) {
 	})
 
 	t.Run("handles subprocess timeout", func(t *testing.T) {
+		// Skip test if claude command is not available
+		if _, err := exec.LookPath("claude"); err != nil {
+			t.Skip("claude command not found in PATH")
+		}
+
 		// Arrange
 		client := metadata.NewClaudeClient()
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
