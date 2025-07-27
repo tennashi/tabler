@@ -65,8 +65,7 @@ C. Hybrid approach - IndexedDB + sync
 
 Let's evaluate trade-offs..."
 
-```text
-
+````text
 3. **Document the decision**
 - Use the project's ADR template
 - Include context, options, decision, consequences
@@ -347,13 +346,13 @@ During technical design, you may discover that PRD requirements need adjustment:
   - Reason: WebSocket requires new infrastructure (3x complexity)
   - Polling meets user needs with existing architecture
   - Design doc identified this during technical assessment"
-  ```
+````
 
 1. **Continue design with updated requirements**
 
 ### Example Flow
 
-```text
+````text
 "During technical design, I discovered that the real-time sync requirement 
 would require WebSocket infrastructure, increasing complexity by 3x.
 

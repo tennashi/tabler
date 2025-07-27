@@ -99,7 +99,7 @@ moon run <task> --no-cache
 
    ```bash
    moon query tasks | grep <partial-name>
-   ````
+````
 
 1. **Dependency conflicts**
 
