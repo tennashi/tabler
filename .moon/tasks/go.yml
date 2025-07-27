@@ -15,7 +15,7 @@ tasks:
   # Testing with coverage
   test-coverage:
     command: go
-    args: 
+    args:
       - "test"
       - "-coverprofile=dist/coverage.out"
       - "-covermode=count"
@@ -40,6 +40,12 @@ tasks:
   format:
     command: gofumpt
     args: "-w ."
+    inputs:
+      - "**/*.go"
+
+  format-check:
+    command: gofumpt
+    args: "-d ."
     inputs:
       - "**/*.go"
 
@@ -90,10 +96,3 @@ tasks:
       - "${projectName}"
       - "coverage.out"
       - "coverage.html"
-
-  # Quality check (code quality checks only)
-  check:
-    deps:
-      - format
-      - lint
-      - test
