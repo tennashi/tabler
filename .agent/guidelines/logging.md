@@ -22,7 +22,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 
 **Example**:
 
-```json
+````json
 {
   "use_case": "tracing",
   "trace_id": "abc-123-def",
@@ -34,7 +34,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "status": "success",
   "input_summary": "task creation request"
 }
-```
+```text
 
 ### 2. Error Tracking
 
@@ -61,7 +61,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "user_input": "remind me yesterday",
   "suggestion": "Date must be in the future"
 }
-```
+```text
 
 ### 3. User Behavior
 
@@ -87,7 +87,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "time_to_complete_ms": 200,
   "features_used": ["reminder", "due_date"]
 }
-```
+```text
 
 ### 4. Performance Monitoring
 
@@ -114,7 +114,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "result_count": 42,
   "memory_used_mb": 45
 }
-```
+```text
 
 ### 5. Security Audit
 
@@ -140,7 +140,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "exported_records": 1500,
   "timestamp": "2024-01-20T10:30:45Z"
 }
-```
+```text
 
 ### 6. Business Metrics
 
@@ -165,7 +165,7 @@ This document defines logging conventions based on use cases. Logs are classifie
   "user_segment": "enterprise",
   "action": "first_use"
 }
-```
+```text
 
 ## Implementation Guidelines
 
@@ -203,7 +203,7 @@ This feature implements logging for:
 - Operations taking >100ms
 - Resource usage for memory-intensive operations
 - Retention: 7 days
-```
+```text
 
 ## Use Case Selection Guide
 
@@ -241,7 +241,7 @@ All use cases should include `trace_id` to enable cross-use-case correlation:
 ```bash
 # Find all logs for a specific request
 jq 'select(.trace_id == "abc-123-def")' logs.json | jq -s 'sort_by(.timestamp)'
-```
+```text
 
 ### Development vs Production
 
@@ -257,7 +257,7 @@ In development environments, tracing logs may include additional debug informati
     "parser_state": {...}
   }
 }
-```
+```text
 
 ### Sampling Strategies
 
@@ -270,7 +270,7 @@ For high-volume use cases:
   "sample_rate": 0.1,  // 10% sampling
   ...
 }
-```
+```text
 
 ## Testing Requirements
 
@@ -280,3 +280,4 @@ For high-volume use cases:
 4. Validate no sensitive data exposed
 5. Test correlation across use cases
 6. Verify sampling works correctly
+````

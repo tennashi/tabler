@@ -27,7 +27,7 @@ When given a feature request:
 
 Example interaction:
 
-```
+````text
 User: "Implement task creation with inline shortcuts"
 
 AI Agent: "I'll break this down into testable behaviors:
@@ -45,7 +45,7 @@ Implementation approach: Bottom-up with early integration
 - Prioritize end-to-end functionality over isolated perfection
 
 Shall I start with the first test?"
-```
+```text
 
 ### 2. TDD Cycle for Each TODO Item
 
@@ -68,14 +68,14 @@ func TestTask(t *testing.T) {
         }
     })
 }
-```
+```text
 
 Run and show failure:
 
 ```bash
 $ go test
 # undefined: NewTask
-```
+```text
 
 **⚠️ DO NOT COMMIT - Test is failing**
 
@@ -91,14 +91,14 @@ type Task struct {
 func NewTask(title string) *Task {
     return &Task{Title: title}
 }
-```
+```text
 
 Run and show success:
 
 ```bash
 $ go test
 PASS
-```
+```text
 
 **⚠️ DO NOT COMMIT YET - Code may need refactoring**
 
@@ -125,13 +125,13 @@ If a test doesn't pass as expected during the GREEN phase:
 
 **Example:**
 
-```
+```text
 Problem: Test expects tasks in creation order, but they have same timestamp
 Solutions in order of preference:
 1. ✅ Add "ORDER BY created_at DESC, id DESC" for stable ordering
 2. ✅ Consider if order matters for the feature
 3. ❌ Change test to ignore order (only if order truly doesn't matter)
-```
+```text
 
 #### 2.3 REFACTOR Phase - Improve Implementation
 
@@ -160,7 +160,7 @@ func Parse(input string) *Result {
 func extractTag(part string) (string, bool)
 func extractPriority(part string) (int, bool)
 func extractDeadline(part string) (*time.Time, bool)
-```
+```text
 
 #### 2.4 TEST REFACTOR Phase - Improve Test Code
 
@@ -238,7 +238,7 @@ func TestTask(t *testing.T) {
         }
     })
 }
-```
+```text
 
 #### 2.5 COMMIT Phase - Save Clean Code
 
@@ -250,17 +250,17 @@ After both implementation and test refactoring:
 $ go test  # Ensure all tests pass
 $ git add .
 $ git commit -m "feat: implement task creation with title"
-```
+```text
 
 **✅ NOW IT'S SAFE TO COMMIT - Code and tests are clean**
 
 #### 2.6 Update TODO List
 
-```
+```text
 - [x] Task can be created with just a title
 - [ ] Empty title should return an error
 ...
-```
+```text
 
 ### 3. Commit Guidelines
 
@@ -281,13 +281,13 @@ $ git commit -m "feat: implement task creation with title"
 **Commit Message Format:**
 Follow the conventions in `.agent/guidelines/commit.md`. Example:
 
-```
+```text
 feat: implement [feature name]
 
 - Add test for [behavior]
 - Implement [what was implemented]
 - Refactor [what was refactored] (if applicable)
-```
+```text
 
 ### 4. Complete Cycle Before Moving On
 
@@ -336,7 +336,7 @@ func TestTask(t *testing.T) {
         })
     })
 }
-```
+```text
 
 ### AAA Pattern
 
@@ -360,7 +360,7 @@ t.Run("with valid input should return task", func(t *testing.T) {
         t.Errorf("expected title %q, got %q", "Buy milk", task.Title)
     }
 })
-```
+```text
 
 ### Test Helpers
 
@@ -384,21 +384,21 @@ func assertTaskTitle(t *testing.T, task *Task, expected string) {
         t.Errorf("expected title %q, got %q", expected, task.Title)
     }
 }
-```
+```text
 
 ## Communication with User
 
 ### Before Starting
 
-```
+```text
 "I'll implement this using TDD. Here's my plan:
 [TODO list]
 I'll start with the first test. OK?"
-```
+```text
 
 ### During Development
 
-```
+```text
 "RED phase: Writing failing test...
 [Show test code]
 [Show test failure]
@@ -415,17 +415,17 @@ TEST REFACTOR phase: Improving test code...
 
 Ready to commit. All tests passing.
 Moving to next test..."
-```
+```text
 
 ### When Finding Test Improvements
 
-```
+```text
 "I notice these tests have similar setup. 
 Would you like me to:
 1. Extract a helper function?
 2. Convert to table-driven tests?
 3. Keep as is for now?"
-```
+```text
 
 ## Best Practices for AI Agents
 
@@ -451,17 +451,17 @@ Would you like me to:
 
 ### Example of WRONG Approach
 
-```
+```text
 ❌ WRONG: Adding multiple test cases during TEST REFACTOR phase
 - Write test for "valid task"
 - Make it pass
 - Refactor implementation
 - TEST REFACTOR: Convert to table-driven test AND add 5 new test cases
-```
+```text
 
 ### Example of CORRECT Approach
 
-```
+```text
 ✅ CORRECT: One test case per cycle
 Cycle 1:
 - RED: Write test for "valid task"
@@ -481,7 +481,7 @@ Cycle 3:
 - REFACTOR: Clean up implementation
 - TEST REFACTOR: Now that we have 3 similar tests, refactor to table-driven
 - COMMIT
-```
+```text
 
 ## Test Time Dependencies
 
@@ -501,7 +501,7 @@ Cycle 3:
    task2 := &task.Task{
        CreatedAt: time.Date(2024, 1, 1, 11, 0, 0, 0, time.UTC),
    }
-   ```
+````
 
 2. **Order-independent assertions**
    ```go
@@ -582,7 +582,7 @@ Cycle 3:
 
 ### Example Implementation Flow
 
-```
+````text
 "During implementation, I discovered the design's approach to handling 
 concurrent updates could cause race conditions.
 
@@ -591,8 +591,9 @@ I'll update the design doc to use mutex locks instead of channels."
 [After confirmation]
 "I've updated the Design Doc v1.1 with the mutex approach and committed.
 Continuing implementation with the updated design..."
-```
+```text
 
 ## Remember
 
 Clean tests are as important as clean code. They serve as living documentation and make future changes easier. Only commit when both are clean.
+````

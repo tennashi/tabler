@@ -12,7 +12,7 @@ This project uses **moon** as the build system and task runner.
 
 **Always use moon for running tasks:**
 
-```bash
+````bash
 # List all available tasks
 moon query tasks
 
@@ -21,7 +21,7 @@ moon run check    # Runs all quality checks before commit
 
 # Run specific tasks
 moon run <task-name>
-```
+```text
 
 **Important**:
 
@@ -42,3 +42,4 @@ Moon handles task dependencies automatically. When you run a task, moon will:
 - Execute dependent tasks first
 - Cache results for efficiency
 - Run tasks in parallel when possible
+````

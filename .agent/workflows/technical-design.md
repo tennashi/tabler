@@ -30,13 +30,13 @@ When receiving a PRD, engage in systematic technical design to ensure robust imp
 
 Example:
 
-```
+````text
 "Based on the PRD analysis, I've identified:
 - Technical challenges: Real-time sync, offline support
 - Architecture impacts: Need local storage strategy
 - ADR required: Yes - for offline data sync approach
 - Existing ADR conflicts: ADR-003 assumes cloud-only"
-```
+```text
 
 ## Phase 2: Architecture Decisions (When Needed)
 
@@ -56,18 +56,19 @@ Not every feature needs an ADR. Create one when:
    - Who will be affected?
 
 2. **Research and present options**
-   ```
-   "For offline storage, I see three options:
-   A. IndexedDB - Good capacity, browser-only
-   B. Local SQLite - Full SQL, needs native app
-   C. Hybrid approach - IndexedDB + sync
+````
 
-   Let's evaluate trade-offs..."
-   ```
+"For offline storage, I see three options:
+A. IndexedDB - Good capacity, browser-only
+B. Local SQLite - Full SQL, needs native app
+C. Hybrid approach - IndexedDB + sync
 
+Let's evaluate trade-offs..."
+
+````
 3. **Document the decision**
-   - Use the project's ADR template
-   - Include context, options, decision, consequences
+- Use the project's ADR template
+- Include context, options, decision, consequences
 
 ## Phase 3: Technical Design Documentation
 
@@ -89,28 +90,28 @@ If your design generates more than 10 tasks, split it into multiple phases.
 Always split Design Docs by complete vertical features that deliver user value:
 
 1. **Vertical feature slicing (REQUIRED)**
-   - Each Design Doc implements one complete user-facing feature
-   - Includes all layers: UI → Service → Storage
-   - Delivers working functionality end-to-end
-   - Example: "Basic task creation" includes parser, storage, service, and CLI
+- Each Design Doc implements one complete user-facing feature
+- Includes all layers: UI → Service → Storage
+- Delivers working functionality end-to-end
+- Example: "Basic task creation" includes parser, storage, service, and CLI
 
 2. **Avoid horizontal slicing**
-   - ❌ DON'T: Separate docs for "database layer" vs "service layer"
-   - ❌ DON'T: Split by technical components
-   - ✅ DO: Each doc delivers a complete feature
+- ❌ DON'T: Separate docs for "database layer" vs "service layer"
+- ❌ DON'T: Split by technical components
+- ✅ DO: Each doc delivers a complete feature
 
 3. **When vertical slice is too large (>10 tasks)**
-   - Split into core feature + enhancements
-   - Each enhancement is still a vertical slice
-   - Example for task creation:
-     - Doc 1: Basic task creation (title only)
-     - Doc 2: Task creation with shortcuts (tags, priority, deadline)
-     - Doc 3: Task creation with AI assistance
-   - Each delivers complete functionality at its level
+- Split into core feature + enhancements
+- Each enhancement is still a vertical slice
+- Example for task creation:
+  - Doc 1: Basic task creation (title only)
+  - Doc 2: Task creation with shortcuts (tags, priority, deadline)
+  - Doc 3: Task creation with AI assistance
+- Each delivers complete functionality at its level
 
 **Example split for Smart Task Creation:**
 
-```
+```text
 "This PRD covers multiple feature sets. I recommend splitting the design:
 
 Design Doc 1: Basic Task Creation (Phase 1)
@@ -129,25 +130,25 @@ Design Doc 3: Interactive Features (Phase 3)
 - Learning/personalization
 
 This allows incremental delivery and focused reviews."
-```
+```text
 
 ### Design Document Organization
 
 **For single design doc:**
 
-```
+```text
 docs/design/[feature-name].md
-```
+```text
 
 **For multiple design docs (split by features):**
 
-```
+```text
 docs/design/[feature-name]/
 ├── README.md           # Overview and feature relationships
 ├── [feature1-name].md  # Complete vertical feature
 ├── [feature2-name].md  # Another complete feature
 └── [feature3-name].md  # Additional functionality
-```
+```text
 
 **IMPORTANT: Focus on Features, Not Phases**
 
@@ -167,7 +168,7 @@ When creating design docs from a PRD:
 
 **Example structure:**
 
-```
+```text
 docs/design/smart-task-creation/
 ├── README.md
 ├── natural-language-dates.md
@@ -176,7 +177,7 @@ docs/design/smart-task-creation/
 ├── interactive-clarification.md
 ├── input-modes.md
 └── context-learning.md
-```
+```text
 
 ### Design Document Structure
 
@@ -188,64 +189,64 @@ docs/design/smart-task-creation/
 - Follow the detail level guidance in the template
 
 1. **Overview**
-   - Feature summary from technical perspective
-   - High-level approach
+- Feature summary from technical perspective
+- High-level approach
 
 2. **System Design**
-   - Architecture diagrams
-   - Component interactions
-   - Data flow
+- Architecture diagrams
+- Component interactions
+- Data flow
 
 3. **Detailed Design**
-   - API specifications
-   - Data models
-   - State management
-   - Error handling strategy
+- API specifications
+- Data models
+- State management
+- Error handling strategy
 
 4. **Security Considerations**
-   - Authentication/authorization impacts
-   - Data privacy concerns
-   - Input validation needs
+- Authentication/authorization impacts
+- Data privacy concerns
+- Input validation needs
 
 5. **Performance Considerations**
-   - Expected load
-   - Optimization strategies
-   - Caching approach
+- Expected load
+- Optimization strategies
+- Caching approach
 
 ### Example Prompts
 
-```
+```text
 "Let me create a technical design for the smart task creation feature:
 
 1. Architecture: Client-side parser + API integration
 2. Data model: Task entity with metadata fields
 3. API endpoints: POST /tasks with NLP processing
 4. Performance: Debounced input, client-side caching"
-```
+```text
 
 ## Phase 4: Implementation Planning
 
 ### Task Breakdown
 
 1. **Identify implementation layers**
-   - Frontend components
-   - Backend services
-   - Database changes
-   - Infrastructure needs
+- Frontend components
+- Backend services
+- Database changes
+- Infrastructure needs
 
 2. **Define task dependencies**
-   - What must be built first?
-   - What can be parallelized?
+- What must be built first?
+- What can be parallelized?
 
 3. **Estimate complexity**
-   - Story points or time estimates
-   - Risk factors
+- Story points or time estimates
+- Risk factors
 
 ### Task Count Check - Split if Too Large
 
 **After creating task list, evaluate:**
 
-```
+```text
 "I've identified 15 tasks for this design. This exceeds the recommended 5-10 tasks.
 
 I recommend splitting this into two phases:
@@ -261,7 +262,7 @@ Phase 2: Enhanced Feature (8 tasks)
 - 2-3 days of work
 
 Shall I create separate design docs for each phase?"
-```
+```text
 
 **Red flags that indicate splitting:**
 
@@ -297,7 +298,7 @@ Shall I create separate design docs for each phase?"
 
 ### Handoff Communication
 
-```
+```text
 "Technical design is complete:
 - Design doc: [link]
 - New ADRs: [list]
@@ -306,7 +307,7 @@ Shall I create separate design docs for each phase?"
 - Key risks: [list]
 
 Ready to begin implementation?"
-```
+```text
 
 ## Phase 6: PRD Feedback During Design
 
@@ -315,42 +316,42 @@ Ready to begin implementation?"
 During technical design, you may discover that PRD requirements need adjustment:
 
 1. **Technical Impossibilities**
-   - Requirement cannot be implemented as specified
-   - Platform/technology limitations discovered
-   - Security constraints prevent implementation
+- Requirement cannot be implemented as specified
+- Platform/technology limitations discovered
+- Security constraints prevent implementation
 
 2. **Significant Complexity**
-   - Requirement adds disproportionate complexity
-   - Simpler alternative achieves same user value
-   - Implementation cost exceeds projected benefit
+- Requirement adds disproportionate complexity
+- Simpler alternative achieves same user value
+- Implementation cost exceeds projected benefit
 
 3. **Missing Requirements**
-   - Discovered edge cases not in PRD
-   - Required supporting features not specified
-   - Integration requirements not documented
+- Discovered edge cases not in PRD
+- Required supporting features not specified
+- Integration requirements not documented
 
 ### How to Provide Feedback
 
 1. **Document the issue in design doc**
 2. **Discuss with product owner/user**
 3. **Update PRD directly:**
-   - Increment version number in PRD
-   - Make necessary changes
-   - Commit with clear message:
-     ```bash
-     git add docs/prd/<feature>.md
-     git commit -m "fix(prd): update real-time sync to polling approach
+- Increment version number in PRD
+- Make necessary changes
+- Commit with clear message:
+  ```bash
+  git add docs/prd/<feature>.md
+  git commit -m "fix(prd): update real-time sync to polling approach
 
-     - Changed from WebSocket to 5-second polling
-     - Reason: WebSocket requires new infrastructure (3x complexity)
-     - Polling meets user needs with existing architecture
-     - Design doc identified this during technical assessment"
-     ```
+  - Changed from WebSocket to 5-second polling
+  - Reason: WebSocket requires new infrastructure (3x complexity)
+  - Polling meets user needs with existing architecture
+  - Design doc identified this during technical assessment"
+  ```
 4. **Continue design with updated requirements**
 
 ### Example Flow
 
-```
+```text
 "During technical design, I discovered that the real-time sync requirement 
 would require WebSocket infrastructure, increasing complexity by 3x.
 
@@ -362,7 +363,7 @@ Shall I update the PRD with this change?"
 [After confirmation]
 "I've updated the PRD v1.1 with the polling approach and committed the change.
 Continuing with the technical design based on this update..."
-```
+```text
 
 ## Key Principles
 
@@ -379,3 +380,4 @@ Continuing with the technical design based on this update..."
 - Don't design in isolation - involve the team
 - Don't ignore existing patterns and conventions
 - Don't over-engineer - match complexity to requirements
+````

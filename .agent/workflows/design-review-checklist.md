@@ -54,17 +54,17 @@ Location: `/.agent/`
 
 **Too Specific (Avoid):**
 
-```
+````text
 "Use github.com/spf13/cobra for CLI commands"
 "Install with go get github.com/mattn/go-sqlite3"
-```
+```text
 
 **Appropriate Abstraction:**
 
-```
+```text
 "Use a CLI framework for command handling"
 "SQLite driver with foreign key support enabled"
-```
+```text
 
 ## Review Questions
 
@@ -76,3 +76,4 @@ Before committing a design document, ask:
 4. Does it focus on WHAT and WHY, not HOW?
 
 Remember: Design docs should survive technology changes!
+````
