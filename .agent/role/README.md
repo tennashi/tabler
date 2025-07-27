@@ -105,4 +105,3 @@ Each role document contains:
 - `maintainer.md` - System health and sustainability
 - `learner.md` - Knowledge extraction and sharing
 - `template.md` - Template for creating new roles
-- `archive/` - Previous role definitions for reference
