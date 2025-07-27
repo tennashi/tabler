@@ -348,7 +348,8 @@ During technical design, you may discover that PRD requirements need adjustment:
   - Polling meets user needs with existing architecture
   - Design doc identified this during technical assessment"
   ```
-4. **Continue design with updated requirements**
+
+1. **Continue design with updated requirements**
 
 ### Example Flow
 

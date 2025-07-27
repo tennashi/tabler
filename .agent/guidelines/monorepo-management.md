@@ -101,13 +101,13 @@ moon run <task> --no-cache
    moon query tasks | grep <partial-name>
    ````
 
-2. **Dependency conflicts**
+1. **Dependency conflicts**
 
    ```bash
    moon query projects --affected
    ```
 
-3. **Cache issues**
+1. **Cache issues**
 
    ```bash
    moon clean && moon run <task>
