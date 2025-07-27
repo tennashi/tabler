@@ -22,6 +22,16 @@ When users use role-specifying phrases:
 - "as maintainer" → Invoke maintainer agent
 - "as learner" → Invoke learner agent
 
+#### Work Session Completion
+
+**IMPORTANT**: When all work is completed in a session, proactively invoke the learner sub-agent to evaluate the entire conversation from start to finish. Pass the complete conversation history to the learner agent for analysis and knowledge extraction.
+
+Example usage:
+```
+"All requested tasks have been completed. Let me now invoke the learner agent to analyze our work session."
+→ Invoke learner agent with the entire conversation from work start to completion
+```
+
 
 
 ### Slash Commands
