@@ -22,8 +22,13 @@ tasks:
     options:
       runFromWorkspaceRoot: true
 
-  # Combined check (format + lint)
+  # Testing (default noop, override in language-specific tasks)
+  test:
+    command: noop
+
+  # Combined check
   check:
     deps:
       - format-check
       - lint
+      - test

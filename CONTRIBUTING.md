@@ -34,6 +34,7 @@ moon check
 ### Before You Start
 
 Read the relevant documentation:
+
 - Product requirements in [`docs/prd/`](docs/prd/)
 - Design documents in [`docs/design/`](docs/design/)
 - Architecture decisions in [`docs/adr/`](docs/adr/)
@@ -43,9 +44,11 @@ Read the relevant documentation:
 1. Create a feature branch
 2. Make your changes
 3. Run checks before committing:
+
    ```bash
    moon check  # Runs all linting and formatting
    ```
+
 4. Write clear commit messages
 5. Submit a pull request
 
@@ -58,6 +61,7 @@ Read the relevant documentation:
 ## AI-Assisted Development
 
 If you're using AI tools (like Claude Code) for development:
+
 - AI agents should follow conventions in [`.agent/`](.agent/)
 - These conventions are specifically for AI tools, not human developers
 

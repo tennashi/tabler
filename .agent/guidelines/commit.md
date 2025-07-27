@@ -26,13 +26,13 @@ AI agents must follow the Conventional Commits specification:
 
 ### Format
 
-```
+````text
 <type>[optional scope][!]: <description>
 
 [optional body]
 
 [optional footer(s)]
-```
+```text
 
 ### Types
 
@@ -64,7 +64,7 @@ AI agents must follow the Conventional Commits specification:
 
 ### Examples
 
-```
+```text
 feat: add user authentication
 
 fix(api): handle null values in response
@@ -76,4 +76,5 @@ feat(lang): add Japanese localization
 refactor(auth)!: replace JWT with session-based auth
 
 Refs: #456
-```
+```text
+````

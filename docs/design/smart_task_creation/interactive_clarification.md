@@ -2,7 +2,7 @@
 
 **Status**: Implemented ✅
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -13,13 +13,17 @@ DETAIL LEVEL GUIDANCE:
 
 ## Overview
 
-This feature provides an AI-powered dialogue system that helps users clarify vague or incomplete tasks through contextual questions. When users input ambiguous tasks, the system engages in a brief conversation to extract actionable details before creating the task.
+This feature provides an AI-powered dialogue system that helps users clarify vague or incomplete tasks through
+contextual questions. When users input ambiguous tasks, the system engages in a brief conversation to extract
+actionable details before creating the task.
 
 ## Background
 
 [Link to PRD: ../../prd/smart_task_creation.md](../../prd/smart_task_creation.md)
 
-This design implements Story 4 from the Smart Task Creation PRD: Task Clarification Through Dialogue. Users often have fuzzy ideas that need refinement. Rather than creating vague tasks, this feature helps transform thoughts into clear action items through conversation.
+This design implements Story 4 from the Smart Task Creation PRD: Task Clarification Through Dialogue. Users
+often have fuzzy ideas that need refinement. Rather than creating vague tasks, this feature helps transform
+thoughts into clear action items through conversation.
 
 ## Goals
 
@@ -42,7 +46,7 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
 │   CLI Add   │────▶│   Dialogue       │────▶│  Storage    │
 │  (Talk Mode)│     │   Manager        │     │  (SQLite)   │
@@ -53,7 +57,7 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
                     │   Claude Code    │
                     │   Subprocess     │
                     └──────────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -64,11 +68,13 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 **Purpose**: Identify when task input needs clarification
 
 **Responsibilities**:
+
 - Analyze task input for ambiguity indicators
 - Determine if dialogue would be helpful
 - Trigger appropriate interaction mode
 
 **Interface**:
+
 - Input: Raw task text
 - Output: Clarity score and suggested dialogue trigger
 
@@ -77,6 +83,7 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 **Purpose**: Orchestrate the clarification conversation
 
 **Responsibilities**:
+
 - Maintain conversation context
 - Generate appropriate questions via Claude
 - Process user responses
@@ -84,6 +91,7 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 - Enforce dialogue limits (2-3 exchanges)
 
 **Interface**:
+
 - Input: Initial vague task and user responses
 - Output: Clarified task details or user skip signal
 
@@ -92,12 +100,14 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 **Purpose**: Create contextual questions using Claude
 
 **Responsibilities**:
+
 - Analyze what information is missing
 - Generate natural, helpful questions
 - Adapt based on previous responses
 - Provide examples in questions when helpful
 
 **Interface**:
+
 - Input: Current task understanding and dialogue history
 - Output: Next question or completion signal
 
@@ -106,12 +116,14 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 **Purpose**: Extract information from user answers
 
 **Responsibilities**:
+
 - Parse user responses for task details
 - Update task understanding
 - Detect when user wants to skip
 - Merge clarifications into final task
 
 **Interface**:
+
 - Input: User response and current context
 - Output: Updated task information or skip signal
 
@@ -120,6 +132,7 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 <!-- Show logical data model, not physical implementation -->
 
 **Session State** (temporary, not persisted):
+
 - Original input
 - Current understanding
 - Dialogue history (questions and answers)
@@ -132,7 +145,8 @@ This design implements Story 4 from the Smart Task Creation PRD: Task Clarificat
 <!-- Describe API behavior and contracts, not exact schemas -->
 
 **User Interaction Example**:
-```
+
+```text
 $ tabler add /talk need to prepare for the thing
 
 🤔 I'd like to help clarify this task. What thing do you need to prepare for?
@@ -144,14 +158,16 @@ $ tabler add /talk need to prepare for the thing
 ✅ Got it! Creating task: "Prepare Q4 planning presentation for team meeting"
 📅 Deadline: Thursday, Jan 25
 🏷️ Tags: presentation, planning, team
-```
+```text
 
 **Skip Options**:
+
 - User can type "skip" at any prompt
 - Empty response continues with current understanding
 - Ctrl+C cancels entire task creation
 
 **Claude Integration**:
+
 - Request: Current task understanding + dialogue history
 - Response: Next clarifying question or "sufficient info" signal
 - Context window: Include full dialogue for coherence
@@ -166,6 +182,7 @@ $ tabler add /talk need to prepare for the thing
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] User Behavior - Track dialogue effectiveness
 - [x] Performance - Measure dialogue completion time
 - [ ] Error Tracking - Minimal errors expected
@@ -174,7 +191,8 @@ $ tabler add /talk need to prepare for the thing
 - [x] Business Metrics - Dialogue success rate
 
 **Implementation Details**:
-```
+
+```text
 User Behavior:
 - Events: dialogue_started, dialogue_completed, dialogue_skipped
 - Fields: exchange_count, clarification_score, final_task_length
@@ -190,9 +208,10 @@ Business Metrics:
 - Events: dialogue_success
 - Fields: initial_vagueness, final_clarity, user_satisfied
 - Retention: 90 days
-```
+```text
 
 **Privacy Considerations**:
+
 - Never log conversation content
 - Only track metadata and patterns
 - Hash any identifiers
@@ -223,16 +242,20 @@ No migration needed - this is a new interaction mode that doesn't affect existin
 
 Show a form with fields for missing information.
 
-**Why not chosen**: Less natural, requires users to understand task structure, poor mobile experience, doesn't handle unique cases well.
+**Why not chosen**: Less natural, requires users to understand task structure, poor mobile experience, doesn't
+handle unique cases well.
 
 ### Alternative 2: Suggestion-Based System
 
 Provide multiple interpretations for user to choose.
 
-**Why not chosen**: Limits possibilities, can miss user's actual intent, becomes overwhelming with many options, doesn't gather new information.
+**Why not chosen**: Limits possibilities, can miss user's actual intent, becomes overwhelming with many options,
+doesn't gather new information.
 
 ### Alternative 3: Always-On Dialogue
 
 Make dialogue mandatory for all tasks.
 
-**Why not chosen**: Annoying for clear tasks, slows down power users, reduces efficiency, goes against "quick capture" goal.
+**Why not chosen**: Annoying for clear tasks, slows down power users, reduces efficiency, goes against "quick
+capture" goal.
+````

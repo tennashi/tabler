@@ -56,7 +56,7 @@ func (b *ManagerBuilder) Build() *ModeManager {
 		questionGen := clarification.NewQuestionGenerator(b.claudeClient)
 		responseProcessor := clarification.NewResponseProcessor()
 		dialogueManager := clarification.NewDialogueManager(vaguenessDetector, questionGen, responseProcessor)
-		
+
 		// Use enhanced Talk handler
 		manager.RegisterHandler(TalkMode, NewTalkHandlerWithClarification(dialogueManager))
 	} else {
@@ -70,12 +70,12 @@ func (b *ManagerBuilder) Build() *ModeManager {
 		complexityDetector := decomposition.NewComplexityDetector()
 		decomposer := decomposition.NewTaskDecomposer(b.claudeClient)
 		presenter := decomposition.NewInteractivePresenter()
-		
+
 		// Create adapters
 		storageAdapter := NewStorageAdapter(b.storage)
 		decomposerAdapter := NewDecomposerAdapter(decomposer)
 		presenterAdapter := NewPresenterAdapter(presenter)
-		
+
 		// Use enhanced Planning handler
 		manager.RegisterHandler(PlanningMode, NewPlanningHandlerWithDecomposition(
 			storageAdapter,

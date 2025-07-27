@@ -4,12 +4,12 @@ This document describes the step-by-step process for making commits.
 
 ## Branch Decision Criteria
 
-**FIRST RULE: Check current branch**
+### First Rule: Check Current Branch
 
-```bash
+````bash
 # Check what branch you're on
 git branch --show-current
-```
+```text
 
 ### If on main/master branch → ALWAYS create a new branch
 
@@ -30,7 +30,7 @@ git checkout -b <descriptive-branch-name>
 
 # 4. Restore your work if needed
 git stash pop
-```
+```text
 
 ### When to create a new branch:
 
@@ -48,6 +48,7 @@ git stash pop
 - **Explicitly told to work on current branch**
 
 ### Branch naming conventions:
+
 ```bash
 # Task/Issue based (preferred)
 git checkout -b issue-123-user-authentication
@@ -59,7 +60,7 @@ git checkout -b fix-memory-leak-in-parser
 
 # Personal work branches
 git checkout -b yourname/experiment-with-new-api
-```
+```text
 
 ## Pre-Commit Checklist
 
@@ -70,30 +71,30 @@ git checkout -b yourname/experiment-with-new-api
    - What problem does this change solve?
    - Why is this change necessary?
    - What is the expected outcome?
-   
+
    This helps ensure commit messages accurately reflect the intent.
 
 2. **Run quality checks**
-   
+
    Run the project's quality check command. This typically includes:
    - All tests pass
    - Code is properly formatted
    - Linting rules are satisfied
    - Type checking passes (if applicable)
-   
+
    Check the project's README or build configuration for the specific command.
 
 3. **Review changes**
    ```bash
    git status
    git diff
-   ```
+````
 
-4. **Stage changes atomically**
+1. **Stage changes atomically**
    - Stage related changes together
    - Keep unrelated changes for separate commits
 
-5. **Write commit message following conventions**
+2. **Write commit message following conventions**
    - Use the purpose from step 1 to craft a clear message
    - See `guidelines/commit.md` for format rules
 
@@ -123,7 +124,7 @@ When making multiple commits, follow this order:
 
 ### Example Sequence
 
-```bash
+````bash
 # 1. Install new tool
 mise use <tool>@latest
 git add .mise.toml
@@ -140,7 +141,7 @@ git commit -m "build: integrate <tool> into build process"
 # 4. Fix issues found
 git add <fixed-files>
 git commit -m "fix: resolve <tool> warnings"
-```
+```text
 
 ## Handling Mixed Changes
 
@@ -153,7 +154,7 @@ Since AI agents cannot use interactive staging (`git add -p`), use the stash-bas
 ```bash
 # First, stage files that contain only changes for current purpose
 git add <file-with-single-purpose>
-```
+```text
 
 #### Step 2: Handle mixed files using stash
 
@@ -175,7 +176,7 @@ git add <mixed-file>
 # 5. Restore remaining unstaged changes
 git stash pop
 # Resolve any conflicts if they occur
-```
+```text
 
 ### Verifying staged changes work independently
 
@@ -194,7 +195,7 @@ git commit -m "type: description"
 
 # 4. Restore unstaged changes
 git stash pop
-```
+```text
 
 ### Example: Separating formatting from features
 
@@ -215,7 +216,7 @@ git commit -m "style: format code"
 git stash pop
 git add <feature-files>
 git commit -m "feat: add new functionality"
-```
+```text
 
 ## Common Scenarios
 
@@ -233,7 +234,7 @@ git add <feature-files>
 
 # 4. Commit with descriptive message
 git commit -m "feat: implement <feature>"
-```
+```text
 
 ### Bug Fix with Tests
 
@@ -248,7 +249,7 @@ git commit -m "test: add test for <bug description>"
 # 4. Commit the fix
 git add <fix-files>
 git commit -m "fix: <bug description>"
-```
+```text
 
 ### Refactoring
 
@@ -260,7 +261,7 @@ git commit -m "fix: <bug description>"
 # 3. Commit with clear scope
 git add <refactored-files>
 git commit -m "refactor(<scope>): <what was refactored>"
-```
+```text
 
 ## Post-Commit: Pull Request Creation
 
@@ -285,9 +286,9 @@ git commit -m "refactor(<scope>): <what was refactored>"
 
    ## Testing
    - How to test"
-   ```
+````
 
-3. **Share PR link**
+1. **Share PR link**
    - Copy and share the PR URL that gh returns
    - The PR is now ready for review
 

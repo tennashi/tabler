@@ -7,3 +7,6 @@ projects:
   - "."
   - "apps/*"
   - "docs"
+
+vcs:
+  defaultBranch: "main"

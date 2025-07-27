@@ -16,6 +16,7 @@ Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
 ### 1. Understand the Requirement
 
 When given a feature request:
+
 - Break it down into small, testable behaviors
 - Create a TODO list of test cases
 - **Clearly state the implementation approach:**
@@ -25,7 +26,8 @@ When given a feature request:
 - Share the TODO list with the user for confirmation
 
 Example interaction:
-```
+
+````text
 User: "Implement task creation with inline shortcuts"
 
 AI Agent: "I'll break this down into testable behaviors:
@@ -43,13 +45,14 @@ Implementation approach: Bottom-up with early integration
 - Prioritize end-to-end functionality over isolated perfection
 
 Shall I start with the first test?"
-```
+```text
 
 ### 2. TDD Cycle for Each TODO Item
 
 For each TODO item, follow this cycle:
 
 #### 2.1 RED Phase - Write Failing Test
+
 ```go
 func TestTask(t *testing.T) {
     t.Run("creation with valid title should succeed", func(t *testing.T) {
@@ -65,18 +68,21 @@ func TestTask(t *testing.T) {
         }
     })
 }
-```
+```text
 
 Run and show failure:
+
 ```bash
 $ go test
 # undefined: NewTask
-```
+```text
 
 **⚠️ DO NOT COMMIT - Test is failing**
 
 #### 2.2 GREEN Phase - Make Test Pass
+
 Write minimal code:
+
 ```go
 type Task struct {
     Title string
@@ -85,13 +91,14 @@ type Task struct {
 func NewTask(title string) *Task {
     return &Task{Title: title}
 }
-```
+```text
 
 Run and show success:
+
 ```bash
 $ go test
 PASS
-```
+```text
 
 **⚠️ DO NOT COMMIT YET - Code may need refactoring**
 
@@ -117,21 +124,24 @@ If a test doesn't pass as expected during the GREEN phase:
    - Document why the test expectation was changed
 
 **Example:**
-```
+
+```text
 Problem: Test expects tasks in creation order, but they have same timestamp
 Solutions in order of preference:
 1. ✅ Add "ORDER BY created_at DESC, id DESC" for stable ordering
 2. ✅ Consider if order matters for the feature
 3. ❌ Change test to ignore order (only if order truly doesn't matter)
-```
+```text
 
 #### 2.3 REFACTOR Phase - Improve Implementation
+
 - Keep tests passing
 - Remove duplication
 - Improve naming
 - Extract constants or helper functions
 
 **Self-Review Checklist - Cohesion and Coupling:**
+
 - [ ] **Cohesion**: Does each function have a single, clear responsibility?
 - [ ] **Coupling**: Are functions passing only necessary data as parameters?
 - [ ] **Magic Numbers**: Are all literals extracted as named constants?
@@ -139,6 +149,7 @@ Solutions in order of preference:
 - [ ] **Naming**: Do function names accurately describe their single responsibility?
 
 Example:
+
 ```go
 // Low cohesion: Parse does too many things
 func Parse(input string) *Result {
@@ -149,17 +160,20 @@ func Parse(input string) *Result {
 func extractTag(part string) (string, bool)
 func extractPriority(part string) (int, bool)
 func extractDeadline(part string) (*time.Time, bool)
-```
+```text
 
 #### 2.4 TEST REFACTOR Phase - Improve Test Code
+
 After implementation is clean, refactor the test:
 
 **IMPORTANT: This phase is for refactoring the CURRENT test only, not for adding new test cases!**
+
 - New test cases require starting a new RED-GREEN-REFACTOR cycle
 - Only refactor if the current test has duplication or clarity issues
 - If the test is already clean and simple, skip this phase
 
 **Look for:**
+
 - Duplicate test setup → Extract helper functions
 - Similar test patterns → Convert to table-driven tests
 - Complex assertions → Create custom assertion helpers
@@ -168,6 +182,7 @@ After implementation is clean, refactor the test:
 **Table-Driven Test Criteria:**
 
 Use table-driven tests when:
+
 - **Same function with different inputs**: Testing one function with various input patterns
 - **Clear input-output mapping**: Input → Expected output is straightforward
 - **Repeated assertion patterns**: Same checks performed across multiple tests
@@ -175,6 +190,7 @@ Use table-driven tests when:
 - **DRY principle**: Same test code repeated 3+ times
 
 Avoid table-driven tests when:
+
 - **Complex setup required**: Each test needs significantly different mocks, DB setup, etc.
 - **State sharing between tests**: Tests depend on results from previous tests (avoid this pattern anyway)
 - **Detailed error inspection**: Need to check error types, wrapped errors, or error fields in detail
@@ -182,6 +198,7 @@ Avoid table-driven tests when:
 - **Complex test flow**: Multi-step tests with branching logic that doesn't fit well in a table
 
 **Example refactoring:**
+
 ```go
 // Before: Duplicate setup in multiple tests
 func TestTask(t *testing.T) {
@@ -221,9 +238,10 @@ func TestTask(t *testing.T) {
         }
     })
 }
-```
+```text
 
 #### 2.5 COMMIT Phase - Save Clean Code
+
 After both implementation and test refactoring:
 
 **IMPORTANT: Read `.agent/guidelines/commit.md` before committing!**
@@ -232,44 +250,49 @@ After both implementation and test refactoring:
 $ go test  # Ensure all tests pass
 $ git add .
 $ git commit -m "feat: implement task creation with title"
-```
+```text
 
 **✅ NOW IT'S SAFE TO COMMIT - Code and tests are clean**
 
 #### 2.6 Update TODO List
-```
+
+```text
 - [x] Task can be created with just a title
 - [ ] Empty title should return an error
 ...
-```
+```text
 
 ### 3. Commit Guidelines
 
 **⚠️ MUST READ: `.agent/guidelines/commit.md` for commit format and rules**
 
 **When to Commit:**
+
 - After REFACTOR phase when both code and tests are clean
 - When switching context or taking a break
 - After completing a logical group of related tests
 
 **What to Include in Commit:**
+
 - Test file(s)
 - Implementation file(s)
 - Any refactoring done in both
 
 **Commit Message Format:**
 Follow the conventions in `.agent/guidelines/commit.md`. Example:
-```
+
+```text
 feat: implement [feature name]
 
 - Add test for [behavior]
 - Implement [what was implemented]
 - Refactor [what was refactored] (if applicable)
-```
+```text
 
 ### 4. Complete Cycle Before Moving On
 
 Only proceed to the next TODO item after:
+
 - Implementation code is clean
 - Test code is clean
 - All tests are passing
@@ -277,6 +300,7 @@ Only proceed to the next TODO item after:
 - TODO list is updated
 
 **CRITICAL: Each test case is a separate cycle!**
+
 - One test case = One complete RED-GREEN-REFACTOR-COMMIT cycle
 - Do NOT write multiple test cases in RED phase
 - Do NOT add new test cases during TEST REFACTOR phase
@@ -285,6 +309,7 @@ Only proceed to the next TODO item after:
 ### 5. Integration Tests Come Later
 
 After all unit tests pass:
+
 - Write integration tests for external dependencies
 - Use real implementations (database, file system)
 - Mark as integration tests with build tags or skip conditions
@@ -311,7 +336,7 @@ func TestTask(t *testing.T) {
         })
     })
 }
-```
+```text
 
 ### AAA Pattern
 
@@ -335,7 +360,7 @@ t.Run("with valid input should return task", func(t *testing.T) {
         t.Errorf("expected title %q, got %q", "Buy milk", task.Title)
     }
 })
-```
+```text
 
 ### Test Helpers
 
@@ -359,21 +384,21 @@ func assertTaskTitle(t *testing.T, task *Task, expected string) {
         t.Errorf("expected title %q, got %q", expected, task.Title)
     }
 }
-```
+```text
 
 ## Communication with User
 
 ### Before Starting
 
-```
+```text
 "I'll implement this using TDD. Here's my plan:
 [TODO list]
 I'll start with the first test. OK?"
-```
+```text
 
 ### During Development
 
-```
+```text
 "RED phase: Writing failing test...
 [Show test code]
 [Show test failure]
@@ -390,17 +415,17 @@ TEST REFACTOR phase: Improving test code...
 
 Ready to commit. All tests passing.
 Moving to next test..."
-```
+```text
 
 ### When Finding Test Improvements
 
-```
+```text
 "I notice these tests have similar setup. 
 Would you like me to:
 1. Extract a helper function?
 2. Convert to table-driven tests?
 3. Keep as is for now?"
-```
+```text
 
 ## Best Practices for AI Agents
 
@@ -426,17 +451,17 @@ Would you like me to:
 
 ### Example of WRONG Approach
 
-```
+```text
 ❌ WRONG: Adding multiple test cases during TEST REFACTOR phase
 - Write test for "valid task"
 - Make it pass
 - Refactor implementation
 - TEST REFACTOR: Convert to table-driven test AND add 5 new test cases
-```
+```text
 
 ### Example of CORRECT Approach
 
-```
+```text
 ✅ CORRECT: One test case per cycle
 Cycle 1:
 - RED: Write test for "valid task"
@@ -456,7 +481,7 @@ Cycle 3:
 - REFACTOR: Clean up implementation
 - TEST REFACTOR: Now that we have 3 similar tests, refactor to table-driven
 - COMMIT
-```
+```text
 
 ## Test Time Dependencies
 
@@ -476,9 +501,10 @@ Cycle 3:
    task2 := &task.Task{
        CreatedAt: time.Date(2024, 1, 1, 11, 0, 0, 0, time.UTC),
    }
-   ```
+````
 
-2. **Order-independent assertions**
+1. **Order-independent assertions**
+
    ```go
    // Don't rely on order, verify by ID or content
    tasksByID := make(map[string]*Task)
@@ -488,7 +514,8 @@ Cycle 3:
    // Assert using the map
    ```
 
-3. **Use interfaces for time providers**
+2. **Use interfaces for time providers**
+
    ```go
    type TimeProvider interface {
        Now() time.Time
@@ -509,22 +536,27 @@ Cycle 3:
      - Document why it didn't work during implementation
      - Update main sections with new approach
      - Example:
+
        ```markdown
        ## Alternatives Considered
-       
+
        ### Channel-based Concurrency
+
        Originally designed to use channels for concurrent updates.
        **Rejected because**: Implementation revealed deadlock risks
        when multiple goroutines access shared state.
-       
+
        ## Current Design
+
        Using mutex locks for thread-safe access...
        ```
+
    - Commit with clear message:
+
      ```bash
      git add docs/design/<feature>.md
      git commit -m "fix(design): change concurrency model to mutex-based
-     
+
      - Original channel design caused deadlocks
      - Mutex approach is simpler and more reliable
      - Moved original design to Alternatives Considered"
@@ -555,7 +587,7 @@ Cycle 3:
 
 ### Example Implementation Flow
 
-```
+````text
 "During implementation, I discovered the design's approach to handling 
 concurrent updates could cause race conditions.
 
@@ -564,8 +596,9 @@ I'll update the design doc to use mutex locks instead of channels."
 [After confirmation]
 "I've updated the Design Doc v1.1 with the mutex approach and committed.
 Continuing implementation with the updated design..."
-```
+```text
 
 ## Remember
 
 Clean tests are as important as clean code. They serve as living documentation and make future changes easier. Only commit when both are clean.
+````

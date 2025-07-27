@@ -2,13 +2,16 @@
 
 ## Overview
 
-This feature uses Claude Code to extract metadata from natural language task input in a single operation: deadline dates, categories/tags, and priority levels. Instead of multiple regex patterns or separate API calls, we leverage Claude's language understanding to extract all metadata at once.
+This feature uses Claude Code to extract metadata from natural language task input in a single operation:
+deadline dates, categories/tags, and priority levels. Instead of multiple regex patterns or separate API calls,
+we leverage Claude's language understanding to extract all metadata at once.
 
 ## Background
 
 [Link to PRD: ../../prd/smart_task_creation.md](../../prd/smart_task_creation.md)
 
 This design implements requirements from the Smart Task Creation PRD:
+
 - Story 3: AI-Powered Understanding (natural language dates and categories)
 - Story 2: Natural Language Input with Shortcuts (enhanced with AI)
 - Should Have: Natural language processing for dates and categories
@@ -34,7 +37,7 @@ This design implements requirements from the Smart Task Creation PRD:
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
 │   CLI Add   │────▶│ Metadata Service │────▶│  Storage    │
 │   Command   │     │                  │     │  (SQLite)   │
@@ -45,7 +48,7 @@ This design implements requirements from the Smart Task Creation PRD:
                     │   Claude Code    │
                     │   Subprocess     │
                     └──────────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -54,12 +57,14 @@ This design implements requirements from the Smart Task Creation PRD:
 **Purpose**: Orchestrates metadata extraction from task input
 
 **Responsibilities**:
+
 - Check for existing shortcuts (@, #, !)
 - Invoke Claude for natural language processing
 - Cache results for performance
 - Handle errors gracefully
 
 **Interface**:
+
 - Input: Raw task string, current timestamp
 - Output: Extracted metadata structure (cleaned text, deadline, tags, priority)
 
@@ -68,12 +73,14 @@ This design implements requirements from the Smart Task Creation PRD:
 **Purpose**: Manages communication with Claude Code subprocess
 
 **Responsibilities**:
+
 - Format prompts for metadata extraction
 - Execute Claude subprocess with timeout
 - Parse structured JSON responses
 - Handle subprocess errors
 
 **Interface**:
+
 - Input: Task text, context (date, timezone)
 - Output: Structured metadata or error
 
@@ -82,11 +89,13 @@ This design implements requirements from the Smart Task Creation PRD:
 **Purpose**: Reduce redundant LLM calls
 
 **Responsibilities**:
+
 - Cache extraction results by normalized input
 - Implement LRU eviction
 - Handle TTL expiration
 
 **Interface**:
+
 - Get/Set operations with automatic expiry
 - Cache hit rate monitoring
 
@@ -100,11 +109,12 @@ This design implements requirements from the Smart Task Creation PRD:
 -- priority (TEXT)
 
 -- Cache stored in memory, not persisted
-```
+```text
 
 ### API Design
 
 **CLI Command Enhancement**:
+
 ```bash
 # Input
 tabler add urgent: finish report by tomorrow #work
@@ -116,9 +126,10 @@ tabler add urgent: finish report by tomorrow #work
   ⚡ Priority: high
 
 ✅ Task created: "finish report"
-```
+```text
 
 **Claude Prompt Format**:
+
 ```json
 {
   "task_input": "urgent: finish report by tomorrow #work",
@@ -126,9 +137,10 @@ tabler add urgent: finish report by tomorrow #work
   "timezone": "Asia/Tokyo",
   "request": "extract_metadata"
 }
-```
+```text
 
 **Claude Response Format**:
+
 ```json
 {
   "cleaned_text": "finish report",
@@ -138,9 +150,10 @@ tabler add urgent: finish report by tomorrow #work
   "confidence": 0.92,
   "reasoning": "urgent keyword and tomorrow deadline indicate high priority"
 }
-```
+```text
 
 **Tag Handling Enhancement**:
+
 - Tags are stored as-is without normalization (preserving user intent)
 - Claude will understand semantic relationships between tags:
   - `work`, `Work`, `仕事`, `お仕事` recognized as related
@@ -163,6 +176,7 @@ tabler add urgent: finish report by tomorrow #work
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] Performance - Track Claude response times
 - [x] Error Tracking - Claude failures and fallbacks
 - [x] User Behavior - Which metadata gets extracted
@@ -171,7 +185,8 @@ tabler add urgent: finish report by tomorrow #work
 - [ ] Business Metrics - Covered by User Behavior
 
 **Implementation Details**:
-```
+
+```text
 Performance:
 - Event: "metadata_extraction_complete"
 - Fields: duration_ms, cache_hit, input_length
@@ -187,9 +202,10 @@ User Behavior:
 - Event: "metadata_extracted"
 - Fields: has_deadline, tag_count, priority_detected, language
 - Retention: 90 days
-```
+```text
 
 **Privacy Considerations**:
+
 - Do not log task content
 - Hash inputs for cache keys
 - No PII in error messages
@@ -218,7 +234,8 @@ No migration needed - this is an enhancement to existing task creation.
 
 Make individual Claude calls for each metadata type (date, tags, priority).
 
-**Why not chosen**: 
+**Why not chosen**:
+
 - 3x latency (multiple round trips)
 - 3x cost for Claude API
 - Less context for better inference
@@ -228,6 +245,8 @@ Make individual Claude calls for each metadata type (date, tags, priority).
 Use regex patterns and keyword matching without LLM.
 
 **Why not chosen**:
+
 - Limited to predefined patterns
 - Poor multilingual support
 - Can't understand context and nuance
+````

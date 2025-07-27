@@ -47,23 +47,23 @@ func (h *TalkHandlerWithClarification) Process(ctx context.Context, input string
 	if err != nil {
 		return nil, fmt.Errorf("failed to start dialogue: %w", err)
 	}
-	
+
 	// If no dialogue needed (clear input), create task directly
 	if session == nil {
 		return h.createTask(input), nil
 	}
-	
+
 	// Show initial greeting
 	_, _ = fmt.Fprintln(h.output, "🤔 I'd like to help clarify this task.")
-	
+
 	// Conduct dialogue
 	reader := bufio.NewReader(h.input)
-	
+
 	for !session.IsComplete {
 		// Show current question
 		_, _ = fmt.Fprintln(h.output, session.CurrentQuestion)
 		_, _ = fmt.Fprint(h.output, "> ")
-		
+
 		// Get user response
 		response, err := reader.ReadString('\n')
 		if err != nil {
@@ -72,25 +72,25 @@ func (h *TalkHandlerWithClarification) Process(ctx context.Context, input string
 			break
 		}
 		response = strings.TrimSpace(response)
-		
+
 		// Process response
 		if err := h.dialogueManager.ProcessResponse(ctx, session, response); err != nil {
 			return nil, fmt.Errorf("failed to process response: %w", err)
 		}
-		
+
 		// Add blank line between exchanges
 		if !session.IsComplete {
 			_, _ = fmt.Fprintln(h.output)
 		}
 	}
-	
+
 	// Get final task
 	finalTaskTitle := h.dialogueManager.GetFinalTask(session)
-	
+
 	// Show result
 	if !session.SkipRequested && finalTaskTitle != input {
 		_, _ = fmt.Fprintf(h.output, "\n✅ Got it! Creating task: \"%s\"\n", finalTaskTitle)
-		
+
 		// Show extracted details if any
 		if len(session.ExtractedInfo) > 0 {
 			if deadline, ok := session.ExtractedInfo["deadline"]; ok {
@@ -104,7 +104,7 @@ func (h *TalkHandlerWithClarification) Process(ctx context.Context, input string
 			}
 		}
 	}
-	
+
 	return h.createTask(finalTaskTitle), nil
 }
 

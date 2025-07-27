@@ -38,7 +38,7 @@ When user states a need:
 
 Example:
 
-```
+````text
 User: "I want to archive tasks"
 
 AI: "I understand you want to manage completed tasks. Here are some approaches:
@@ -53,7 +53,7 @@ C. **Auto-cleanup**: Automatically hide old completed tasks
    ✓ No manual work  ✗ Less control
 
 Which approach fits your workflow best? Or do you envision something different?"
-```
+```text
 
 ## Phase 2: Feature Organization
 
@@ -70,7 +70,7 @@ Once problem is understood:
 
 Example:
 
-```
+```text
 User: "I want to organize tasks by project"
 
 AI: "Let me analyze how this fits with our current features:
@@ -90,7 +90,7 @@ Options:
    ✓ Full flexibility  ✗ More complex
 
 Which approach aligns with your needs?"
-```
+```text
 
 ## Phase 3: Solution Refinement
 
@@ -112,7 +112,7 @@ Once approach is determined:
 
 **When conflicts arise, alert the user:**
 
-```
+```text
 "This requirement seems to conflict with existing ADR-[number] which decided [decision].
 This feature might require architectural changes.
 
@@ -120,7 +120,7 @@ Would you like to:
 1. Adjust the requirement to fit current architecture?
 2. Proceed knowing architectural changes will be needed?
 3. Explore alternative approaches?"
-```
+```text
 
 **If user wants to proceed despite conflicts:**
 
@@ -184,3 +184,4 @@ Would you like to:
 - Don't rush to implementation after first agreement
 - Don't read files or analyze code during problem exploration
 - Don't ignore existing ADR conflicts
+````

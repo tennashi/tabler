@@ -12,7 +12,7 @@ All build, test, and quality check tasks must be executed through **moon**.
 
 ### Basic Commands
 
-```bash
+````bash
 # Run a task
 moon run <task-name>
 
@@ -21,7 +21,7 @@ moon run <project>:<task-name>
 
 # Run task for all projects
 moon run :<task-name>
-```
+```text
 
 ### Task Discovery
 
@@ -34,7 +34,7 @@ moon query tasks --project <project-name>
 
 # Show task details
 moon query tasks <task-name> --json
-```
+```text
 
 ## Task Definition Conventions
 
@@ -62,7 +62,7 @@ tasks:
       CGO_ENABLED: "0"
     options:
       mergeEnv: "append"
-```
+```text
 
 ### Merge Strategies
 
@@ -89,23 +89,26 @@ moon clean <project>
 
 # Run without cache
 moon run <task> --no-cache
-```
+```text
 
 ## Troubleshooting
 
 ### Common Issues
 
 1. **Task not found**
+
    ```bash
    moon query tasks | grep <partial-name>
-   ```
+````
 
-2. **Dependency conflicts**
+1. **Dependency conflicts**
+
    ```bash
    moon query projects --affected
    ```
 
-3. **Cache issues**
+1. **Cache issues**
+
    ```bash
    moon clean && moon run <task>
    ```

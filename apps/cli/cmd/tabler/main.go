@@ -150,7 +150,7 @@ func handleAddCommand(taskService *service.TaskService, args []string) error {
 	// Check if talk mode is forced via flag
 	if *useTalk {
 		// Prepend /talk to use talk mode with clarification
-		return addTaskWithMode(taskService, "/talk " + input)
+		return addTaskWithMode(taskService, "/talk "+input)
 	}
 
 	// Check if mode prefixes are used

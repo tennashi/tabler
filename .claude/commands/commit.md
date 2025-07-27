@@ -22,4 +22,5 @@ Execute the commit workflow defined in `.agent/workflows/commit.md`:
    - Execute the commit(s) immediately without asking for confirmation
    - Show the result of each commit
 
-Note: If the user wants to modify the commit message or approach, they can interrupt or provide feedback after seeing the proposal.
+Note: If the user wants to modify the commit message or approach, they can interrupt or provide feedback after
+seeing the proposal.

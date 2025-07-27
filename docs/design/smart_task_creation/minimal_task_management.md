@@ -1,6 +1,6 @@
 # Design Doc: Minimal Task Management
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -11,13 +11,15 @@ DETAIL LEVEL GUIDANCE:
 
 ## Overview
 
-A simple task manager that provides the absolute minimum functionality to be useful: create tasks, list them, and mark them as complete. This establishes the foundation for all future task management features.
+A simple task manager that provides the absolute minimum functionality to be useful: create tasks, list them,
+and mark them as complete. This establishes the foundation for all future task management features.
 
 ## Background
 
 [Link to PRD: ../prd/smart_task_creation.md](../prd/smart_task_creation.md)
 
-This is the foundational implementation that enables basic task tracking. While the PRD describes advanced features, this design focuses on delivering immediate value with the smallest possible implementation.
+This is the foundational implementation that enables basic task tracking. While the PRD describes advanced
+features, this design focuses on delivering immediate value with the smallest possible implementation.
 
 ## Goals
 
@@ -41,7 +43,7 @@ This is the foundational implementation that enables basic task tracking. While 
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────────┐
 │ Command Line    │ ← User interaction
 │   Interface     │
@@ -56,7 +58,7 @@ This is the foundational implementation that enables basic task tracking. While 
 │  Persistence    │ ← Data storage
 │     Layer       │
 └─────────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -67,12 +69,14 @@ This is the foundational implementation that enables basic task tracking. While 
 **Purpose**: Provide user interaction through terminal commands
 
 **Responsibilities**:
+
 - Accept user commands and arguments
 - Route to appropriate operations
 - Display results in readable format
 - Report errors clearly
 
 **Interface**:
+
 - Input: Command line arguments
 - Output: Formatted text output
 
@@ -81,12 +85,14 @@ This is the foundational implementation that enables basic task tracking. While 
 **Purpose**: Implement core task management rules
 
 **Responsibilities**:
+
 - Validate task data (non-empty titles)
 - Assign unique identifiers to tasks
 - Track task completion state
 - Coordinate between interface and storage
 
 **Interface**:
+
 - Input: Task operations (create, list, complete)
 - Output: Operation results or errors
 
@@ -95,12 +101,14 @@ This is the foundational implementation that enables basic task tracking. While 
 **Purpose**: Store tasks between program executions
 
 **Responsibilities**:
+
 - Save tasks reliably
 - Retrieve all tasks
 - Update task states
 - Initialize storage on first use
 
 **Interface**:
+
 - Input: Task data and operations
 - Output: Stored tasks or confirmation
 
@@ -109,12 +117,14 @@ This is the foundational implementation that enables basic task tracking. While 
 <!-- Show logical data model, not physical implementation -->
 
 **Task Entity**:
+
 - Unique identifier (system-generated)
 - Title (user-provided, required)
 - Completion status (boolean)
 - Creation timestamp
 
 **Storage Requirements**:
+
 - Local to user's machine
 - Persistent across restarts
 - No network dependency
@@ -141,13 +151,14 @@ This is the foundational implementation that enables basic task tracking. While 
    - Behavior: Marks task as done
 
 **Output Format Example**:
-```
+
+```text
 ID    Task                    Status
 ---   --------------------    ------
 abc   Fix login bug          [ ]
 def   Review documentation   [✓]
 ghi   Update dependencies    [ ]
-```
+```text
 
 ### Error Handling
 
@@ -159,6 +170,7 @@ ghi   Update dependencies    [ ]
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] Error Tracking - Storage and operation failures
 - [ ] Tracing - Not needed for simple operations
 - [ ] User Behavior - Too early to track
@@ -167,15 +179,17 @@ ghi   Update dependencies    [ ]
 - [ ] Business Metrics - No metrics yet
 
 **Implementation Details**:
-```
+
+```text
 Error Tracking:
 - Events: operation_failed
 - Fields: operation_type, error_category
 - Retention: 30 days
 - Privacy: No task content in logs
-```
+```text
 
 **Privacy Considerations**:
+
 - Never log task content
 - Only log operation metadata
 
@@ -203,16 +217,20 @@ Not applicable - this is the initial implementation.
 
 Provide browser UI instead of command line.
 
-**Why not chosen**: Adds complexity, requires running server, harder to integrate with terminal workflow, contradicts "minimal" goal.
+**Why not chosen**: Adds complexity, requires running server, harder to integrate with terminal workflow,
+contradicts "minimal" goal.
 
 ### Alternative 2: Cloud Storage
 
 Store tasks in online service.
 
-**Why not chosen**: Requires internet, adds authentication complexity, privacy concerns, contradicts local-first principle.
+**Why not chosen**: Requires internet, adds authentication complexity, privacy concerns, contradicts
+local-first principle.
 
 ### Alternative 3: No Persistence
 
 Keep tasks only during program execution.
 
-**Why not chosen**: Not useful for real task tracking, users expect data to persist, would require fundamental redesign later.
+**Why not chosen**: Not useful for real task tracking, users expect data to persist, would require fundamental
+redesign later.
+````

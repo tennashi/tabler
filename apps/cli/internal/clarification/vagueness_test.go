@@ -95,10 +95,10 @@ func TestVaguenessDetector(t *testing.T) {
 		t.Run("should detect missing context", func(t *testing.T) {
 			// Arrange
 			detector := NewVaguenessDetector()
-			
+
 			// Act
 			isVague, _ := detector.DetectVagueness("send the report")
-			
+
 			// Assert
 			if !isVague {
 				t.Error("expected missing context to be detected as vague")

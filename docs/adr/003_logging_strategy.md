@@ -4,9 +4,11 @@
 
 ## Context
 
-The Tabler project needs an effective logging strategy. Traditional log levels (ERROR, WARN, INFO, DEBUG) often don't align with actual use cases, making it difficult to find necessary information.
+The Tabler project needs an effective logging strategy. Traditional log levels (ERROR, WARN, INFO, DEBUG) often
+don't align with actual use cases, making it difficult to find necessary information.
 
 Logs serve various purposes:
+
 - Debugging during development
 - Error tracking in production
 - User behavior analysis
@@ -18,7 +20,8 @@ Each purpose requires different information, and a single log level hierarchy ca
 
 ## Decision
 
-**Adopt use-case-based log classification**. Instead of log levels, classify logs by their intended use with these six categories:
+**Adopt use-case-based log classification**. Instead of log levels, classify logs by their intended use with these
+six categories:
 
 1. **Tracing** (`tracing`) - Track execution flow and timing
 2. **Error Tracking** (`error_tracking`) - Identify and resolve issues
@@ -28,6 +31,7 @@ Each purpose requires different information, and a single log level hierarchy ca
 6. **Business Metrics** (`business_metrics`) - KPIs and business analytics
 
 Each log entry must include:
+
 - `use_case`: One of the six categories above
 - `timestamp`: ISO 8601 format
 - `trace_id`: ID to correlate related operations

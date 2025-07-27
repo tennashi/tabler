@@ -15,13 +15,12 @@ func TestDialogueManager(t *testing.T) {
 			}
 			processor := &mockResponseProcessor{}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			input := "prepare for meeting"
-			
+
 			// Act
 			dialogue, err := manager.StartDialogue(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -36,19 +35,18 @@ func TestDialogueManager(t *testing.T) {
 				t.Error("expected current question to be set")
 			}
 		})
-		
+
 		t.Run("should skip dialogue for clear input", func(t *testing.T) {
 			// Arrange
 			questionGen := &mockQuestionGenerator{}
 			processor := &mockResponseProcessor{}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			input := "send Q4 budget report to john@example.com by Friday"
-			
+
 			// Act
 			dialogue, err := manager.StartDialogue(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -58,7 +56,7 @@ func TestDialogueManager(t *testing.T) {
 			}
 		})
 	})
-	
+
 	t.Run("ProcessResponse", func(t *testing.T) {
 		t.Run("should handle user response and generate next question", func(t *testing.T) {
 			// Arrange
@@ -71,7 +69,7 @@ func TestDialogueManager(t *testing.T) {
 				},
 			}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			dialogue := &DialogueSession{
 				OriginalInput:   "prepare for meeting",
@@ -80,10 +78,9 @@ func TestDialogueManager(t *testing.T) {
 					{Question: "What kind of meeting?", Answer: ""},
 				},
 			}
-			
+
 			// Act
 			err := manager.ProcessResponse(context.Background(), dialogue, "team standup")
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -95,23 +92,22 @@ func TestDialogueManager(t *testing.T) {
 				t.Errorf("expected new question, got %q", dialogue.CurrentQuestion)
 			}
 		})
-		
+
 		t.Run("should detect skip intent", func(t *testing.T) {
 			// Arrange
 			questionGen := &mockQuestionGenerator{}
 			processor := &mockResponseProcessor{}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			dialogue := &DialogueSession{
 				OriginalInput:   "do the thing",
 				CurrentQuestion: "What thing?",
 				History:         []Exchange{},
 			}
-			
+
 			// Act
 			err := manager.ProcessResponse(context.Background(), dialogue, "skip")
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -120,7 +116,7 @@ func TestDialogueManager(t *testing.T) {
 				t.Error("expected skip to be detected")
 			}
 		})
-		
+
 		t.Run("should complete after exchange limit", func(t *testing.T) {
 			// Arrange
 			questionGen := &mockQuestionGenerator{
@@ -128,7 +124,7 @@ func TestDialogueManager(t *testing.T) {
 			}
 			processor := &mockResponseProcessor{}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			dialogue := &DialogueSession{
 				OriginalInput: "task",
@@ -137,10 +133,9 @@ func TestDialogueManager(t *testing.T) {
 					{Question: "Q2", Answer: "A2"},
 				},
 			}
-			
+
 			// Act
 			err := manager.ProcessResponse(context.Background(), dialogue, "answer 3")
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -150,7 +145,7 @@ func TestDialogueManager(t *testing.T) {
 			}
 		})
 	})
-	
+
 	t.Run("GetFinalTask", func(t *testing.T) {
 		t.Run("should construct final task from dialogue", func(t *testing.T) {
 			// Arrange
@@ -159,7 +154,7 @@ func TestDialogueManager(t *testing.T) {
 				finalTask: "Prepare slides for Q4 planning team standup on Thursday",
 			}
 			detector := NewVaguenessDetector()
-			
+
 			manager := NewDialogueManager(detector, questionGen, processor)
 			dialogue := &DialogueSession{
 				OriginalInput: "prepare for meeting",
@@ -175,10 +170,10 @@ func TestDialogueManager(t *testing.T) {
 				},
 				IsComplete: true,
 			}
-			
+
 			// Act
 			finalTask := manager.GetFinalTask(dialogue)
-			
+
 			// Assert
 			if !strings.Contains(finalTask, "Q4 planning") {
 				t.Errorf("expected final task to include topic")

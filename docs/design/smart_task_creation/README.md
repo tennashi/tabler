@@ -2,7 +2,8 @@
 
 ## Overview
 
-This directory contains technical design documents for the Smart Task Creation feature set, implementing the vision from the [Smart Task Creation PRD](../../prd/smart_task_creation.md).
+This directory contains technical design documents for the Smart Task Creation feature set, implementing the
+vision from the [Smart Task Creation PRD](../../prd/smart_task_creation.md).
 
 ## Related Documents
 
@@ -30,34 +31,34 @@ This directory contains technical design documents for the Smart Task Creation f
 
 ### Designed Features 📋
 
-4. **[LLM-based Metadata Extraction](./llm_metadata_extraction.md)**
+1. **[LLM-based Metadata Extraction](./llm_metadata_extraction.md)**
    - Natural language date parsing
    - Category and priority inference
    - Single Claude call for all metadata
 
-5. **[Smart Task Decomposition](./smart_decomposition.md)**
+2. **[Smart Task Decomposition](./smart_decomposition.md)**
    - Detect complex tasks
    - Suggest logical subtasks
    - Parent-child relationships
 
-6. **[Interactive Task Clarification](./interactive_clarification.md)**
+3. **[Interactive Task Clarification](./interactive_clarification.md)**
    - AI-powered dialogue for vague inputs
    - Context-aware questioning
    - Brief, focused conversations
 
-7. **[Input Mode System](./input_modes.md)**
+4. **[Input Mode System](./input_modes.md)**
    - Three modes: Quick, Talk, Planning
    - Manual control and auto-detection
    - Optimized for different workflows
 
-8. **[Context Learning Foundation](./context_learning.md)**
+5. **[Context Learning Foundation](./context_learning.md)**
    - Local-only pattern tracking
    - Personalized suggestions
    - Complete privacy control
 
 ## Architecture Overview
 
-```
+````text
 ┌─────────────────────────────────────────────────────┐
 │                    CLI Interface                     │
 │  (Quick Mode)    (Talk Mode)    (Planning Mode)    │
@@ -87,7 +88,7 @@ This directory contains technical design documents for the Smart Task Creation f
 │  - User Patterns Table                              │
 │  - Metadata Cache (in-memory)                       │
 └─────────────────────────────────────────────────────┘
-```
+```text
 
 ## Cross-Feature Considerations
 
@@ -134,3 +135,4 @@ This directory contains technical design documents for the Smart Task Creation f
 5. Add Context Learning
 6. Gather user feedback
 7. Iterate based on usage
+````

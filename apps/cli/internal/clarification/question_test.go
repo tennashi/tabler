@@ -19,10 +19,9 @@ func TestQuestionGenerator(t *testing.T) {
 				History:       []Exchange{},
 				ExtractedInfo: make(map[string]string),
 			}
-			
+
 			// Act
 			question, isComplete, err := generator.GenerateQuestion(context.Background(), session)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -37,7 +36,7 @@ func TestQuestionGenerator(t *testing.T) {
 				t.Error("expected question to contain question mark")
 			}
 		})
-		
+
 		t.Run("should generate follow-up question based on history", func(t *testing.T) {
 			// Arrange
 			claude := &mockClaudeClient{
@@ -53,10 +52,9 @@ func TestQuestionGenerator(t *testing.T) {
 					"meeting_type": "team presentation",
 				},
 			}
-			
+
 			// Act
 			question, isComplete, err := generator.GenerateQuestion(context.Background(), session)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -68,7 +66,7 @@ func TestQuestionGenerator(t *testing.T) {
 				t.Errorf("expected question about timing, got: %s", question)
 			}
 		})
-		
+
 		t.Run("should detect when enough information is gathered", func(t *testing.T) {
 			// Arrange
 			claude := &mockClaudeClient{
@@ -88,10 +86,9 @@ func TestQuestionGenerator(t *testing.T) {
 					"materials":    "slides and budget report",
 				},
 			}
-			
+
 			// Act
 			_, isComplete, err := generator.GenerateQuestion(context.Background(), session)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -100,7 +97,7 @@ func TestQuestionGenerator(t *testing.T) {
 				t.Error("expected dialogue to be complete")
 			}
 		})
-		
+
 		t.Run("should handle Claude errors gracefully", func(t *testing.T) {
 			// Arrange
 			claude := &mockClaudeClient{
@@ -111,10 +108,10 @@ func TestQuestionGenerator(t *testing.T) {
 				OriginalInput: "do stuff",
 				History:       []Exchange{},
 			}
-			
+
 			// Act
 			question, isComplete, err := generator.GenerateQuestion(context.Background(), session)
-			
+
 			// Assert
 			if err == nil {
 				t.Error("expected error to be returned")

@@ -1,6 +1,6 @@
 # Design Doc: Task Shortcuts
 
-<!-- 
+<!--
 DETAIL LEVEL GUIDANCE:
 - Focus on WHAT and WHY, not HOW (implementation details)
 - Describe component responsibilities and interfaces, not code
@@ -11,13 +11,16 @@ DETAIL LEVEL GUIDANCE:
 
 ## Overview
 
-This feature adds inline shortcuts to task creation for quick entry of metadata. Users can specify tags (#), deadlines (@), and priorities (!) directly within task descriptions, making task creation more efficient and natural.
+This feature adds inline shortcuts to task creation for quick entry of metadata. Users can specify tags (#),
+deadlines (@), and priorities (!) directly within task descriptions, making task creation more efficient and
+natural.
 
 ## Background
 
 [Link to PRD: ../prd/smart_task_creation.md](../prd/smart_task_creation.md)
 
-This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Users need a fast way to add metadata without breaking their flow or using complex forms.
+This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Users need a fast way to add
+metadata without breaking their flow or using complex forms.
 
 ## Goals
 
@@ -41,7 +44,7 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 
 ### High-Level Architecture
 
-```
+````text
 ┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
 │ Task Input      │────▶│ Shortcut     │────▶│ Persistence │
 │ with Shortcuts  │     │ Parser       │     │ Layer       │
@@ -53,7 +56,7 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
                         │ - Clean title│
                         │ - Metadata   │
                         └──────────────┘
-```
+```text
 
 ### Detailed Design
 
@@ -64,12 +67,14 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 **Purpose**: Extract metadata from inline shortcuts
 
 **Responsibilities**:
+
 - Identify shortcut patterns in input text
 - Extract values for each shortcut type
 - Return cleaned title without shortcuts
 - Preserve text that isn't shortcuts
 
 **Interface**:
+
 - Input: Raw task text with potential shortcuts
 - Output: Cleaned title and extracted metadata
 
@@ -78,12 +83,14 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 **Purpose**: Handle tag shortcuts (#tag)
 
 **Responsibilities**:
+
 - Find all hashtag patterns
 - Extract tag values
 - Normalize tags for consistency
 - Handle edge cases (empty tags, special characters)
 
 **Interface**:
+
 - Input: Text containing potential tags
 - Output: List of normalized tag values
 
@@ -92,12 +99,14 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 **Purpose**: Handle deadline shortcuts (@date)
 
 **Responsibilities**:
+
 - Recognize date patterns after @ symbol
 - Support common formats (today, tomorrow, dates)
 - Convert to standard date representation
 - Handle invalid date inputs gracefully
 
 **Interface**:
+
 - Input: Date shortcut text
 - Output: Standardized date or none
 
@@ -106,12 +115,14 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 **Purpose**: Handle priority shortcuts (!)
 
 **Responsibilities**:
+
 - Count priority indicators
 - Map to priority levels
 - Handle maximum limits
 - Process multiple occurrences correctly
 
 **Interface**:
+
 - Input: Text with priority marks
 - Output: Priority level (none/low/medium/high)
 
@@ -120,12 +131,14 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 <!-- Show logical data model, not physical implementation -->
 
 **Extended Task Properties**:
+
 - Existing: identifier, title, completion status, created time
 - New: tags (list of strings)
 - New: deadline (optional date)
 - New: priority level (enumeration)
 
 **Metadata Characteristics**:
+
 - Tags: Multiple allowed, stored as-is without normalization
 - Deadline: Single value, optional
 - Priority: Single level, default none
@@ -136,15 +149,15 @@ This implements Story 2 from the PRD: Natural Language Input with Shortcuts. Use
 
 **Shortcut Syntax**:
 
-| Pattern | Purpose | Examples |
-|---------|---------|----------|
-| `#word` | Add tag | `#work`, `#urgent`, `#project-x` |
-| `@date` | Set deadline | `@today`, `@tomorrow`, `@2024-01-15` |
-| `!` | Set priority | `!` (low), `!!` (medium), `!!!` (high) |
+| Pattern | Purpose      | Examples                               |
+| ------- | ------------ | -------------------------------------- |
+| `#word` | Add tag      | `#work`, `#urgent`, `#project-x`       |
+| `@date` | Set deadline | `@today`, `@tomorrow`, `@2024-01-15`   |
+| `!`     | Set priority | `!` (low), `!!` (medium), `!!!` (high) |
 
 **Processing Examples**:
 
-```
+```text
 Input: "Fix login bug #work #urgent @tomorrow !!"
 Result:
   Title: "Fix login bug"
@@ -158,9 +171,10 @@ Result:
   Tags: []
   Deadline: current date
   Priority: none
-```
+```text
 
 **Date Format Support**:
+
 - Relative: today, tomorrow
 - Day names: monday, tuesday, etc.
 - Standard dates: various common formats
@@ -175,6 +189,7 @@ Result:
 ### Logging Strategy
 
 **Applicable Use Cases**:
+
 - [x] User Behavior - Track shortcut usage patterns
 - [x] Error Tracking - Failed parsing attempts
 - [ ] Tracing - Not needed
@@ -183,7 +198,8 @@ Result:
 - [ ] Business Metrics - Covered by user behavior
 
 **Implementation Details**:
-```
+
+```text
 User Behavior:
 - Events: shortcuts_used
 - Fields: shortcut_types, count_per_type
@@ -193,9 +209,10 @@ Error Tracking:
 - Events: parse_failed
 - Fields: shortcut_type, error_reason
 - Retention: 30 days
-```
+```text
 
 **Privacy Considerations**:
+
 - Log shortcut usage patterns only
 - Never log actual tag names or dates
 
@@ -227,7 +244,8 @@ Error Tracking:
 
 Provide distinct input fields for each metadata type.
 
-**Why not chosen**: Disrupts flow, requires multiple inputs, less natural than inline shortcuts, poor command-line experience.
+**Why not chosen**: Disrupts flow, requires multiple inputs, less natural than inline shortcuts, poor
+command-line experience.
 
 ### Alternative 2: Configuration File
 
@@ -239,15 +257,18 @@ Define tasks in structured configuration files.
 
 Use only AI to extract all metadata.
 
-**Why not chosen**: Requires network/AI availability, slower than shortcuts, less predictable, overkill for simple metadata.
+**Why not chosen**: Requires network/AI availability, slower than shortcuts, less predictable, overkill for
+simple metadata.
 
 ### Alternative 4: Tag Normalization at Input Time
 
 Normalize tags when parsing (e.g., lowercase, trim spaces, unify similar tags).
 
-**Why not chosen**: 
+**Why not chosen**:
+
 - Complex in multilingual environments (Japanese/English mixed tags)
 - Users may intentionally use different cases or variations
 - Example: `Work`, `work`, `仕事`, `お仕事` have different nuances
 - Better to defer to LLM-based semantic grouping in future features
 - Allows fuzzy search and intelligent tag suggestions later
+````

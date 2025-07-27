@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document defines logging conventions based on use cases. Logs are classified solely by their intended use, without traditional log levels. When implementing logging in design documents, specify which use cases apply and how logs will be structured for those specific purposes.
+This document defines logging conventions based on use cases. Logs are classified solely by their intended use,
+without traditional log levels. When implementing logging in design documents, specify which use cases apply and how
+logs will be structured for those specific purposes.
 
 ## Logging Use Cases and What to Record
 
@@ -11,6 +13,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 **Purpose**: Track execution flow and operation dependencies across the system
 
 **What to Record**:
+
 - Trace ID (unique per request/operation)
 - Span ID and parent span ID
 - Operation name
@@ -20,7 +23,8 @@ This document defines logging conventions based on use cases. Logs are classifie
 - Input/output summary (sanitized)
 
 **Example**:
-```json
+
+````json
 {
   "use_case": "tracing",
   "trace_id": "abc-123-def",
@@ -32,13 +36,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "status": "success",
   "input_summary": "task creation request"
 }
-```
+```text
 
 ### 2. Error Tracking
 
 **Purpose**: Identify, diagnose, and resolve production issues
 
 **What to Record**:
+
 - Error type and message
 - Stack trace
 - Trace ID (to correlate with request flow)
@@ -47,6 +52,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 - Suggested remediation
 
 **Example**:
+
 ```json
 {
   "use_case": "error_tracking",
@@ -57,13 +63,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "user_input": "remind me yesterday",
   "suggestion": "Date must be in the future"
 }
-```
+```text
 
 ### 3. User Behavior
 
 **Purpose**: Understand how users interact with the system to improve UX
 
 **What to Record**:
+
 - User actions
 - Feature usage
 - Success/failure patterns
@@ -71,6 +78,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 - User preferences used
 
 **Example**:
+
 ```json
 {
   "use_case": "user_behavior",
@@ -81,13 +89,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "time_to_complete_ms": 200,
   "features_used": ["reminder", "due_date"]
 }
-```
+```text
 
 ### 4. Performance Monitoring
 
 **Purpose**: Identify bottlenecks and optimize system performance
 
 **What to Record**:
+
 - Operation metrics
 - Resource usage
 - Queue depths
@@ -95,6 +104,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 - External service latencies
 
 **Example**:
+
 ```json
 {
   "use_case": "performance",
@@ -106,13 +116,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "result_count": 42,
   "memory_used_mb": 45
 }
-```
+```text
 
 ### 5. Security Audit
 
 **Purpose**: Maintain compliance and provide security audit trails
 
 **What to Record**:
+
 - Who did what when
 - Access attempts
 - Data modifications
@@ -120,6 +131,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 - Administrative actions
 
 **Example**:
+
 ```json
 {
   "use_case": "security_audit",
@@ -130,13 +142,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "exported_records": 1500,
   "timestamp": "2024-01-20T10:30:45Z"
 }
-```
+```text
 
 ### 6. Business Metrics
 
 **Purpose**: Track business KPIs and product analytics
 
 **What to Record**:
+
 - Feature adoption
 - User engagement
 - Conversion events
@@ -144,6 +157,7 @@ This document defines logging conventions based on use cases. Logs are classifie
 - Growth metrics
 
 **Example**:
+
 ```json
 {
   "use_case": "business_metrics",
@@ -153,13 +167,14 @@ This document defines logging conventions based on use cases. Logs are classifie
   "user_segment": "enterprise",
   "action": "first_use"
 }
-```
+```text
 
 ## Implementation Guidelines
 
 ### Mandatory Fields
 
 Every log entry must include:
+
 - `use_case`: One of the six defined use cases
 - `timestamp`: ISO 8601 format
 - `trace_id`: For correlating related operations
@@ -174,41 +189,46 @@ When creating a design document, include:
 This feature implements logging for:
 
 **Tracing**:
+
 - All major operations with timing
 - Parent-child relationships for sub-operations
 - Retention: 7 days
 
-**Error Tracking**: 
+**Error Tracking**:
+
 - All errors with sanitized context
 - Stack traces for unexpected errors
 - Retention: 30 days
 
 **Performance Monitoring**:
+
 - Operations taking >100ms
 - Resource usage for memory-intensive operations
 - Retention: 7 days
-```
+```text
 
 ## Use Case Selection Guide
 
-| If you need to... | Use this case |
-|-------------------|---------------|
-| Follow execution flow | `tracing` |
-| Debug production issues | `error_tracking` |
-| Understand user patterns | `user_behavior` |
-| Find slow operations | `performance` |
-| Audit who did what | `security_audit` |
-| Track business KPIs | `business_metrics` |
+| If you need to...        | Use this case      |
+| ------------------------ | ------------------ |
+| Follow execution flow    | `tracing`          |
+| Debug production issues  | `error_tracking`   |
+| Understand user patterns | `user_behavior`    |
+| Find slow operations     | `performance`      |
+| Audit who did what       | `security_audit`   |
+| Track business KPIs      | `business_metrics` |
 
 ## Privacy and Security
 
 ### Never Log
+
 - Passwords, tokens, API keys
 - Full credit card numbers
 - Unencrypted PII
 - Private message contents
 
 ### Always Sanitize
+
 - User input (mask sensitive patterns)
 - File paths (use hashes)
 - Email addresses (partially mask)
@@ -223,7 +243,7 @@ All use cases should include `trace_id` to enable cross-use-case correlation:
 ```bash
 # Find all logs for a specific request
 jq 'select(.trace_id == "abc-123-def")' logs.json | jq -s 'sort_by(.timestamp)'
-```
+```text
 
 ### Development vs Production
 
@@ -239,7 +259,7 @@ In development environments, tracing logs may include additional debug informati
     "parser_state": {...}
   }
 }
-```
+```text
 
 ### Sampling Strategies
 
@@ -252,7 +272,7 @@ For high-volume use cases:
   "sample_rate": 0.1,  // 10% sampling
   ...
 }
-```
+```text
 
 ## Testing Requirements
 
@@ -262,3 +282,4 @@ For high-volume use cases:
 4. Validate no sensitive data exposed
 5. Test correlation across use cases
 6. Verify sampling works correctly
+````
