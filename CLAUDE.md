@@ -11,14 +11,17 @@ directory primarily contain references to `.agent/` and Claude-specific implemen
 
 ### Sub Agent Selection Guidelines
 
-**IMPORTANT**: When receiving any task, always delegate it to an appropriate sub agent.
+**IMPORTANT**: When the user specifies a role (e.g., "as [role]", "role: [role]"), interpret this as an instruction to invoke the corresponding sub agent.
 
-#### Agent Selection Criteria
+#### Role-based Agent Invocation
 
-Each sub agent has specific use cases defined in `.claude/agents/`:
-- Review the `description` field in each agent file for selection criteria
-- These descriptions specify when to use each agent and include proactive triggers
-- Always check `.claude/agents/` for the most up-to-date agent capabilities
+When users use role-specifying phrases:
+- "as planner" → Invoke planner agent
+- "role: builder" → Invoke builder agent  
+- "as reviewer" → Invoke reviewer agent
+- "as maintainer" → Invoke maintainer agent
+- "as learner" → Invoke learner agent
+
 
 
 ### Slash Commands
