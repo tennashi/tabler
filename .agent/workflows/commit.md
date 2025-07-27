@@ -2,20 +2,20 @@
 
 This document describes the step-by-step process for making commits.
 
-## Branch Decision Criteria
+## Branch Decision Criteria (role: maintainer)
 
-### First Rule: Check Current Branch
+### First Rule: Check Current Branch (role: maintainer)
 
 ````bash
 # Check what branch you're on
 git branch --show-current
 ```text
 
-### If on main/master branch → ALWAYS create a new branch
+### If on main/master branch → ALWAYS create a new branch (role: maintainer)
 
 **NO EXCEPTIONS** - Never commit directly to main/master
 
-### Creating a new branch - ALWAYS from latest main
+### Creating a new branch - ALWAYS from latest main (role: maintainer)
 
 ```bash
 # 1. Save any uncommitted work
@@ -32,7 +32,7 @@ git checkout -b <descriptive-branch-name>
 git stash pop
 ```text
 
-### When to create a new branch:
+### When to create a new branch: (role: maintainer)
 
 - **On main branch** → Always
 - **Starting a new task or feature**
@@ -40,14 +40,14 @@ git stash pop
 - **Working on someone else's branch** without explicit permission
 - **The current branch is a release or develop branch**
 
-### Work directly on current branch when:
+### Work directly on current branch when: (role: maintainer)
 
 - **Already on your own feature branch** for the SAME task
 - **Continuing work** you just started in the same session
 - **Making fixes to work** you just committed
 - **Explicitly told to work on current branch**
 
-### Branch naming conventions:
+### Branch naming conventions: (role: maintainer)
 
 ```bash
 # Task/Issue based (preferred)
@@ -62,7 +62,7 @@ git checkout -b fix-memory-leak-in-parser
 git checkout -b yourname/experiment-with-new-api
 ```text
 
-## Pre-Commit Checklist
+## Pre-Commit Checklist (role: maintainer)
 
 **MANDATORY before every commit:**
 
@@ -98,7 +98,7 @@ git checkout -b yourname/experiment-with-new-api
    - Use the purpose from step 1 to craft a clear message
    - See `guidelines/commit.md` for format rules
 
-## Commit Order Strategy
+## Commit Order Strategy (role: maintainer)
 
 When making multiple commits, follow this order:
 
@@ -122,7 +122,7 @@ When making multiple commits, follow this order:
    - Test failures
    - Linting errors
 
-### Example Sequence
+### Example Sequence (role: maintainer)
 
 ````bash
 # 1. Install new tool
@@ -143,20 +143,20 @@ git add <fixed-files>
 git commit -m "fix: resolve <tool> warnings"
 ```text
 
-## Handling Mixed Changes
+## Handling Mixed Changes (role: maintainer)
 
-### When files contain multiple unrelated changes
+### When files contain multiple unrelated changes (role: maintainer)
 
 Since AI agents cannot use interactive staging (`git add -p`), use the stash-based approach:
 
-#### Step 1: Stage files with single-purpose changes
+#### Step 1: Stage files with single-purpose changes (role: maintainer)
 
 ```bash
 # First, stage files that contain only changes for current purpose
 git add <file-with-single-purpose>
 ```text
 
-#### Step 2: Handle mixed files using stash
+#### Step 2: Handle mixed files using stash (role: maintainer)
 
 For files containing mixed changes:
 
@@ -178,7 +178,7 @@ git stash pop
 # Resolve any conflicts if they occur
 ```text
 
-### Verifying staged changes work independently
+### Verifying staged changes work independently (role: maintainer)
 
 **Important**: Ensure staged changes can stand alone:
 
@@ -197,7 +197,7 @@ git commit -m "type: description"
 git stash pop
 ```text
 
-### Example: Separating formatting from features
+### Example: Separating formatting from features (role: maintainer)
 
 When formatting and feature changes are mixed:
 
@@ -218,9 +218,9 @@ git add <feature-files>
 git commit -m "feat: add new functionality"
 ```text
 
-## Common Scenarios
+## Common Scenarios (role: maintainer)
 
-### Single Feature Implementation
+### Single Feature Implementation (role: maintainer)
 
 ```bash
 # 1. Check current state
@@ -236,7 +236,7 @@ git add <feature-files>
 git commit -m "feat: implement <feature>"
 ```text
 
-### Bug Fix with Tests
+### Bug Fix with Tests (role: maintainer)
 
 ```bash
 # 1. Fix the bug and add test
@@ -251,7 +251,7 @@ git add <fix-files>
 git commit -m "fix: <bug description>"
 ```text
 
-### Refactoring
+### Refactoring (role: maintainer)
 
 ```bash
 # 1. Make refactoring changes
@@ -263,9 +263,9 @@ git add <refactored-files>
 git commit -m "refactor(<scope>): <what was refactored>"
 ```text
 
-## Post-Commit: Pull Request Creation
+## Post-Commit: Pull Request Creation (role: maintainer)
 
-### After committing changes on a feature branch:
+### After committing changes on a feature branch: (role: maintainer)
 
 1. **Ask about PR creation**
    - "Would you like to create a pull request now?"
@@ -292,7 +292,7 @@ git commit -m "refactor(<scope>): <what was refactored>"
    - Copy and share the PR URL that gh returns
    - The PR is now ready for review
 
-### Note about gh pr create
+### Note about gh pr create (role: maintainer)
 
 - Always use `--head $(git branch --show-current)` flag
 - This automatically pushes unpushed commits
