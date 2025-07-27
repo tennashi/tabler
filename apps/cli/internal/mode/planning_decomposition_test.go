@@ -36,7 +36,6 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 
 			// Act
 			result, err := handler.Process(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -44,28 +43,28 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 			if result == nil {
 				t.Fatal("expected result to be non-nil")
 			}
-			
+
 			// Check parent task was created
 			if result.Title != "organize conference" {
 				t.Errorf("expected parent title %q, got %q", "organize conference", result.Title)
 			}
-			
+
 			// Check subtasks were created
 			if len(storage.createdTasks) != 3 { // parent + 2 selected subtasks
 				t.Errorf("expected 3 tasks created, got %d", len(storage.createdTasks))
 			}
-			
+
 			// Verify decomposer was called
 			if !decomposer.called {
 				t.Error("expected decomposer to be called")
 			}
-			
+
 			// Verify presenter was called
 			if !presenter.called {
 				t.Error("expected presenter to be called")
 			}
 		})
-		
+
 		t.Run("should skip decomposition for simple task", func(t *testing.T) {
 			// Arrange
 			storage := &mockStorageWithDecomposition{
@@ -74,13 +73,12 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 			detector := decomposition.NewComplexityDetector()
 			decomposer := &mockDecomposer{}
 			presenter := &mockPresenter{}
-			
+
 			handler := NewPlanningHandlerWithDecomposition(storage, detector, decomposer, presenter)
 			input := "buy milk" // Simple task
-			
+
 			// Act
 			result, err := handler.Process(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -88,18 +86,18 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 			if result.Title != "buy milk" {
 				t.Errorf("expected title %q, got %q", "buy milk", result.Title)
 			}
-			
+
 			// Check only one task was created
 			if len(storage.createdTasks) != 1 {
 				t.Errorf("expected 1 task created, got %d", len(storage.createdTasks))
 			}
-			
+
 			// Verify decomposer was NOT called
 			if decomposer.called {
 				t.Error("expected decomposer NOT to be called for simple task")
 			}
 		})
-		
+
 		t.Run("should handle decomposition errors gracefully", func(t *testing.T) {
 			// Arrange
 			storage := &mockStorageWithDecomposition{
@@ -110,28 +108,27 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 				err: fmt.Errorf("Claude API timeout"),
 			}
 			presenter := &mockPresenter{}
-			
+
 			handler := NewPlanningHandlerWithDecomposition(storage, detector, decomposer, presenter)
 			input := "organize conference"
-			
+
 			// Act
 			result, err := handler.Process(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
-			
+
 			// Should fall back to creating single task
 			if result.Title != "organize conference" {
 				t.Errorf("expected title %q, got %q", "organize conference", result.Title)
 			}
-			
+
 			if len(storage.createdTasks) != 1 {
 				t.Errorf("expected 1 task created on error, got %d", len(storage.createdTasks))
 			}
 		})
-		
+
 		t.Run("should handle user selecting 'none'", func(t *testing.T) {
 			// Arrange
 			storage := &mockStorageWithDecomposition{
@@ -150,18 +147,17 @@ func TestPlanningHandlerWithDecomposition(t *testing.T) {
 			presenter := &mockPresenter{
 				selectedIndices: []int{}, // User selected 'none'
 			}
-			
+
 			handler := NewPlanningHandlerWithDecomposition(storage, detector, decomposer, presenter)
 			input := "organize conference"
-			
+
 			// Act
 			result, err := handler.Process(context.Background(), input)
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
-			
+
 			// Should create only parent task
 			if result.Title != "organize conference" {
 				t.Errorf("expected title %q, got %q", "organize conference", result.Title)

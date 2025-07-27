@@ -20,23 +20,22 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 				"COMPLETE",
 			},
 		}
-		
+
 		detector := clarification.NewVaguenessDetector()
 		questionGen := clarification.NewQuestionGenerator(claude)
 		processor := clarification.NewResponseProcessor()
 		dialogueManager := clarification.NewDialogueManager(detector, questionGen, processor)
-		
+
 		// Create handler with clarification
 		handler := NewTalkHandlerWithClarification(dialogueManager)
-		
+
 		// Simulate user responses
 		userInput := strings.NewReader("presentation\nFriday\n")
 		handler.SetInput(userInput)
 		handler.SetOutput(io.Discard) // Suppress output for testing
-		
+
 		// Act
 		task, err := handler.Process(context.Background(), "work on the thing")
-		
 		// Assert
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -44,7 +43,7 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 		if task == nil {
 			t.Fatal("expected task to be created")
 		}
-		
+
 		// The final task should be more specific than the original
 		if task.Title == "work on the thing" {
 			t.Error("expected task title to be clarified")
@@ -53,7 +52,7 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 			t.Error("expected task to include clarified information")
 		}
 	})
-	
+
 	t.Run("should skip dialogue for clear input", func(t *testing.T) {
 		// Arrange
 		claude := &mockClaudeForClarification{}
@@ -61,14 +60,13 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 		questionGen := clarification.NewQuestionGenerator(claude)
 		processor := clarification.NewResponseProcessor()
 		dialogueManager := clarification.NewDialogueManager(detector, questionGen, processor)
-		
+
 		handler := NewTalkHandlerWithClarification(dialogueManager)
 		handler.SetOutput(io.Discard)
-		
+
 		// Act
 		clearInput := "review Q4 budget report by Friday"
 		task, err := handler.Process(context.Background(), clearInput)
-		
 		// Assert
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -76,13 +74,13 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 		if task.Title != clearInput {
 			t.Errorf("expected task title to remain unchanged for clear input")
 		}
-		
+
 		// Claude should not have been called
 		if claude.callCount > 0 {
 			t.Error("expected no Claude calls for clear input")
 		}
 	})
-	
+
 	t.Run("should handle skip request", func(t *testing.T) {
 		// Arrange
 		claude := &mockClaudeForClarification{
@@ -90,22 +88,21 @@ func TestTalkHandlerWithClarification(t *testing.T) {
 				"What kind of meeting do you need to prepare for?",
 			},
 		}
-		
+
 		detector := clarification.NewVaguenessDetector()
 		questionGen := clarification.NewQuestionGenerator(claude)
 		processor := clarification.NewResponseProcessor()
 		dialogueManager := clarification.NewDialogueManager(detector, questionGen, processor)
-		
+
 		handler := NewTalkHandlerWithClarification(dialogueManager)
-		
+
 		// User types "skip"
 		userInput := strings.NewReader("skip\n")
 		handler.SetInput(userInput)
 		handler.SetOutput(io.Discard)
-		
+
 		// Act
 		task, err := handler.Process(context.Background(), "prepare for meeting")
-		
 		// Assert
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)

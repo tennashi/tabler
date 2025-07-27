@@ -6,9 +6,9 @@ import (
 
 // VaguenessDetector identifies when task input needs clarification
 type VaguenessDetector struct {
-	genericWords  []string
-	vagueVerbs    []string
-	minWordCount  int
+	genericWords     []string
+	vagueVerbs       []string
+	minWordCount     int
 	clarityThreshold float64
 }
 
@@ -23,7 +23,7 @@ func NewVaguenessDetector() *VaguenessDetector {
 			"do", "handle", "deal", "work", "fix", "check",
 			"look", "see", "get", "prepare",
 		},
-		minWordCount: 3,
+		minWordCount:     3,
 		clarityThreshold: 0.4,
 	}
 }
@@ -32,36 +32,36 @@ func NewVaguenessDetector() *VaguenessDetector {
 func (d *VaguenessDetector) DetectVagueness(input string) (bool, float64) {
 	lowerInput := strings.ToLower(strings.TrimSpace(input))
 	words := strings.Fields(lowerInput)
-	
+
 	// Calculate vagueness score (0.0 = clear, 1.0 = very vague)
 	score := 0.0
-	
+
 	// Factor 1: Length
 	score += d.scoreLengthFactor(len(words))
-	
+
 	// Factor 2: Generic words
 	score += d.scoreGenericWords(words)
-	
+
 	// Factor 3: Vague verbs
 	score += d.scoreVagueVerbs(words)
-	
+
 	// Factor 4: Question marks
 	score += d.scoreQuestionMarks(input)
-	
+
 	// Factor 5: Lacks specifics
 	score += d.scoreSpecificity(input, lowerInput, words)
-	
+
 	// Factor 6: Missing context
 	score += d.scoreMissingContext(lowerInput)
-	
+
 	// Cap score at 1.0
 	if score > 1.0 {
 		score = 1.0
 	}
-	
+
 	// Determine if clarification is needed
 	isVague := score >= d.clarityThreshold
-	
+
 	return isVague, score
 }
 
@@ -122,17 +122,17 @@ func (d *VaguenessDetector) scoreSpecificity(input, lowerInput string, words []s
 			return 0.0
 		}
 	}
-	
+
 	// Check for dates
 	if d.containsDateWords(lowerInput) {
 		return 0.0
 	}
-	
+
 	// Check for proper nouns
 	if d.containsProperNouns(input) {
 		return 0.0
 	}
-	
+
 	// No specifics found and task is not too short
 	if len(words) > 2 {
 		return 0.2
@@ -144,7 +144,7 @@ func (d *VaguenessDetector) scoreSpecificity(input, lowerInput string, words []s
 func (d *VaguenessDetector) containsDateWords(lowerInput string) bool {
 	dateWords := []string{
 		"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
-		"today", "tomorrow", "week", "month", 
+		"today", "tomorrow", "week", "month",
 		"january", "february", "march", "april", "may", "june",
 		"july", "august", "september", "october", "november", "december",
 	}
@@ -173,7 +173,7 @@ func (d *VaguenessDetector) scoreMissingContext(lowerInput string) float64 {
 		"send the", "prepare the", "finish the", "complete the",
 		"review the", "update the", "fix the",
 	}
-	
+
 	for _, phrase := range contextPhrases {
 		if idx := strings.Index(lowerInput, phrase); idx != -1 {
 			// Check what comes after the phrase

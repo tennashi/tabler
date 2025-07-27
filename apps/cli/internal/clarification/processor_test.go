@@ -17,10 +17,9 @@ func TestResponseProcessor(t *testing.T) {
 				},
 				ExtractedInfo: make(map[string]string),
 			}
-			
+
 			// Act
 			err := processor.ProcessResponse(session, "team standup")
-			
 			// Assert
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
@@ -28,7 +27,7 @@ func TestResponseProcessor(t *testing.T) {
 			// ExtractedInfo will be updated by ExtractInfo method
 		})
 	})
-	
+
 	t.Run("ExtractInfo", func(t *testing.T) {
 		t.Run("should extract meeting type from response", func(t *testing.T) {
 			// Arrange
@@ -40,16 +39,16 @@ func TestResponseProcessor(t *testing.T) {
 				},
 				ExtractedInfo: make(map[string]string),
 			}
-			
+
 			// Act
 			info := processor.ExtractInfo(session)
-			
+
 			// Assert
 			if info["type"] != "quarterly review meeting" {
 				t.Errorf("expected meeting type to be extracted")
 			}
 		})
-		
+
 		t.Run("should extract deadline from response", func(t *testing.T) {
 			// Arrange
 			processor := NewResponseProcessor()
@@ -60,16 +59,16 @@ func TestResponseProcessor(t *testing.T) {
 				},
 				ExtractedInfo: make(map[string]string),
 			}
-			
+
 			// Act
 			info := processor.ExtractInfo(session)
-			
+
 			// Assert
 			if info["deadline"] != "Friday" {
 				t.Errorf("expected deadline to be extracted")
 			}
 		})
-		
+
 		t.Run("should accumulate information across exchanges", func(t *testing.T) {
 			// Arrange
 			processor := NewResponseProcessor()
@@ -82,10 +81,10 @@ func TestResponseProcessor(t *testing.T) {
 				},
 				ExtractedInfo: make(map[string]string),
 			}
-			
+
 			// Act
 			info := processor.ExtractInfo(session)
-			
+
 			// Assert
 			if len(info) < 3 {
 				t.Errorf("expected multiple pieces of info, got %d", len(info))
@@ -101,7 +100,7 @@ func TestResponseProcessor(t *testing.T) {
 			}
 		})
 	})
-	
+
 	t.Run("BuildFinalTask", func(t *testing.T) {
 		t.Run("should construct clear task from session", func(t *testing.T) {
 			// Arrange
@@ -119,10 +118,10 @@ func TestResponseProcessor(t *testing.T) {
 					"materials": "slides and budget",
 				},
 			}
-			
+
 			// Act
 			finalTask := processor.BuildFinalTask(session)
-			
+
 			// Assert
 			if !strings.Contains(finalTask, "quarterly planning") {
 				t.Error("expected final task to include meeting type")
@@ -134,7 +133,7 @@ func TestResponseProcessor(t *testing.T) {
 				t.Error("expected final task to include materials")
 			}
 		})
-		
+
 		t.Run("should handle minimal information", func(t *testing.T) {
 			// Arrange
 			processor := NewResponseProcessor()
@@ -147,20 +146,20 @@ func TestResponseProcessor(t *testing.T) {
 					"project": "website redesign",
 				},
 			}
-			
+
 			// Act
 			finalTask := processor.BuildFinalTask(session)
-			
+
 			// Assert
 			if !strings.Contains(finalTask, "website redesign") {
 				t.Error("expected final task to include project name")
 			}
 		})
 	})
-	
+
 	t.Run("DetectsSkip", func(t *testing.T) {
 		processor := NewResponseProcessor()
-		
+
 		tests := []struct {
 			response string
 			expected bool
@@ -173,7 +172,7 @@ func TestResponseProcessor(t *testing.T) {
 			{"quarterly review", false},
 			{"I don't know", false},
 		}
-		
+
 		for _, tt := range tests {
 			t.Run(tt.response, func(t *testing.T) {
 				result := processor.DetectsSkip(tt.response)

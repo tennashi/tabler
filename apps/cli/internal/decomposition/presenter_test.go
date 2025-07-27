@@ -50,7 +50,7 @@ func TestInteractivePresenter(t *testing.T) {
 
 	t.Run("ParseSelection", func(t *testing.T) {
 		presenter := NewInteractivePresenter()
-		
+
 		tests := []struct {
 			name     string
 			input    string

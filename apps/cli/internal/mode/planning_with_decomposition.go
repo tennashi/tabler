@@ -65,7 +65,7 @@ func (h *PlanningHandlerWithDecomposition) SetInput(input io.Reader) {
 func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input string) (*task.Task, error) {
 	// Check if task is complex
 	isComplex, reason := h.detector.DetectComplexity(input)
-	
+
 	if !isComplex {
 		// Simple task - create directly
 		return h.createSimpleTask(input)
@@ -74,7 +74,7 @@ func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input st
 	// Complex task - offer decomposition
 	fmt.Printf("📋 Planning mode: This looks like a complex task (%s)\n", reason)
 	fmt.Println("Let me help you break it down...")
-	
+
 	// Try to decompose
 	result, err := h.decomposer.Decompose(ctx, input)
 	if err != nil {
@@ -83,16 +83,16 @@ func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input st
 		fmt.Println("Creating single task instead...")
 		return h.createSimpleTask(input)
 	}
-	
+
 	// Present decomposition options
 	presentation := h.presenter.Present(result)
 	fmt.Print(presentation)
-	
+
 	// Get user selection
 	reader := bufio.NewReader(h.input)
 	selection, _ := reader.ReadString('\n')
 	selection = strings.TrimSpace(selection)
-	
+
 	// Parse selection
 	selectedIndices, err := h.presenter.ParseSelection(selection, len(result.Subtasks))
 	if err != nil {
@@ -100,13 +100,13 @@ func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input st
 		fmt.Println("Creating single task instead...")
 		return h.createSimpleTask(input)
 	}
-	
+
 	// Create parent task
 	parentTask, err := h.createSimpleTask(input)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Create selected subtasks
 	if len(selectedIndices) > 0 {
 		fmt.Printf("✅ Creating %d subtasks...\n", len(selectedIndices))
@@ -119,7 +119,7 @@ func (h *PlanningHandlerWithDecomposition) Process(ctx context.Context, input st
 			}
 		}
 	}
-	
+
 	return parentTask, nil
 }
 
@@ -134,11 +134,11 @@ func (h *PlanningHandlerWithDecomposition) createSimpleTask(title string) (*task
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
-	
+
 	if err := h.storage.Create(t); err != nil {
 		return nil, err
 	}
-	
+
 	return t, nil
 }
 
@@ -153,6 +153,6 @@ func (h *PlanningHandlerWithDecomposition) createSubtask(title, parentID string)
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
-	
+
 	return h.storage.CreateWithParent(t, parentID)
 }

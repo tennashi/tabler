@@ -35,10 +35,10 @@ type ResponseProcessor interface {
 
 // DialogueManager orchestrates the clarification conversation
 type DialogueManager struct {
-	detector      *VaguenessDetector
-	questionGen   QuestionGenerator
-	processor     ResponseProcessor
-	maxExchanges  int
+	detector     *VaguenessDetector
+	questionGen  QuestionGenerator
+	processor    ResponseProcessor
+	maxExchanges int
 }
 
 // NewDialogueManager creates a new dialogue manager
@@ -62,28 +62,28 @@ func (m *DialogueManager) StartDialogue(ctx context.Context, input string) (*Dia
 	if !isVague {
 		return nil, nil // No dialogue needed
 	}
-	
+
 	// Create new session
 	session := &DialogueSession{
 		OriginalInput: input,
 		History:       []Exchange{},
 		ExtractedInfo: make(map[string]string),
 	}
-	
+
 	// Generate first question
 	question, isComplete, err := m.questionGen.GenerateQuestion(ctx, session)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if isComplete {
 		session.IsComplete = true
 		return session, nil
 	}
-	
+
 	session.CurrentQuestion = question
 	session.History = append(session.History, Exchange{Question: question, Answer: ""})
-	
+
 	return session, nil
 }
 
@@ -95,41 +95,41 @@ func (m *DialogueManager) ProcessResponse(ctx context.Context, session *Dialogue
 		session.IsComplete = true
 		return nil
 	}
-	
+
 	// Record the answer
 	if len(session.History) > 0 {
 		session.History[len(session.History)-1].Answer = response
 	}
-	
+
 	// Process the response
 	if err := m.processor.ProcessResponse(session, response); err != nil {
 		return err
 	}
-	
+
 	// Extract information
 	session.ExtractedInfo = m.processor.ExtractInfo(session)
-	
+
 	// Check if we've reached exchange limit
 	if len(session.History) >= m.maxExchanges {
 		session.IsComplete = true
 		return nil
 	}
-	
+
 	// Generate next question
 	question, isComplete, err := m.questionGen.GenerateQuestion(ctx, session)
 	if err != nil {
 		return err
 	}
-	
+
 	if isComplete {
 		session.IsComplete = true
 		return nil
 	}
-	
+
 	// Continue dialogue
 	session.CurrentQuestion = question
 	session.History = append(session.History, Exchange{Question: question, Answer: ""})
-	
+
 	return nil
 }
 
@@ -138,6 +138,6 @@ func (m *DialogueManager) GetFinalTask(session *DialogueSession) string {
 	if session.SkipRequested || len(session.History) == 0 {
 		return session.OriginalInput
 	}
-	
+
 	return m.processor.BuildFinalTask(session)
 }

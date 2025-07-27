@@ -309,7 +309,7 @@ func (s *Storage) CreateWithParent(t *task.Task, parentID string) error {
 	if err != nil {
 		return fmt.Errorf("parent task not found: %w", err)
 	}
-	
+
 	// Start transaction
 	tx, err := s.db.Begin()
 	if err != nil {
