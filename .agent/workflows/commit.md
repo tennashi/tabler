@@ -2,20 +2,119 @@
 
 This document describes the step-by-step process for making commits.
 
-## Branch Decision Criteria (role: maintainer)
+## Phase 1: Planning (role: planner)
 
-### First Rule: Check Current Branch (role: maintainer)
+### 1.1 Analyze Task and Determine Change Type
 
-````bash
-# Check what branch you're on
+**ALWAYS start here** - Understand what needs to be done before any implementation:
+
+#### Step 1: Parse the Request
+First, clearly understand what the user is asking for:
+- What specific functionality or fix is requested?
+- Are there multiple sub-tasks that need separate commits?
+- Any constraints or preferences mentioned?
+
+#### Step 2: Investigate Current State (if modifying existing code)
+Use these commands as needed based on your task:
+
+```bash
+# Find relevant files by extension
+find . -type f -name "*.<ext>" | grep -v node_modules | grep -i <keyword>
+# Common extensions: ts, js, tsx, jsx, py, go, rs, java, etc.
+
+# Search for specific text in codebase
+grep -r "<search-term>" --include="*.<ext>" --exclude-dir=node_modules
+
+# Check for existing tests
+find . -name "*.test.*" -o -name "*.spec.*" -o -name "*_test.*" | grep -i <feature>
+
+# Understand project structure
+tree -L 2 -d src/  # or use ls -la if tree is not available
+
+# Check recent changes in the area
+git log --oneline -10 -- <path-or-file>
+```
+
+**Note**: Adapt these commands to your project's language and structure.
+
+#### Step 3: Determine Commit Type
+Based on your understanding, identify the primary change type:
+
+| If you're... | Use type | Example |
+|-------------|----------|---------|
+| Adding new user-facing functionality | `feat` | New API endpoint, UI component |
+| Fixing broken functionality | `fix` | Correcting calculation errors, null handling |
+| Restructuring code without changing behavior | `refactor` | Extract function, rename variables |
+| Improving performance | `perf` | Optimize algorithm, add caching |
+| Adding/updating tests only | `test` | New test cases, test fixes |
+| Updating documentation only | `docs` | README updates, JSDoc comments |
+| Code formatting only | `style` | Prettier, ESLint fixes |
+| Changing build/dependencies | `build` | Webpack config, package updates |
+| Updating CI/CD | `ci` | GitHub Actions, deployment scripts |
+
+#### Step 4: Define Success Criteria
+Before proceeding, be clear about:
+- What files need to be created/modified
+- What the end result should look like
+- How you'll verify it works (tests, manual verification)
+- Whether this could break existing functionality
+
+This analysis ensures:
+- Appropriate branch strategy (next section)
+- Clear, accurate commit messages
+- Focused, atomic changes
+- Proper risk assessment
+
+### 1.2 Determine Branch Strategy
+
+Based on the task analysis and change type identified above, decide your branch strategy:
+
+| Purpose | Branch Strategy |
+|---------|----------------|
+| New feature/task | Create new branch from main |
+| Bug fix for production | Create hotfix branch from main |
+| Continuing existing work | Use current feature branch |
+| Experimentation | Create experimental branch |
+| Documentation only | Can use current branch or create docs branch |
+
+### 1.3 Check Current State
+
+```bash
+# Understand where you are
 git branch --show-current
-```text
+git status
+```
 
-### If on main/master branch → ALWAYS create a new branch (role: maintainer)
+### 1.4 Branch Decision Rules
 
-**NO EXCEPTIONS** - Never commit directly to main/master
+Based on your purpose and current state, determine the appropriate branch strategy:
 
-### Creating a new branch - ALWAYS from latest main (role: maintainer)
+#### Key Rules:
+
+- **If on main/master branch** → ALWAYS create a new branch (NO EXCEPTIONS)
+- **New branches** → ALWAYS create from latest main
+- **Never commit directly to main/master**
+
+#### When to create a new branch:
+
+- **On main branch** → Always
+- **Starting a new task or feature**
+- **Experimenting with approaches** that might not work out
+- **Working on someone else's branch** without explicit permission
+- **The current branch is a release or develop branch**
+
+#### Work directly on current branch when:
+
+- **Already on your own feature branch** for the SAME task
+- **Continuing work** you just started in the same session
+- **Making fixes to work** you just committed
+- **Explicitly told to work on current branch**
+
+## Phase 2: Branch Execution (role: maintainer)
+
+### 2.1 Creating a New Branch
+
+When the planning phase determines a new branch is needed:
 
 ```bash
 # 1. Save any uncommitted work
@@ -30,51 +129,35 @@ git checkout -b <descriptive-branch-name>
 
 # 4. Restore your work if needed
 git stash pop
-```text
+```
 
-### When to create a new branch: (role: maintainer)
+### 2.2 Branch Naming Conventions
 
-- **On main branch** → Always
-- **Starting a new task or feature**
-- **Experimenting with approaches** that might not work out
-- **Working on someone else's branch** without explicit permission
-- **The current branch is a release or develop branch**
-
-### Work directly on current branch when: (role: maintainer)
-
-- **Already on your own feature branch** for the SAME task
-- **Continuing work** you just started in the same session
-- **Making fixes to work** you just committed
-- **Explicitly told to work on current branch**
-
-### Branch naming conventions: (role: maintainer)
+Choose names that reflect the purpose from Phase 1:
 
 ```bash
 # Task/Issue based (preferred)
 git checkout -b issue-123-user-authentication
 git checkout -b task/add-payment-processing
 
-# Descriptive purpose
-git checkout -b improve-search-performance
-git checkout -b fix-memory-leak-in-parser
+# Type-based with description
+git checkout -b feat/user-profile-page
+git checkout -b fix/memory-leak-in-parser
+git checkout -b refactor/payment-service
 
 # Personal work branches
 git checkout -b yourname/experiment-with-new-api
-```text
+```
 
-## Pre-Commit Checklist (role: maintainer)
+## Phase 3: Implementation (role: builder)
+
+Execute the changes according to the purpose defined in Phase 1.
+
+## Phase 4: Pre-Commit Quality Checks (role: maintainer)
 
 **MANDATORY before every commit:**
 
-1. **Clarify the purpose of changes**
-   Before staging any files, write down:
-   - What problem does this change solve?
-   - Why is this change necessary?
-   - What is the expected outcome?
-
-   This helps ensure commit messages accurately reflect the intent.
-
-2. **Run quality checks**
+1. **Run quality checks**
 
    Run the project's quality check command. This typically includes:
    - All tests pass
@@ -84,21 +167,23 @@ git checkout -b yourname/experiment-with-new-api
 
    Check the project's README or build configuration for the specific command.
 
-3. **Review changes**
+2. **Review changes**
    ```bash
    git status
    git diff
-````
+   ```
 
-1. **Stage changes atomically**
+3. **Stage changes atomically**
    - Stage related changes together
    - Keep unrelated changes for separate commits
 
-2. **Write commit message following conventions**
-   - Use the purpose from step 1 to craft a clear message
+4. **Write commit message following conventions**
+   - Use the purpose from Phase 1 to craft a clear message
    - See `guidelines/commit.md` for format rules
 
-## Commit Order Strategy (role: maintainer)
+## Phase 5: Commit Execution (role: maintainer)
+
+### Commit Order Strategy
 
 When making multiple commits, follow this order:
 
@@ -122,9 +207,9 @@ When making multiple commits, follow this order:
    - Test failures
    - Linting errors
 
-### Example Sequence (role: maintainer)
+### Example Sequence
 
-````bash
+```bash
 # 1. Install new tool
 mise use <tool>@latest
 git add .mise.toml
@@ -141,22 +226,22 @@ git commit -m "build: integrate <tool> into build process"
 # 4. Fix issues found
 git add <fixed-files>
 git commit -m "fix: resolve <tool> warnings"
-```text
+```
 
 ## Handling Mixed Changes (role: maintainer)
 
-### When files contain multiple unrelated changes (role: maintainer)
+### When files contain multiple unrelated changes
 
 Since AI agents cannot use interactive staging (`git add -p`), use the stash-based approach:
 
-#### Step 1: Stage files with single-purpose changes (role: maintainer)
+#### Step 1: Stage files with single-purpose changes
 
 ```bash
 # First, stage files that contain only changes for current purpose
 git add <file-with-single-purpose>
-```text
+```
 
-#### Step 2: Handle mixed files using stash (role: maintainer)
+#### Step 2: Handle mixed files using stash
 
 For files containing mixed changes:
 
@@ -176,9 +261,9 @@ git add <mixed-file>
 # 5. Restore remaining unstaged changes
 git stash pop
 # Resolve any conflicts if they occur
-```text
+```
 
-### Verifying staged changes work independently (role: maintainer)
+### Verifying staged changes work independently
 
 **Important**: Ensure staged changes can stand alone:
 
@@ -195,9 +280,9 @@ git commit -m "type: description"
 
 # 4. Restore unstaged changes
 git stash pop
-```text
+```
 
-### Example: Separating formatting from features (role: maintainer)
+### Example: Separating formatting from features
 
 When formatting and feature changes are mixed:
 
@@ -216,11 +301,11 @@ git commit -m "style: format code"
 git stash pop
 git add <feature-files>
 git commit -m "feat: add new functionality"
-```text
+```
 
 ## Common Scenarios (role: maintainer)
 
-### Single Feature Implementation (role: maintainer)
+### Single Feature Implementation
 
 ```bash
 # 1. Check current state
@@ -234,9 +319,9 @@ git add <feature-files>
 
 # 4. Commit with descriptive message
 git commit -m "feat: implement <feature>"
-```text
+```
 
-### Bug Fix with Tests (role: maintainer)
+### Bug Fix with Tests
 
 ```bash
 # 1. Fix the bug and add test
@@ -249,9 +334,9 @@ git commit -m "test: add test for <bug description>"
 # 4. Commit the fix
 git add <fix-files>
 git commit -m "fix: <bug description>"
-```text
+```
 
-### Refactoring (role: maintainer)
+### Refactoring
 
 ```bash
 # 1. Make refactoring changes
@@ -261,11 +346,11 @@ git commit -m "fix: <bug description>"
 # 3. Commit with clear scope
 git add <refactored-files>
 git commit -m "refactor(<scope>): <what was refactored>"
-```text
+```
 
-## Post-Commit: Pull Request Creation (role: maintainer)
+## Phase 6: Post-Commit Actions (role: maintainer)
 
-### After committing changes on a feature branch: (role: maintainer)
+### After committing changes on a feature branch:
 
 1. **Ask about PR creation**
    - "Would you like to create a pull request now?"
@@ -286,13 +371,13 @@ git commit -m "refactor(<scope>): <what was refactored>"
 
    ## Testing
    - How to test"
-````
+   ```
 
-1. **Share PR link**
+3. **Share PR link**
    - Copy and share the PR URL that gh returns
    - The PR is now ready for review
 
-### Note about gh pr create (role: maintainer)
+### Note about gh pr create
 
 - Always use `--head $(git branch --show-current)` flag
 - This automatically pushes unpushed commits
