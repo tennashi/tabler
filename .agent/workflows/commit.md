@@ -4,111 +4,52 @@ This document describes the step-by-step process for making commits.
 
 ## Phase 1: Planning (role: planner)
 
-### 1.1 Analyze Task and Determine Change Type
+### 1.1 Task Analysis & Commit Planning
 
-**ALWAYS start here** - Understand what needs to be done before any implementation:
+**Quickly analyze the task and plan commits:**
 
-#### Step 1: Parse the Request
-First, clearly understand what the user is asking for:
-- What specific functionality or fix is requested?
-- Are there multiple sub-tasks that need separate commits?
-- Any constraints or preferences mentioned?
+1. **What needs to be done?**
+   - Parse user request → identify subtasks
+   - Check existing code if modifying (use grep/find as needed)
+   - Determine change type from this table:
 
-#### Step 2: Investigate Current State (if modifying existing code)
-Use these commands as needed based on your task:
+   | If you're... | Type | Example |
+   |-------------|------|---------|
+   | Adding new feature | `feat` | feat(auth): add OAuth2 login |
+   | Fixing a bug | `fix` | fix(api): handle null response |
+   | Refactoring | `refactor` | refactor(utils): extract validation |
+   | Other | `docs`/`test`/`style`/`build`/`ci` | docs(readme): update API section |
 
+2. **Plan commit(s) now:**
+   ```
+   Single commit: feat(search): add date filter
+   
+   Multiple commits:
+   1. build(deps): add date-fns library
+   2. feat(search): implement date filter logic
+   3. test(search): add date filter tests
+   ```
+
+### 1.2 Branch Strategy
+
+Based on your task:
+
+| Task | Strategy |
+|------|----------|
+| New feature/fix | Create branch from main |
+| Continue existing work | Stay on current branch |
+| Experiment | Create experimental branch |
+
+**Check current state:**
 ```bash
-# Find relevant files by extension
-find . -type f -name "*.<ext>" | grep -v node_modules | grep -i <keyword>
-# Common extensions: ts, js, tsx, jsx, py, go, rs, java, etc.
-
-# Search for specific text in codebase
-grep -r "<search-term>" --include="*.<ext>" --exclude-dir=node_modules
-
-# Check for existing tests
-find . -name "*.test.*" -o -name "*.spec.*" -o -name "*_test.*" | grep -i <feature>
-
-# Understand project structure
-tree -L 2 -d src/  # or use ls -la if tree is not available
-
-# Check recent changes in the area
-git log --oneline -10 -- <path-or-file>
-```
-
-**Note**: Adapt these commands to your project's language and structure.
-
-#### Step 3: Determine Commit Type
-Based on your understanding, identify the primary change type:
-
-| If you're... | Use type | Example |
-|-------------|----------|---------|
-| Adding new user-facing functionality | `feat` | New API endpoint, UI component |
-| Fixing broken functionality | `fix` | Correcting calculation errors, null handling |
-| Restructuring code without changing behavior | `refactor` | Extract function, rename variables |
-| Improving performance | `perf` | Optimize algorithm, add caching |
-| Adding/updating tests only | `test` | New test cases, test fixes |
-| Updating documentation only | `docs` | README updates, JSDoc comments |
-| Code formatting only | `style` | Prettier, ESLint fixes |
-| Changing build/dependencies | `build` | Webpack config, package updates |
-| Updating CI/CD | `ci` | GitHub Actions, deployment scripts |
-
-#### Step 4: Define Success Criteria
-Before proceeding, be clear about:
-- What files need to be created/modified
-- What the end result should look like
-- How you'll verify it works (tests, manual verification)
-- Whether this could break existing functionality
-
-This analysis ensures:
-- Appropriate branch strategy (next section)
-- Clear, accurate commit messages
-- Focused, atomic changes
-- Proper risk assessment
-
-### 1.2 Determine Branch Strategy
-
-Based on the task analysis and change type identified above, decide your branch strategy:
-
-| Purpose | Branch Strategy |
-|---------|----------------|
-| New feature/task | Create new branch from main |
-| Bug fix for production | Create hotfix branch from main |
-| Continuing existing work | Use current feature branch |
-| Experimentation | Create experimental branch |
-| Documentation only | Can use current branch or create docs branch |
-
-### 1.3 Check Current State
-
-```bash
-# Understand where you are
 git branch --show-current
 git status
 ```
 
-### 1.4 Branch Decision Rules
-
-Based on your purpose and current state, determine the appropriate branch strategy:
-
-#### Key Rules:
-
-- **If on main/master branch** → ALWAYS create a new branch (NO EXCEPTIONS)
-- **New branches** → ALWAYS create from latest main
-- **Never commit directly to main/master**
-
-#### When to create a new branch:
-
-- **On main branch** → Always
-- **Starting a new task or feature**
-- **Experimenting with approaches** that might not work out
-- **Working on someone else's branch** without explicit permission
-- **The current branch is a release or develop branch**
-
-#### Work directly on current branch when:
-
-- **Already on your own feature branch** for the SAME task
-- **Continuing work** you just started in the same session
-- **Making fixes to work** you just committed
-- **Explicitly told to work on current branch**
+**Rules:**
+- On main? → MUST create new branch
+- New branch? → ALWAYS from latest main
+- NEVER commit to main directly
 
 ## Phase 2: Branch Execution (role: maintainer)
 
@@ -177,8 +118,9 @@ Execute the changes according to the purpose defined in Phase 1.
    - Stage related changes together
    - Keep unrelated changes for separate commits
 
-4. **Write commit message following conventions**
-   - Use the purpose from Phase 1 to craft a clear message
+4. **Finalize commit message**
+   - Use the pre-drafted title from Phase 1, Step 5
+   - Add detailed body if needed (for complex changes)
    - See `guidelines/commit.md` for format rules
 
 ## Phase 5: Commit Execution (role: maintainer)
@@ -208,6 +150,8 @@ When making multiple commits, follow this order:
    - Linting errors
 
 ### Example Sequence
+
+**Note**: Use the commit titles you pre-planned in Phase 1, Step 5.
 
 ```bash
 # 1. Install new tool
@@ -304,6 +248,8 @@ git commit -m "feat: add new functionality"
 ```
 
 ## Common Scenarios (role: maintainer)
+
+**Remember**: Use the commit messages you drafted in Phase 1, Step 5. The examples below show the format, but your actual messages should come from your planning phase.
 
 ### Single Feature Implementation
 
