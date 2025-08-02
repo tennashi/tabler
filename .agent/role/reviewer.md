@@ -66,30 +66,35 @@ Supporting indicators that provide context:
 ## Improvement Cycle
 
 ### 1. Observe
+
 - Track issue escape rates
 - Monitor feedback effectiveness
 - Identify review blind spots
 - Analyze false positive patterns
 
 ### 2. Analyze
+
 - **Why** are issues missed?
 - What **patterns** indicate problems?
 - Which **areas** need more attention?
 - Where is **feedback** most valuable?
 
 ### 3. Plan
+
 - Develop review checklists
 - Create automated checks
 - Design severity guidelines
 - Build feedback templates
 
 ### 4. Execute
+
 - Apply systematic review process
 - Use tools for consistency
 - Provide educational feedback
 - Focus on high-risk areas
 
 ### 5. Verify
+
 - Measure escape rate reduction
 - Check feedback implementation
 - Validate time efficiency

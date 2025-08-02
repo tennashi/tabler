@@ -19,18 +19,18 @@ This document describes the step-by-step process for making commits.
    | Other | `docs`/`test`/`style`/`build`/`ci` | docs(readme): update API section |
 
 2. **Plan commit(s) and branch name:**
-   
+
    **First, check commit message guidelines:**
    - See `guidelines/commit.md` for format and conventions
    - Follow Conventional Commits format: `<type>(<scope>): <subject>`
-   
-   ```
+
+   ```text
    Branch: feat/date-filter
    
    Single commit: feat(search): add date filter
-   
+
    OR
-   
+
    Branch: feat/oauth-login
    Multiple commits:
    1. build(deps): add OAuth2 library
@@ -80,7 +80,6 @@ git checkout -b <branch-name-from-phase-1>
 git stash pop
 ```
 
-
 ## Phase 3: Commit Execution (role: maintainer)
 
 **Loop through each commit planned in Phase 1:**
@@ -90,15 +89,17 @@ git stash pop
 #### Step 1: Stage files for current commit
 
 1. **First, stage whole files that match the commit purpose**
+
    ```bash
    git status
    git diff
-   
+
    # Stage files where ALL changes belong to current commit
    git add <file1> <file2>  # Files fully dedicated to this commit
    ```
 
 2. **Then, handle mixed files using patch method**
+
    ```bash
    # If files contain mixed changes:
    git stash --keep-index  # Keep already staged files
@@ -110,6 +111,7 @@ git stash pop
    ```
 
 #### Step 2: Quality check staged changes
+
 ```bash
 # Isolate staged changes
 git stash --keep-index
@@ -124,6 +126,7 @@ git stash pop      # Restore all changes
 ```
 
 #### Step 3: Create commit
+
 ```bash
 # If checks pass, commit with planned message
 git commit -m "<message from Phase 1>"
@@ -153,20 +156,22 @@ When making multiple commits, follow this order:
    - If no → End workflow
 
 2. **If yes, push changes to remote**
+
    ```bash
    git push -u origin $(git branch --show-current)
    ```
 
 3. **Create PR using gh CLI**
+
    ```bash
    gh pr create \
      --title "<summarize the changes>" \
      --body "## Changes
    <list commits from Phase 1>
-   
+
    ## Why
    <main reason for these changes>
-   
+
    ## Testing
    <how to verify these changes work>"
    ```

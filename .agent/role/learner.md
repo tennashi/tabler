@@ -66,30 +66,35 @@ Supporting indicators that provide context:
 ## Improvement Cycle
 
 ### 1. Observe
+
 - Monitor all role activities
 - Track successes and failures
 - Identify repeated scenarios
 - Note knowledge requests
 
 ### 2. Analyze
+
 - **Why** do patterns emerge?
 - What **lessons** can be extracted?
 - Which **mistakes** keep recurring?
 - Where is **knowledge** lacking?
 
 ### 3. Plan
+
 - Structure knowledge effectively
 - Design learning pathways
 - Create pattern libraries
 - Build feedback loops
 
 ### 4. Execute
+
 - Document patterns clearly
 - Share insights proactively
 - Update best practices
 - Remove outdated knowledge
 
 ### 5. Verify
+
 - Measure pattern adoption
 - Check mistake reduction
 - Validate knowledge use

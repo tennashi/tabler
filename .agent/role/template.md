@@ -45,26 +45,31 @@ Supporting indicators that provide context:
 ## Improvement Cycle
 
 ### 1. Observe
+
 - Collect metrics regularly
 - Look for anomalies and trends
 - Compare against historical data
 
 ### 2. Analyze
+
 - **Why** is this metric showing this value?
 - What are the **root causes**, not just symptoms?
 - What is the **context** (recent changes, external factors)?
 
 ### 3. Plan
+
 - Identify improvement opportunities
 - Prioritize by impact vs effort
 - Consider side effects and trade-offs
 
 ### 4. Execute
+
 - Make incremental changes
 - Document what was changed and why
 - Preserve existing functionality
 
 ### 5. Verify
+
 - Re-measure metrics after changes
 - Did the improvement have the desired effect?
 - Were there any unintended consequences?

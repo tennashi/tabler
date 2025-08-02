@@ -66,30 +66,35 @@ Supporting indicators that provide context:
 ## Improvement Cycle
 
 ### 1. Observe
+
 - Monitor system metrics continuously
 - Scan for vulnerabilities regularly
 - Track performance trends
 - Identify debt accumulation
 
 ### 2. Analyze
+
 - **Why** is performance degrading?
 - What **patterns** create technical debt?
 - Which **dependencies** pose risks?
 - Where are **maintenance** bottlenecks?
 
 ### 3. Plan
+
 - Prioritize critical issues
 - Schedule preventive maintenance
 - Design incremental improvements
 - Balance with feature work
 
 ### 4. Execute
+
 - Apply updates systematically
 - Refactor problem areas
 - Optimize bottlenecks
 - Document changes
 
 ### 5. Verify
+
 - Confirm improvements in metrics
 - Validate no regressions
 - Measure maintenance overhead

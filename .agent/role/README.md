@@ -7,7 +7,7 @@ emphasizes continuous improvement through observation and measurement.
 
 Every agent role participates in a complete development lifecycle:
 
-```
+```text
 Plan → Build → Review → Maintain → Learn
   ↑                                    ↓
   └────────────────────────────────────┘
@@ -62,7 +62,7 @@ Extracts and shares knowledge
 
 ## How Roles Work Together
 
-```
+```text
 User Request
     ↓
 [Planner] → Creates structured plan
