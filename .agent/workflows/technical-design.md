@@ -2,16 +2,16 @@
 
 When receiving a PRD, engage in systematic technical design to ensure robust implementation.
 
-## Phase 1: PRD Analysis and Technical Assessment
+## Phase 1: PRD Analysis and Technical Assessment (role: planner)
 
-### Initial Review
+### Initial Review (role: planner)
 
 1. Read PRD thoroughly to understand requirements
 2. Identify technical implications and challenges
 3. Check compatibility with existing architecture
 4. List potential risks and constraints
 
-### Architecture Impact Analysis
+### Architecture Impact Analysis (role: planner)
 
 **Assess if the feature requires:**
 
@@ -38,9 +38,9 @@ Example:
 - Existing ADR conflicts: ADR-003 assumes cloud-only"
 ```text
 
-## Phase 2: Architecture Decisions (When Needed)
+## Phase 2: Architecture Decisions (When Needed) (role: planner)
 
-### Determine ADR Necessity
+### Determine ADR Necessity (role: planner)
 
 Not every feature needs an ADR. Create one when:
 
@@ -49,7 +49,7 @@ Not every feature needs an ADR. Create one when:
 - The decision is hard to reverse later
 - Team members might question "why" in the future
 
-### ADR Creation Process
+### ADR Creation Process (role: planner)
 
 1. **Identify the decision scope**
    - What exactly needs to be decided?
@@ -70,9 +70,9 @@ Let's evaluate trade-offs..."
 - Use the project's ADR template
 - Include context, options, decision, consequences
 
-## Phase 3: Technical Design Documentation
+## Phase 3: Technical Design Documentation (role: planner)
 
-### Determining Design Document Scope
+### Determining Design Document Scope (role: planner)
 
 **Critical: Keep Design Docs Small and Implementable**
 
@@ -132,7 +132,7 @@ Design Doc 3: Interactive Features (Phase 3)
 This allows incremental delivery and focused reviews."
 ```text
 
-### Design Document Organization
+### Design Document Organization (role: planner)
 
 **For single design doc:**
 
@@ -179,7 +179,7 @@ docs/design/smart-task-creation/
 └── context-learning.md
 ```text
 
-### Design Document Structure
+### Design Document Structure (role: planner)
 
 **IMPORTANT: Always use the design doc template**
 
@@ -213,7 +213,7 @@ docs/design/smart-task-creation/
 - Optimization strategies
 - Caching approach
 
-### Example Prompts
+### Example Prompts (role: planner)
 
 ```text
 "Let me create a technical design for the smart task creation feature:
@@ -224,9 +224,9 @@ docs/design/smart-task-creation/
 4. Performance: Debounced input, client-side caching"
 ```text
 
-## Phase 4: Implementation Planning
+## Phase 4: Implementation Planning (role: planner)
 
-### Task Breakdown
+### Task Breakdown (role: planner)
 
 1. **Identify implementation layers**
 - Frontend components
@@ -242,7 +242,7 @@ docs/design/smart-task-creation/
 - Story points or time estimates
 - Risk factors
 
-### Task Count Check - Split if Too Large
+### Task Count Check - Split if Too Large (role: planner)
 
 **After creating task list, evaluate:**
 
@@ -278,16 +278,16 @@ Shall I create separate design docs for each phase?"
 3. Move enhancements to next phase
 4. Each phase should stand alone
 
-### Testing Strategy
+### Testing Strategy (role: planner)
 
 - Unit test requirements
 - Integration test scenarios
 - Performance test needs
 - User acceptance criteria
 
-## Phase 5: Review and Handoff
+## Phase 5: Review and Handoff (role: reviewer)
 
-### Pre-implementation Checklist
+### Pre-implementation Checklist (role: reviewer)
 
 - [ ] All PRD requirements mapped to technical solutions
 - [ ] ADRs created for significant decisions
@@ -296,7 +296,7 @@ Shall I create separate design docs for each phase?"
 - [ ] Test strategy documented
 - [ ] Team questions addressed
 
-### Handoff Communication
+### Handoff Communication (role: reviewer)
 
 ```text
 "Technical design is complete:
@@ -309,9 +309,9 @@ Shall I create separate design docs for each phase?"
 Ready to begin implementation?"
 ```text
 
-## Phase 6: PRD Feedback During Design
+## Phase 6: PRD Feedback During Design (role: planner)
 
-### When to Update PRD
+### When to Update PRD (role: planner)
 
 During technical design, you may discover that PRD requirements need adjustment:
 
@@ -330,7 +330,7 @@ During technical design, you may discover that PRD requirements need adjustment:
 - Required supporting features not specified
 - Integration requirements not documented
 
-### How to Provide Feedback
+### How to Provide Feedback (role: planner)
 
 1. **Document the issue in design doc**
 2. **Discuss with product owner/user**
@@ -350,7 +350,7 @@ During technical design, you may discover that PRD requirements need adjustment:
 
 1. **Continue design with updated requirements**
 
-### Example Flow
+### Example Flow (role: planner)
 
 ````text
 "During technical design, I discovered that the real-time sync requirement 

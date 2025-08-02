@@ -2,7 +2,7 @@
 
 This document defines how AI agents should approach Test-Driven Development in this project.
 
-## Core Principles
+## Core Principles (role: builder)
 
 Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
 
@@ -11,9 +11,9 @@ Following Kent Beck's TDD and t-wada's TDD Boot Camp style:
 3. **AAA Pattern** (Arrange-Act-Assert)
 4. **Tests as Specifications**
 
-## AI Agent Development Process
+## AI Agent Development Process (role: builder)
 
-### 1. Understand the Requirement
+### 1. Understand the Requirement (role: planner)
 
 When given a feature request:
 
@@ -47,11 +47,11 @@ Implementation approach: Bottom-up with early integration
 Shall I start with the first test?"
 ```text
 
-### 2. TDD Cycle for Each TODO Item
+### 2. TDD Cycle for Each TODO Item (role: builder)
 
 For each TODO item, follow this cycle:
 
-#### 2.1 RED Phase - Write Failing Test
+#### 2.1 RED Phase - Write Failing Test (role: builder)
 
 ```go
 func TestTask(t *testing.T) {
@@ -79,7 +79,7 @@ $ go test
 
 **⚠️ DO NOT COMMIT - Test is failing**
 
-#### 2.2 GREEN Phase - Make Test Pass
+#### 2.2 GREEN Phase - Make Test Pass (role: builder)
 
 Write minimal code:
 
@@ -102,7 +102,7 @@ PASS
 
 **⚠️ DO NOT COMMIT YET - Code may need refactoring**
 
-#### 2.2.1 When Tests Fail in GREEN Phase
+#### 2.2.1 When Tests Fail in GREEN Phase (role: builder)
 
 If a test doesn't pass as expected during the GREEN phase:
 
@@ -133,7 +133,7 @@ Solutions in order of preference:
 3. ❌ Change test to ignore order (only if order truly doesn't matter)
 ```text
 
-#### 2.3 REFACTOR Phase - Improve Implementation
+#### 2.3 REFACTOR Phase - Improve Implementation (role: builder)
 
 - Keep tests passing
 - Remove duplication
@@ -162,7 +162,7 @@ func extractPriority(part string) (int, bool)
 func extractDeadline(part string) (*time.Time, bool)
 ```text
 
-#### 2.4 TEST REFACTOR Phase - Improve Test Code
+#### 2.4 TEST REFACTOR Phase - Improve Test Code (role: builder)
 
 After implementation is clean, refactor the test:
 
@@ -240,7 +240,7 @@ func TestTask(t *testing.T) {
 }
 ```text
 
-#### 2.5 COMMIT Phase - Save Clean Code
+#### 2.5 COMMIT Phase - Save Clean Code (role: maintainer)
 
 After both implementation and test refactoring:
 
@@ -254,7 +254,7 @@ $ git commit -m "feat: implement task creation with title"
 
 **✅ NOW IT'S SAFE TO COMMIT - Code and tests are clean**
 
-#### 2.6 Update TODO List
+#### 2.6 Update TODO List (role: builder)
 
 ```text
 - [x] Task can be created with just a title
@@ -262,7 +262,7 @@ $ git commit -m "feat: implement task creation with title"
 ...
 ```text
 
-### 3. Commit Guidelines
+### 3. Commit Guidelines (role: maintainer)
 
 **⚠️ MUST READ: `.agent/guidelines/commit.md` for commit format and rules**
 
@@ -289,7 +289,7 @@ feat: implement [feature name]
 - Refactor [what was refactored] (if applicable)
 ```text
 
-### 4. Complete Cycle Before Moving On
+### 4. Complete Cycle Before Moving On (role: builder)
 
 Only proceed to the next TODO item after:
 
@@ -306,7 +306,7 @@ Only proceed to the next TODO item after:
 - Do NOT add new test cases during TEST REFACTOR phase
 - Each new behavior/edge case starts with a new RED phase
 
-### 5. Integration Tests Come Later
+### 5. Integration Tests Come Later (role: builder)
 
 After all unit tests pass:
 
@@ -314,9 +314,9 @@ After all unit tests pass:
 - Use real implementations (database, file system)
 - Mark as integration tests with build tags or skip conditions
 
-## Test Structure Guidelines
+## Test Structure Guidelines (role: builder)
 
-### Use Subtests for Organization
+### Use Subtests for Organization (role: builder)
 
 ```go
 func TestTask(t *testing.T) {
@@ -338,7 +338,7 @@ func TestTask(t *testing.T) {
 }
 ```text
 
-### AAA Pattern
+### AAA Pattern (role: builder)
 
 Every test must follow Arrange-Act-Assert:
 
@@ -362,7 +362,7 @@ t.Run("with valid input should return task", func(t *testing.T) {
 })
 ```text
 
-### Test Helpers
+### Test Helpers (role: builder)
 
 Extract common test operations:
 
@@ -386,9 +386,9 @@ func assertTaskTitle(t *testing.T, task *Task, expected string) {
 }
 ```text
 
-## Communication with User
+## Communication with User (role: builder)
 
-### Before Starting
+### Before Starting (role: builder)
 
 ```text
 "I'll implement this using TDD. Here's my plan:
@@ -396,7 +396,7 @@ func assertTaskTitle(t *testing.T, task *Task, expected string) {
 I'll start with the first test. OK?"
 ```text
 
-### During Development
+### During Development (role: builder)
 
 ```text
 "RED phase: Writing failing test...
@@ -417,7 +417,7 @@ Ready to commit. All tests passing.
 Moving to next test..."
 ```text
 
-### When Finding Test Improvements
+### When Finding Test Improvements (role: builder)
 
 ```text
 "I notice these tests have similar setup. 
@@ -427,7 +427,7 @@ Would you like me to:
 3. Keep as is for now?"
 ```text
 
-## Best Practices for AI Agents
+## Best Practices for AI Agents (role: builder)
 
 1. **Show all phases** - RED, GREEN, REFACTOR, TEST REFACTOR
 2. **One test at a time** - Never write multiple tests before implementing
@@ -437,7 +437,7 @@ Would you like me to:
 6. **Update TODO lists** - Keep progress visible
 7. **Explain refactoring** - Explain why you're refactoring both code and tests
 
-## Common Pitfalls to Avoid
+## Common Pitfalls to Avoid (role: builder)
 
 1. **Committing failing tests** - Never commit in RED phase
 2. **Committing without refactoring** - Don't commit messy code from GREEN phase
@@ -449,7 +449,7 @@ Would you like me to:
 8. **Adding multiple tests at once** - Each test case needs its own cycle
 9. **Refactoring to add new tests** - TEST REFACTOR is for improving existing test only
 
-### Example of WRONG Approach
+### Example of WRONG Approach (role: builder)
 
 ```text
 ❌ WRONG: Adding multiple test cases during TEST REFACTOR phase
@@ -459,7 +459,7 @@ Would you like me to:
 - TEST REFACTOR: Convert to table-driven test AND add 5 new test cases
 ```text
 
-### Example of CORRECT Approach
+### Example of CORRECT Approach (role: builder)
 
 ```text
 ✅ CORRECT: One test case per cycle
@@ -483,14 +483,14 @@ Cycle 3:
 - COMMIT
 ```text
 
-## Test Time Dependencies
+## Test Time Dependencies (role: builder)
 
-### Prohibited Practices
+### Prohibited Practices (role: builder)
 
 - **NEVER use `time.Sleep()` in tests** - It's not a real solution and makes tests slow
 - Avoid relying on execution order or timing
 
-### Recommended Solutions
+### Recommended Solutions (role: builder)
 
 1. **Explicit time setting for deterministic tests**
    ```go
@@ -523,9 +523,9 @@ Cycle 3:
    // Inject mock time provider in tests
    ```
 
-## Design Doc Alignment During Implementation
+## Design Doc Alignment During Implementation (role: builder)
 
-### Track Design Deviations
+### Track Design Deviations (role: builder)
 
 **During implementation:**
 
@@ -570,7 +570,7 @@ Cycle 3:
    - Implementation always follows current design doc
    - No divergence between design and implementation
 
-### Post-Implementation Verification
+### Post-Implementation Verification (role: reviewer)
 
 **After completing all TODO items:**
 
@@ -585,7 +585,7 @@ Cycle 3:
      - Updating project conventions
      - Sharing learnings with team
 
-### Example Implementation Flow
+### Example Implementation Flow (role: builder)
 
 ````text
 "During implementation, I discovered the design's approach to handling 

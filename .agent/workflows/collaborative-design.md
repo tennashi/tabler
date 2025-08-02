@@ -2,7 +2,7 @@
 
 When a user requests a new feature, engage in collaborative design rather than passive implementation.
 
-## Phase 1: Problem Exploration
+## Phase 1: Problem Exploration (role: planner)
 
 When user states a need:
 
@@ -55,7 +55,7 @@ C. **Auto-cleanup**: Automatically hide old completed tasks
 Which approach fits your workflow best? Or do you envision something different?"
 ```text
 
-## Phase 2: Feature Organization
+## Phase 2: Feature Organization (role: planner)
 
 Once problem is understood:
 
@@ -92,7 +92,7 @@ Options:
 Which approach aligns with your needs?"
 ```text
 
-## Phase 3: Solution Refinement
+## Phase 3: Solution Refinement (role: planner)
 
 Once approach is determined:
 
@@ -101,7 +101,7 @@ Once approach is determined:
 3. Suggest enhancements based on common patterns
 4. Ask about specific scenarios
 
-### Checking Architecture Compatibility
+### Checking Architecture Compatibility (role: reviewer)
 
 **During feature exploration, watch for requirements that might conflict with existing ADRs:**
 
@@ -129,9 +129,9 @@ Would you like to:
 - Note required architectural changes
 - Flag for engineering team attention
 
-## Phase 4: Collaborative Documentation
+## Phase 4: Collaborative Documentation (role: planner)
 
-### PRD Creation Steps
+### PRD Creation Steps (role: planner)
 
 1. **Initial Draft**
    - Create PRD based on exploration phase
@@ -155,7 +155,7 @@ Would you like to:
    - Confirm: "PRD is ready. This can now be handed off to engineering for technical design."
    - If architectural changes are needed: "Note: This PRD requires architectural changes. Engineering team should create/update ADRs before implementation."
 
-### PRD Must Include
+### PRD Must Include (role: planner)
 
 - Problem explored from multiple angles
 - Alternative solutions considered

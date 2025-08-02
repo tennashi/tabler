@@ -2,9 +2,9 @@
 
 When creating or reviewing design documents, ensure appropriate abstraction levels:
 
-## What Belongs Where
+## What Belongs Where (role: reviewer)
 
-### Architecture Decision Records (ADRs)
+### Architecture Decision Records (ADRs) (role: reviewer)
 
 Location: `/docs/adr/`
 
@@ -14,7 +14,7 @@ Location: `/docs/adr/`
 - Project-wide technical choices
 - One decision per ADR
 
-### Feature Design Documents
+### Feature Design Documents (role: reviewer)
 
 Location: `/docs/design/[feature-name]/`
 
@@ -24,7 +24,7 @@ Location: `/docs/design/[feature-name]/`
 - Implementation considerations (concepts, not specific libraries)
 - Testing strategies
 
-### Project Conventions
+### Project Conventions (role: reviewer)
 
 Location: `/.agent/`
 
@@ -33,7 +33,7 @@ Location: `/.agent/`
 - Git commit conventions
 - Language requirements
 
-## Red Flags to Avoid
+## Red Flags to Avoid (role: reviewer)
 
 ❌ **Don't put in feature design docs:**
 
@@ -50,7 +50,7 @@ Location: `/.agent/`
 - Performance and security considerations
 - Implementation notes (conceptual level)
 
-## Examples
+## Examples (role: reviewer)
 
 **Too Specific (Avoid):**
 
@@ -66,7 +66,7 @@ Location: `/.agent/`
 "SQLite driver with foreign key support enabled"
 ```text
 
-## Review Questions
+## Review Questions (role: reviewer)
 
 Before committing a design document, ask:
 

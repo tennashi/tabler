@@ -2,9 +2,9 @@
 
 This document describes the step-by-step process for installing and managing tools using mise.
 
-## Installing a New Tool
+## Installing a New Tool (role: maintainer)
 
-### Step 1: Check if tool exists in mise registry
+### Step 1: Check if tool exists in mise registry (role: maintainer)
 
 ````bash
 # Search for the tool
@@ -14,7 +14,7 @@ mise registry | grep <toolname>
 mise registry | grep "^<toolname>$"
 ```text
 
-### Step 2: Install the tool
+### Step 2: Install the tool (role: maintainer)
 
 If found in standard registry:
 
@@ -28,7 +28,7 @@ If not found, try aqua backend:
 mise use aqua:<org>/<tool>@latest
 ```text
 
-### Step 3: Verify installation
+### Step 3: Verify installation (role: maintainer)
 
 ```bash
 # Verify the tool is available
@@ -38,16 +38,16 @@ mise exec -- <tool> --version
 cat .mise.toml
 ```text
 
-### Step 4: Commit the changes
+### Step 4: Commit the changes (role: maintainer)
 
 ```bash
 git add .mise.toml
 git commit -m "build: add <tool> for <purpose>"
 ```text
 
-## Common Tool Installation Patterns
+## Common Tool Installation Patterns (role: maintainer)
 
-### Installing a specific version
+### Installing a specific version (role: maintainer)
 
 ```bash
 # Use specific version
@@ -58,7 +58,7 @@ mise use node@20.11.0
 mise use go@1.21.5
 ```text
 
-### Installing from aqua backend
+### Installing from aqua backend (role: maintainer)
 
 ```bash
 # When tool is not in main registry
@@ -66,7 +66,7 @@ mise use aqua:golangci/golangci-lint@latest
 mise use aqua:kubernetes-sigs/kind@latest
 ```text
 
-### Installing multiple tools at once
+### Installing multiple tools at once (role: maintainer)
 
 ```bash
 # Install several tools
@@ -75,9 +75,9 @@ mise use node@latest python@latest go@latest
 # All get added to .mise.toml in one operation
 ```text
 
-## Running Commands with Tools
+## Running Commands with Tools (role: maintainer)
 
-### Always use mise exec
+### Always use mise exec (role: maintainer)
 
 ```bash
 # Correct way - works everywhere
@@ -89,7 +89,7 @@ mise exec -- npm install
 mise exec -- go test ./...
 ```text
 
-### Running complex commands
+### Running complex commands (role: maintainer)
 
 ```bash
 # Use quotes for complex commands
@@ -99,15 +99,15 @@ mise exec -- bash -c "npm install && npm test"
 moon run test
 ```text
 
-## Troubleshooting
+## Troubleshooting (role: maintainer)
 
-### Tool not found in registry
+### Tool not found in registry (role: maintainer)
 
 1. Check exact spelling: `mise registry | less`
 2. Try aqua backend: `mise use aqua:<org>/<tool>@latest`
 3. If still not found, document manual installation in README
 
-### Version conflicts
+### Version conflicts (role: maintainer)
 
 ```bash
 # Check current versions
@@ -120,7 +120,7 @@ mise use <tool>@latest
 mise use <tool>@<specific-version>
 ```text
 
-### PATH issues
+### PATH issues (role: maintainer)
 
 ```bash
 # mise exec ensures correct PATH
