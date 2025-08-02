@@ -11,12 +11,12 @@ This document describes the step-by-step process for making commits.
    - Check existing code if modifying (use grep/find as needed)
    - Determine change type from this table:
 
-   | If you're... | Type | Example |
-   |-------------|------|---------|
-   | Adding new feature | `feat` | feat(auth): add OAuth2 login |
-   | Fixing a bug | `fix` | fix(api): handle null response |
-   | Refactoring | `refactor` | refactor(utils): extract validation |
-   | Other | `docs`/`test`/`style`/`build`/`ci` | docs(readme): update API section |
+   | If you're...       | Type                               | Example                             |
+   | ------------------ | ---------------------------------- | ----------------------------------- |
+   | Adding new feature | `feat`                             | feat(auth): add OAuth2 login        |
+   | Fixing a bug       | `fix`                              | fix(api): handle null response      |
+   | Refactoring        | `refactor`                         | refactor(utils): extract validation |
+   | Other              | `docs`/`test`/`style`/`build`/`ci` | docs(readme): update API section    |
 
 2. **Plan commit(s) and branch name:**
 
@@ -26,7 +26,7 @@ This document describes the step-by-step process for making commits.
 
    ```text
    Branch: feat/date-filter
-   
+
    Single commit: feat(search): add date filter
 
    OR
@@ -42,11 +42,11 @@ This document describes the step-by-step process for making commits.
 
 Based on your task:
 
-| Task | Strategy |
-|------|----------|
-| New feature/fix | Create branch from main |
-| Continue existing work | Stay on current branch |
-| Experiment | Create experimental branch |
+| Task                   | Strategy                   |
+| ---------------------- | -------------------------- |
+| New feature/fix        | Create branch from main    |
+| Continue existing work | Stay on current branch     |
+| Experiment             | Create experimental branch |
 
 **Check current state:**
 
