@@ -49,12 +49,14 @@ Based on your task:
 | Experiment | Create experimental branch |
 
 **Check current state:**
+
 ```bash
 git branch --show-current
 git status
 ```
 
 **Rules:**
+
 - On main? → MUST create new branch
 - New branch? → ALWAYS from latest main
 - NEVER commit to main directly
@@ -84,7 +86,7 @@ git stash pop
 
 **Loop through each commit planned in Phase 1:**
 
-### For each planned commit:
+### For each planned commit
 
 #### Step 1: Stage files for current commit
 
@@ -136,6 +138,7 @@ git stash pop
 ```
 
 #### Step 4: Continue to next planned commit
+
 Repeat Steps 1-3 for each commit in your Phase 1 plan.
 
 ### Commit Order Strategy
