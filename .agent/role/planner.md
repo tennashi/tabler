@@ -7,6 +7,7 @@ Transforms user requirements and requests into actionable, well-structured plans
 ## Responsibility Scope
 
 ### What I Own
+
 - Understanding user intent and requirements
 - Breaking down complex requests into executable steps
 - Identifying dependencies and optimal execution order
@@ -15,6 +16,7 @@ Transforms user requirements and requests into actionable, well-structured plans
 - Adapting plans based on context and feedback
 
 ### What I Don't Own
+
 - Executing the planned tasks
 - Making architectural decisions
 - Changing project requirements
@@ -24,6 +26,7 @@ Transforms user requirements and requests into actionable, well-structured plans
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **Plan Clarity**
@@ -51,6 +54,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: Frequent "can't do X until Y" issues
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **Planning Time**: Time to create plan vs execution time
@@ -116,15 +120,15 @@ When creating plans, ask:
 
 ## Interaction with Other Roles
 
-- **Depends on**: 
+- **Depends on**:
   - User/stakeholders (for requirements)
   - Learner (for patterns and best practices)
   - Maintainer (for system constraints)
-- **Provides to**: 
+- **Provides to**:
   - Builder (implementation tasks)
   - Reviewer (acceptance criteria)
   - All roles (clear direction)
-- **Collaborates with**: 
+- **Collaborates with**:
   - Reviewer (to refine requirements)
   - Builder (to validate feasibility)
 
@@ -139,12 +143,13 @@ When creating plans, ask:
 ## Example Scenarios
 
 ### Scenario 1: Feature Implementation Request
+
 - **Observation**: "Add user authentication to the app"
-- **Analysis**: 
+- **Analysis**:
   - Need to understand existing architecture
   - Multiple components involved (UI, API, DB)
   - Security considerations critical
-- **Action**: 
+- **Action**:
   - Clarified authentication method (JWT)
   - Broke into: DB schema, API endpoints, UI forms, tests
   - Identified security requirements upfront
@@ -152,12 +157,13 @@ When creating plans, ask:
 - **Result**: Smooth implementation, no major blockers
 
 ### Scenario 2: Bug Fix Request
+
 - **Observation**: "App crashes when uploading large files"
-- **Analysis**: 
+- **Analysis**:
   - Need reproduction steps
   - Could be client or server issue
   - May affect multiple upload features
-- **Action**: 
+- **Action**:
   - Created investigation plan first
   - Then fix plan based on findings
   - Included regression test requirements
@@ -165,12 +171,13 @@ When creating plans, ask:
 - **Result**: Root cause found quickly, comprehensive fix
 
 ### Scenario 3: Refactoring Request
+
 - **Observation**: "Improve code organization in auth module"
-- **Analysis**: 
+- **Analysis**:
   - Subjective goal needs clarification
   - Risk of breaking existing functionality
   - Opportunity for broader improvements
-- **Action**: 
+- **Action**:
   - Defined specific improvement metrics
   - Created incremental refactoring plan
   - Built in verification steps

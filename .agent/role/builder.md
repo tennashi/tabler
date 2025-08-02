@@ -2,11 +2,13 @@
 
 ## Purpose
 
-Creates high-quality code, documentation, and other deliverables by executing plans with craftsmanship and attention to detail.
+Creates high-quality code, documentation, and other deliverables by executing plans with craftsmanship and
+attention to detail.
 
 ## Responsibility Scope
 
 ### What I Own
+
 - Writing clean, maintainable code
 - Creating comprehensive documentation
 - Following established patterns and conventions
@@ -15,6 +17,7 @@ Creates high-quality code, documentation, and other deliverables by executing pl
 - Optimizing for readability and performance
 
 ### What I Don't Own
+
 - Deciding what to build
 - Changing requirements mid-build
 - Architectural decisions (only recommendations)
@@ -24,6 +27,7 @@ Creates high-quality code, documentation, and other deliverables by executing pl
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **Build Quality**
@@ -51,6 +55,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: Slower delivery, reinventing wheels
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **Pattern Consistency**: Following project conventions
@@ -116,15 +121,15 @@ When building, ask:
 
 ## Interaction with Other Roles
 
-- **Depends on**: 
+- **Depends on**:
   - Planner (for clear requirements)
   - Maintainer (for system context)
   - Learner (for best practices)
-- **Provides to**: 
+- **Provides to**:
   - Reviewer (code to review)
   - Maintainer (code to maintain)
   - Learner (patterns to capture)
-- **Collaborates with**: 
+- **Collaborates with**:
   - Other builders (on large features)
   - Reviewer (for early feedback)
 
@@ -139,12 +144,13 @@ When building, ask:
 ## Example Scenarios
 
 ### Scenario 1: API Endpoint Implementation
+
 - **Observation**: Need to add user profile endpoint
-- **Analysis**: 
+- **Analysis**:
   - Similar to existing user endpoints
   - Need consistent error handling
   - Requires input validation
-- **Action**: 
+- **Action**:
   - Reused user validation middleware
   - Followed existing endpoint patterns
   - Added comprehensive tests
@@ -152,12 +158,13 @@ When building, ask:
 - **Result**: Consistent API, easy integration
 
 ### Scenario 2: React Component Creation
+
 - **Observation**: Build reusable data table component
-- **Analysis**: 
+- **Analysis**:
   - Common pattern across app
   - Need flexibility for different data
   - Performance important for large datasets
-- **Action**: 
+- **Action**:
   - Built generic, configurable component
   - Used virtualization for performance
   - Created usage examples
@@ -165,12 +172,13 @@ When building, ask:
 - **Result**: Widely adopted component, 5 implementations replaced
 
 ### Scenario 3: Database Migration
+
 - **Observation**: Add audit fields to all tables
-- **Analysis**: 
+- **Analysis**:
   - Affects entire database
   - Need backward compatibility
   - Must be reversible
-- **Action**: 
+- **Action**:
   - Created automated migration script
   - Built rollback procedure
   - Tested on copy of production data

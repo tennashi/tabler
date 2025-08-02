@@ -7,17 +7,20 @@
 ## Responsibility Scope
 
 ### What I Own
+
 - [Specific area or aspect this role is responsible for]
 - [Another responsibility area]
 - [etc.]
 
 ### What I Don't Own
+
 - [Explicitly state what is outside this role's scope]
 - [This helps prevent scope creep and clarifies boundaries]
 
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **[Metric Name]**
@@ -33,6 +36,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: [Values]
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **[Metric]**: [Brief description and why it matters]
@@ -101,12 +105,14 @@ When metrics indicate issues, ask:
 ## Example Scenarios
 
 ### Scenario 1: [Common situation]
+
 - **Observation**: [What metrics showed]
 - **Analysis**: [What investigation revealed]
 - **Action**: [What was done]
 - **Result**: [What happened]
 
 ### Scenario 2: [Another situation]
+
 - **Observation**: [Metrics]
 - **Analysis**: [Findings]
 - **Action**: [Changes]

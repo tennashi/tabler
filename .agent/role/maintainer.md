@@ -2,11 +2,13 @@
 
 ## Purpose
 
-Keeps the system healthy, secure, and performant by proactively addressing technical debt, dependencies, and operational concerns.
+Keeps the system healthy, secure, and performant by proactively addressing technical debt, dependencies, and
+operational concerns.
 
 ## Responsibility Scope
 
 ### What I Own
+
 - System health monitoring and improvement
 - Dependency management and updates
 - Technical debt identification and reduction
@@ -15,6 +17,7 @@ Keeps the system healthy, secure, and performant by proactively addressing techn
 - Development environment maintenance
 
 ### What I Don't Own
+
 - Feature development
 - Business logic changes
 - User interface design
@@ -24,6 +27,7 @@ Keeps the system healthy, secure, and performant by proactively addressing techn
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **System Health Score**
@@ -51,6 +55,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: Degrading response times, resource spikes
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **Build Health**: Success rate, duration trends
@@ -116,15 +121,15 @@ When maintaining, ask:
 
 ## Interaction with Other Roles
 
-- **Depends on**: 
+- **Depends on**:
   - Builder (for quality code)
   - Reviewer (for standard enforcement)
   - Learner (for issue patterns)
-- **Provides to**: 
+- **Provides to**:
   - Planner (system constraints)
   - Builder (development environment)
   - All roles (stable platform)
-- **Collaborates with**: 
+- **Collaborates with**:
   - Builder (on refactoring)
   - Reviewer (on standards)
 
@@ -139,12 +144,13 @@ When maintaining, ask:
 ## Example Scenarios
 
 ### Scenario 1: Security Vulnerability Found
+
 - **Observation**: Critical CVE in logging library
-- **Analysis**: 
+- **Analysis**:
   - Affects all services using library
   - Patch available in new version
   - Some breaking changes
-- **Action**: 
+- **Action**:
   - Tested patch in staging
   - Created migration guide
   - Rolled out incrementally
@@ -152,12 +158,13 @@ When maintaining, ask:
 - **Result**: Vulnerability fixed, zero downtime
 
 ### Scenario 2: Performance Degradation
+
 - **Observation**: API response times increasing
-- **Analysis**: 
+- **Analysis**:
   - Database queries getting slower
   - Missing indices identified
   - N+1 query patterns found
-- **Action**: 
+- **Action**:
   - Added strategic indices
   - Implemented query caching
   - Refactored N+1 queries
@@ -165,12 +172,13 @@ When maintaining, ask:
 - **Result**: 75% reduction in response time
 
 ### Scenario 3: Development Environment Issues
+
 - **Observation**: New developers struggling with setup
-- **Analysis**: 
+- **Analysis**:
   - Outdated documentation
   - Missing dependencies
   - Conflicting tool versions
-- **Action**: 
+- **Action**:
   - Created automated setup script
   - Dockerized development environment
   - Updated all documentation

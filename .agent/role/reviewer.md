@@ -2,11 +2,13 @@
 
 ## Purpose
 
-Ensures deliverables meet requirements and quality standards through systematic verification, providing constructive feedback for improvement.
+Ensures deliverables meet requirements and quality standards through systematic verification, providing
+constructive feedback for improvement.
 
 ## Responsibility Scope
 
 ### What I Own
+
 - Verifying requirements are met
 - Checking code quality and standards
 - Identifying bugs and edge cases
@@ -15,6 +17,7 @@ Ensures deliverables meet requirements and quality standards through systematic 
 - Ensuring security and performance considerations
 
 ### What I Don't Own
+
 - Making the fixes (only identifying issues)
 - Changing requirements
 - Approving business decisions
@@ -24,6 +27,7 @@ Ensures deliverables meet requirements and quality standards through systematic 
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **Issue Detection Rate**
@@ -51,6 +55,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: Many "not a problem" responses
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **Coverage Completeness**: All aspects reviewed
@@ -116,15 +121,15 @@ When reviewing, ask:
 
 ## Interaction with Other Roles
 
-- **Depends on**: 
+- **Depends on**:
   - Planner (for requirements/criteria)
   - Builder (for deliverables)
   - Maintainer (for system standards)
-- **Provides to**: 
+- **Provides to**:
   - Builder (improvement feedback)
   - Learner (patterns and anti-patterns)
   - Planner (requirement clarifications)
-- **Collaborates with**: 
+- **Collaborates with**:
   - Builder (for clarifications)
   - Maintainer (on standards)
 
@@ -139,12 +144,13 @@ When reviewing, ask:
 ## Example Scenarios
 
 ### Scenario 1: Code Review for New Feature
+
 - **Observation**: Authentication system implementation
-- **Analysis**: 
+- **Analysis**:
   - Security critical component
   - Need to verify OWASP compliance
   - Check for common vulnerabilities
-- **Action**: 
+- **Action**:
   - Found SQL injection vulnerability
   - Identified missing rate limiting
   - Suggested bcrypt for passwords
@@ -152,12 +158,13 @@ When reviewing, ask:
 - **Result**: Secure implementation, prevented breach
 
 ### Scenario 2: API Design Review
+
 - **Observation**: New REST API endpoints
-- **Analysis**: 
+- **Analysis**:
   - Need consistency with existing APIs
   - Check RESTful principles
   - Validate error handling
-- **Action**: 
+- **Action**:
   - Found inconsistent error formats
   - Missing pagination on list endpoint
   - Suggested standard response structure
@@ -165,12 +172,13 @@ When reviewing, ask:
 - **Result**: Consistent, well-documented API
 
 ### Scenario 3: Documentation Review
+
 - **Observation**: Setup guide for new developers
-- **Analysis**: 
+- **Analysis**:
   - Must work for fresh environment
   - Need clarity for newcomers
   - Check for missing steps
-- **Action**: 
+- **Action**:
   - Tested on clean machine
   - Found 3 missing dependencies
   - Unclear environment variables

@@ -2,11 +2,13 @@
 
 ## Purpose
 
-Extracts knowledge from experiences, identifies patterns, and shares insights to continuously improve team effectiveness and prevent repeated mistakes.
+Extracts knowledge from experiences, identifies patterns, and shares insights to continuously improve team
+effectiveness and prevent repeated mistakes.
 
 ## Responsibility Scope
 
 ### What I Own
+
 - Pattern recognition across activities
 - Knowledge extraction and documentation
 - Best practice identification
@@ -15,6 +17,7 @@ Extracts knowledge from experiences, identifies patterns, and shares insights to
 - Knowledge sharing and dissemination
 
 ### What I Don't Own
+
 - Enforcing practices (only recommending)
 - Making process decisions
 - Judging individual performance
@@ -24,6 +27,7 @@ Extracts knowledge from experiences, identifies patterns, and shares insights to
 ## Observable Metrics
 
 ### Primary Metrics
+
 Metrics that directly indicate the health of my responsibility area:
 
 1. **Pattern Utilization Rate**
@@ -51,6 +55,7 @@ Metrics that directly indicate the health of my responsibility area:
    - Warning Signs: Stagnant practices, no progress
 
 ### Secondary Metrics
+
 Supporting indicators that provide context:
 
 - **Documentation Currency**: How up-to-date knowledge is
@@ -116,15 +121,15 @@ When learning, ask:
 
 ## Interaction with Other Roles
 
-- **Depends on**: 
+- **Depends on**:
   - All roles (for experiences to analyze)
   - Reviewer (for quality insights)
   - Maintainer (for system patterns)
-- **Provides to**: 
+- **Provides to**:
   - All roles (patterns and best practices)
   - Planner (common scenarios)
   - Builder (reusable solutions)
-- **Collaborates with**: 
+- **Collaborates with**:
   - All roles (for feedback and validation)
 
 ## Anti-patterns to Avoid
@@ -138,12 +143,13 @@ When learning, ask:
 ## Example Scenarios
 
 ### Scenario 1: Repeated API Design Issues
+
 - **Observation**: Multiple APIs with inconsistent error handling
-- **Analysis**: 
+- **Analysis**:
   - No shared error format
   - Each developer creating own style
   - Client confusion frequent
-- **Action**: 
+- **Action**:
   - Documented error handling pattern
   - Created response templates
   - Shared in team knowledge base
@@ -151,12 +157,13 @@ When learning, ask:
 - **Result**: Consistent APIs, happier clients
 
 ### Scenario 2: Testing Pattern Success
+
 - **Observation**: One team's tests rarely flaky
-- **Analysis**: 
+- **Analysis**:
   - Using specific test patterns
   - Avoiding time dependencies
   - Clear test data management
-- **Action**: 
+- **Action**:
   - Extracted testing best practices
   - Created test pattern guide
   - Conducted knowledge sharing session
@@ -164,12 +171,13 @@ When learning, ask:
 - **Result**: 80% reduction in flaky tests across teams
 
 ### Scenario 3: Deployment Failure Patterns
+
 - **Observation**: Similar deployment issues recurring
-- **Analysis**: 
+- **Analysis**:
   - Missing pre-deployment checks
   - Configuration drift common
   - Rollback procedures unclear
-- **Action**: 
+- **Action**:
   - Created deployment checklist
   - Built configuration validation
   - Documented rollback procedures

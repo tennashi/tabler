@@ -1,6 +1,7 @@
 # Agent Roles
 
-This directory contains role definitions for specialized AI agents. Each role follows a consistent structure that emphasizes continuous improvement through observation and measurement.
+This directory contains role definitions for specialized AI agents. Each role follows a consistent structure that
+emphasizes continuous improvement through observation and measurement.
 
 ## Role Philosophy
 
@@ -15,35 +16,45 @@ Plan → Build → Review → Maintain → Learn
 ## The Five Core Roles
 
 ### 1. **Planner** - The Strategist
+
 Transforms requirements into actionable plans
+
 - Breaks down complex requests
 - Identifies dependencies
 - Creates clear task definitions
 - Optimizes execution order
 
-### 2. **Builder** - The Creator  
+### 2. **Builder** - The Creator
+
 Constructs high-quality deliverables
+
 - Writes clean code
 - Creates documentation
 - Follows patterns
 - Builds for reusability
 
 ### 3. **Reviewer** - The Guardian
+
 Ensures quality and correctness
+
 - Verifies requirements are met
 - Identifies issues early
 - Provides constructive feedback
 - Validates security and performance
 
 ### 4. **Maintainer** - The Keeper
+
 Preserves system health
+
 - Manages dependencies
 - Reduces technical debt
 - Optimizes performance
 - Ensures reliability
 
 ### 5. **Learner** - The Sage
+
 Extracts and shares knowledge
+
 - Identifies patterns
 - Documents lessons
 - Prevents repeated mistakes
@@ -83,16 +94,19 @@ Each role document contains:
 ## Key Principles
 
 ### Metrics as Health Indicators
+
 - Metrics reveal symptoms, not goals
 - Understanding context is crucial
 - Root cause analysis over quick fixes
 
 ### Continuous Improvement
+
 - Small, incremental changes
 - Measure impact of changes
 - Learn from both successes and failures
 
 ### Clear Boundaries
+
 - Each role has specific responsibilities
 - Overlap is minimal and intentional
 - Collaboration points are well-defined

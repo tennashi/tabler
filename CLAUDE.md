@@ -32,6 +32,22 @@ Example usage:
 → Invoke learner agent with the entire conversation from work start to completion
 ```
 
+### Improved Agent Descriptions for Claude Code
+
+Based on official documentation best practices, use these descriptions for better automatic agent selection:
+
+- **planner**: Use this agent at the START of any task or session to break down complex requirements, create implementation plans, or organize multi-step tasks. ALWAYS use when starting a new task. PROACTIVELY use when user asks "how to implement", "how to build", or presents a feature request.
+
+- **builder**: Use this agent when you need to write code, create new features, implement functionality, or generate documentation. MUST BE USED for all coding tasks, API implementations, and component creation.
+
+- **reviewer**: Use this agent PROACTIVELY after code changes to review quality, security, and best practices. Also use when user explicitly asks for code review, feedback, or quality assessment.
+
+- **maintainer**: Use this agent when dealing with dependencies, technical debt, performance optimization, or system health. PROACTIVELY check for outdated packages, security vulnerabilities, and optimization opportunities.
+
+- **learner**: Use this agent to extract patterns from completed work, document lessons learned, or create reusable knowledge. PROACTIVELY use after completing complex tasks to capture insights.
+
+- **general-purpose**: Use this agent for complex research tasks, open-ended searches requiring multiple rounds of exploration, or when the task doesn't clearly fit other specialized roles. Best for investigative work where the scope is unclear.
+
 
 
 ### Slash Commands
