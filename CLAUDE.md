@@ -14,7 +14,7 @@ directory primarily contain references to `.agent/` and Claude-specific implemen
 Location: `/.claude/agents/`
 
 - Execute tasks defined in `.agent/tasks/`
-- Before file operations: branch-checker subagent
+- **REQUIRED**: Always run branch-checker subagent before any file operations (create/edit/delete)
 
 ### Slash Commands
 
