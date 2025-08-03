@@ -45,4 +45,3 @@ Good branch names:
 
 - Follows Conventional Commits types for consistency
 - See `guidelines/branch-strategy.md` for when to create branches
-
