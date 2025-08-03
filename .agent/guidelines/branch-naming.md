@@ -3,11 +3,13 @@
 ## Naming Convention
 
 ### Format
-```
+
+```text
 <type>/<descriptive-name>
 ```
 
 ### Types
+
 Based on Conventional Commits types:
 
 - `feat/` - New features
@@ -31,6 +33,7 @@ Based on Conventional Commits types:
 ### Examples
 
 Good branch names:
+
 - `feat/add-payment-processing`
 - `fix/memory-leak-in-parser`
 - `docs/update-api-reference`
@@ -39,5 +42,7 @@ Good branch names:
 - `ci/add-github-actions`
 
 ## References
+
 - Follows Conventional Commits types for consistency
 - See `guidelines/branch-strategy.md` for when to create branches
+

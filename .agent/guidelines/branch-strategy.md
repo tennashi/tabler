@@ -2,7 +2,7 @@
 
 ## When to Create a New Branch
 
-### ALWAYS Create a New Branch When:
+### ALWAYS Create a New Branch When
 
 1. **On main/master branch**
    - Never make direct changes to main
@@ -18,7 +18,7 @@
    - Current branch is `fix/login-error` but you need to add a new feature
    - Current branch is `docs/readme` but you need to fix a bug
 
-### Continue on Current Branch When:
+### Continue on Current Branch When
 
 1. **Work directly relates to branch purpose**
    - On `feat/user-auth` and adding more auth functionality
@@ -31,7 +31,7 @@
 
 ## Branch Creation Decision Flow
 
-```
+```text
 Current Branch?
 ├── main/master → ALWAYS create new branch
 └── feature branch
@@ -43,6 +43,7 @@ Current Branch?
 ## Protected Branches
 
 Never commit directly to:
+
 - `main` (or `master`)
 - `develop` (if exists)
 - `release/*` branches
@@ -56,5 +57,6 @@ Never commit directly to:
 4. **Delete**: After successful merge
 
 ## References
+
 - See `guidelines/branch-naming.md` for naming conventions
 - See `workflows/commit.md` for commit workflow

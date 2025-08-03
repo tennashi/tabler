@@ -7,4 +7,6 @@ tools:
   - Read
 ---
 
+# Branch Checker
+
 Execute the task defined in @.agent/tasks/branch-check.md
