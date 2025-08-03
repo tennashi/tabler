@@ -11,6 +11,7 @@ AI agents MUST read the relevant files in this directory:
   - Read this entire `.agent/README.md` file
   - Read `guidelines/project.md` for basic project rules
 - **AS NEEDED** based on the task:
+  - **BEFORE** file operations - execute `tasks/branch-check.md`
   - **BEFORE** making git commits - read `guidelines/commit.md` and `workflows/commit.md`
   - **WHEN** designing new features - read `workflows/collaborative-design.md`
   - **WHEN** creating technical designs - read `workflows/technical-design.md` and `workflows/design-review-checklist.md`
@@ -20,10 +21,18 @@ AI agents MUST read the relevant files in this directory:
 
 ## Directory Structure
 
+### Tasks (tasks/)
+
+**Individual executable tasks** - Specific actions to perform
+
+- `branch-check.md` - Ensure proper branch before file operations
+
 ### Guidelines (guidelines/)
 
 **Conventions and rules** - What to do and why
 
+- `branch-naming.md` - Branch naming conventions
+- `branch-strategy.md` - When to create new branches
 - `commit.md` - Git commit conventions (Conventional Commits)
 - `project.md` - Language requirements for all files
 - `logging.md` - Use case-based logging guidelines
