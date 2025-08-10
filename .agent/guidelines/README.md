@@ -12,7 +12,8 @@ Guidelines define **what to do and why** - the standards and conventions that ma
 
 - `branch-naming.md` - Branch naming conventions for different types of changes
 - `branch-strategy.md` - When and how to create new branches
-- `commit.md` - Git commit conventions using Conventional Commits format
+- `commit-message.md` - Git commit message conventions using Conventional Commits format
+- `commit-strategy.md` - Commit granularity and dependency management
 
 ### Development Standards
 
@@ -25,7 +26,7 @@ Guidelines define **what to do and why** - the standards and conventions that ma
 
 - **ALWAYS** read `project.md` at the start of a session
 - **BEFORE** creating branches - read `branch-naming.md` and `branch-strategy.md`
-- **BEFORE** making commits - read `commit.md`
+- **BEFORE** making commits - read `commit-message.md` and `commit-strategy.md`
 - **WHEN** adding logging - read `logging.md`
 - **WHEN** installing tools - read `tool-management.md`
 - **WHEN** working with moon tasks - read `monorepo-management.md`
