@@ -18,6 +18,7 @@ Execute this task when work reaches a natural stopping point and changes should 
 ## Execution Steps
 
 1. **Check Current Status**
+
    ```bash
    git status
    git diff --cached
@@ -25,9 +26,11 @@ Execute this task when work reaches a natural stopping point and changes should 
    ```
 
 2. **Stage Appropriate Files**
+
    ```bash
    git add <relevant-files>
    ```
+
    - Stage only files related to the current work
    - Avoid staging unrelated changes
 
@@ -37,6 +40,7 @@ Execute this task when work reaches a natural stopping point and changes should 
    - Use Conventional Commits format
 
 4. **Verify Commit**
+
    ```bash
    git log -1 --stat
    ```
