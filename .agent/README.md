@@ -1,67 +1,48 @@
-# AI Agent Conventions
+# AI Agent Working Instructions
 
-Central hub for AI agent conventions, guidelines, and workflows for this project.
+This is your primary instruction manual for working on this project.
 
-## Quick Start
+## How You Should Work
 
-AI agents working on this project should:
+### File Operation Protocol
 
-1. **Start here** - Read this README for overview
-2. **Check subdirectories** - Each directory has its own README with detailed information
-3. **Follow the rules** - Apply conventions consistently throughout work
+When modifying ANY files in this project:
 
-## Directory Structure
+1. **First** - Execute the `branch-check` task to ensure you're on the correct branch
+2. **Then** - Make your file changes (create, edit, or delete)
+3. **Finally** - Execute the `commit-checkpoint` task to create proper commits
+
+This sequence is mandatory for every file operation.
+
+### Understanding the Structure
+
+Each directory serves a specific role in guiding your work:
+
+- **`tasks/`** - Single actions you must execute at specific checkpoints
+- **`guidelines/`** - Rules and standards that govern how you work
+- **`workflows/`** - Step-by-step procedures for completing complex operations
+- **`tmp/`** - Your personal workspace for temporary files (git-ignored)
+
+### When to Use What
+
+- **Execute tasks** at required checkpoints (like branch-check before editing)
+- **Follow guidelines** continuously throughout your work
+- **Use workflows** when tackling multi-step operations
+- **Work in tmp/** for any temporary or experimental content
+
+## Directory Reference
 
 ```plaintext
 .agent/
-├── guidelines/     # Conventions and rules (what to do and why)
-├── tasks/         # Executable tasks (specific actions to perform)
-├── workflows/     # Multi-step processes (how to accomplish goals)
-└── tmp/          # Git-ignored workspace for temporary files
+├── guidelines/     # What rules to follow
+├── tasks/         # What to execute and when
+├── workflows/     # How to complete complex operations
+└── tmp/          # Where to put temporary work
 ```
 
-## When to Use Each Directory
+## Getting Started
 
-### 📋 Tasks (`tasks/`)
-
-**Required checkpoints** in your workflow
-
-- Execute `branch-check.md` BEFORE any file operations
-- Execute `commit-checkpoint.md` after significant changes
-
-### 📐 Guidelines (`guidelines/`)
-
-**Standards to follow** throughout development
-
-- Project conventions, commit standards, branching strategies
-- Tool management and logging practices
-
-### 🔄 Workflows (`workflows/`)
-
-**Step-by-step processes** for complex operations
-
-- TDD implementation, design documentation
-- Commit procedures, tool installation
-
-### 💾 Temporary (`tmp/`)
-
-**Working space** for ephemeral content
-
-- Session notes, drafts, debugging files
-- Git-ignored, persistent between sessions
-
-## Essential Reading Order
-
-1. **This file** (`.agent/README.md`) - Overview
-2. **Subdirectory READMEs** - Detailed information for each area
-3. **`guidelines/project.md`** - Core project requirements
-4. **Task-specific files** - As needed based on current work
-
-## For AI Agent Developers
-
-When integrating an AI agent with this project:
-
-1. Configure automatic discovery of `.agent/` directory
-2. Read relevant files based on task context
-3. Apply conventions consistently
-4. Re-read files when they're updated
+1. Read this file to understand how to work
+2. Check the README in each subdirectory for detailed information
+3. Apply the relevant guidelines to your current work
+4. Execute required tasks at their designated checkpoints

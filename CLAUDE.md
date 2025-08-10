@@ -1,37 +1,41 @@
-# Project Instructions for Claude Code
+# Claude Code Instructions
+
+## Primary Reference
 
 @.agent/README.md
 
-## Important Note
+All project instructions are defined in `.agent/` directory. This file only contains Claude Code-specific mappings.
 
-The main instructions and processes are defined in `.agent/` directory. This file (CLAUDE.md) and `.claude/`
-directory primarily contain references to `.agent/` and Claude-specific implementations only.
+## Critical Translation Rule for Claude Code
 
-## Claude-specific Files
+When you see instructions to "Execute the `X` task":
 
-### Subagents
+1. **ALWAYS interpret this as**: Launch the `X-er` subagent
+2. **NEVER attempt to**: Read or execute task files directly
+3. **The mapping is**: `X` task → `X-er` subagent (append "-er" to task name)
 
-Location: `/.claude/agents/`
+Example translations:
 
-- Execute tasks defined in `.agent/tasks/`
-- **REQUIRED**: Always run branch-checker subagent before any file operations (create/edit/delete)
-- **REQUIRED**: Always run commit-checkpoint subagent after making file changes
+- "Execute the `branch-check` task" → Launch `branch-checker` subagent
+- "Execute the `commit-checkpoint` task" → Launch `commit-checkpointer` subagent
 
-### Slash Commands
+## Claude Implementation Structure
 
-Location: `/.claude/commands/`
+### Subagents (`.claude/agents/`)
 
-- These files reference the actual processes defined in `.agent/`
-- Contain only Claude-specific command handling logic
+Each subagent wraps a corresponding task from `.agent/tasks/`:
 
-### Temporary Workspace
+- Subagent naming: task name + "-er" suffix
+- Subagents provide Claude-specific execution context
+- Always use subagents, never execute tasks directly
 
-Location: `/.agent/tmp/`
+### Commands (`.claude/commands/`)
 
-- Git-ignored directory for Claude's temporary work
-- Use freely for:
-  - Session notes and context
-  - Work-in-progress analysis
-  - Temporary calculations or data
-  - Any files you need during development
-- Everything in this directory is ephemeral and not tracked by git
+Slash commands wrap workflows from `.agent/workflows/`:
+
+- Commands provide the Claude Code interface
+- They reference the actual workflow definitions
+
+## Workspace
+
+Use `.agent/tmp/` for all temporary work (git-ignored)
