@@ -1,67 +1,67 @@
 # AI Agent Conventions
 
-This directory contains conventions and rules for AI agents working on this project.
+Central hub for AI agent conventions, guidelines, and workflows for this project.
 
-## IMPORTANT: When to Read These Files
+## Quick Start
 
-AI agents MUST read the relevant files in this directory:
+AI agents working on this project should:
 
-- **ALWAYS** at the start of a session:
-  - Read `/README.md` for project overview
-  - Read this entire `.agent/README.md` file
-  - Read `guidelines/project.md` for basic project rules
-- **AS NEEDED** based on the task:
-  - **BEFORE** file operations - execute `tasks/branch-check.md`
-  - **BEFORE** making git commits - read `guidelines/commit.md` and `workflows/commit.md`
-  - **WHEN** designing new features - read `workflows/collaborative-design.md`
-  - **WHEN** creating technical designs - read `workflows/technical-design.md` and `workflows/design-review-checklist.md`
-  - **WHEN** installing tools - read `guidelines/tool-management.md` and `workflows/tool-installation.md`
-  - **WHEN** implementing logging - read `guidelines/logging.md`
-  - **WHEN** implementing features using TDD - read `workflows/tdd.md`
+1. **Start here** - Read this README for overview
+2. **Check subdirectories** - Each directory has its own README with detailed information
+3. **Follow the rules** - Apply conventions consistently throughout work
 
 ## Directory Structure
 
-### Tasks (tasks/)
+```plaintext
+.agent/
+├── guidelines/     # Conventions and rules (what to do and why)
+├── tasks/         # Executable tasks (specific actions to perform)
+├── workflows/     # Multi-step processes (how to accomplish goals)
+└── tmp/          # Git-ignored workspace for temporary files
+```
 
-**Individual executable tasks** - Specific actions to perform
+## When to Use Each Directory
 
-- `branch-check.md` - Ensure proper branch before file operations
+### 📋 Tasks (`tasks/`)
 
-### Guidelines (guidelines/)
+**Required checkpoints** in your workflow
 
-**Conventions and rules** - What to do and why
+- Execute `branch-check.md` BEFORE any file operations
+- Execute `commit-checkpoint.md` after significant changes
 
-- `branch-naming.md` - Branch naming conventions
-- `branch-strategy.md` - When to create new branches
-- `commit.md` - Git commit conventions (Conventional Commits)
-- `project.md` - Language requirements for all files
-- `logging.md` - Use case-based logging guidelines
-- `tool-management.md` - How to install and manage tools (using mise)
-- `monorepo-management.md` - Task execution and management with moon
+### 📐 Guidelines (`guidelines/`)
 
-### Workflows (workflows/)
+**Standards to follow** throughout development
 
-**Processes and procedures** - How to execute tasks
+- Project conventions, commit standards, branching strategies
+- Tool management and logging practices
 
-- `tdd.md` - Test-Driven Development process for AI agents
-- `commit.md` - Step-by-step git commit procedures
-- `tool-installation.md` - Installing and managing tools with mise
-- `collaborative-design.md` - Product design and PRD creation process
-- `technical-design.md` - Engineering design and implementation process
-- `design-review-checklist.md` - Guidelines for appropriate abstraction in design docs
+### 🔄 Workflows (`workflows/`)
 
-### Temporary Files (tmp/)
+**Step-by-step processes** for complex operations
 
-**Working directory** - For AI agent temporary work
+- TDD implementation, design documentation
+- Commit procedures, tool installation
 
-- Git-ignored directory for temporary files
-- Use for drafts, debugging files, session notes
-- Files persist between sessions but are not tracked by git
+### 💾 Temporary (`tmp/`)
+
+**Working space** for ephemeral content
+
+- Session notes, drafts, debugging files
+- Git-ignored, persistent between sessions
+
+## Essential Reading Order
+
+1. **This file** (`.agent/README.md`) - Overview
+2. **Subdirectory READMEs** - Detailed information for each area
+3. **`guidelines/project.md`** - Core project requirements
+4. **Task-specific files** - As needed based on current work
 
 ## For AI Agent Developers
 
-If you're integrating an AI agent with this project, ensure your agent:
+When integrating an AI agent with this project:
 
-1. Automatically discovers and reads the `.agent/` directory
-2. Applies these conventions during its work
-3. Re-reads files when they're updated
+1. Configure automatic discovery of `.agent/` directory
+2. Read relevant files based on task context
+3. Apply conventions consistently
+4. Re-read files when they're updated
