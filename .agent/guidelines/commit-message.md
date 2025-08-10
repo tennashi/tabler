@@ -1,24 +1,8 @@
-# Git Conventions for AI Agents
+# Commit Message Conventions
 
-This document defines the conventions and rules for git commits. For step-by-step commit workflows, see `workflows/commit.md`.
-
-## Commit Granularity
-
-- Keep commits atomic: one logical change per commit
-- Related changes should be committed together
-- Unrelated changes should be in separate commits
-- Each commit should represent a complete, working state
-- Each commit should pass all tests and checks (lint, format, typecheck, etc.)
-
-## Commit Dependencies
-
-- Consider logical dependencies between commits
-- Infrastructure changes before features that use them
-- Tool installations before tool configurations
-- Configurations before code that depends on them
-- Bug fixes that enable tests before the tests themselves
-
-For specific ordering strategies and examples, see `workflows/commit.md`
+This document defines the conventions and rules for git commit messages.
+For step-by-step commit workflows, see `workflows/commit.md`.
+For commit granularity and strategy, see `commit-strategy.md`.
 
 ## Commit Messages
 
@@ -26,13 +10,13 @@ AI agents must follow the Conventional Commits specification:
 
 ### Format
 
-````text
+```text
 <type>[optional scope][!]: <description>
 
 [optional body]
 
 [optional footer(s)]
-```text
+```
 
 ### Types
 
@@ -76,5 +60,4 @@ feat(lang): add Japanese localization
 refactor(auth)!: replace JWT with session-based auth
 
 Refs: #456
-```text
-````
+```

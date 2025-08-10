@@ -21,7 +21,8 @@ This document describes the step-by-step process for making commits.
 2. **Plan commit(s) and branch name:**
 
    **First, check commit message guidelines:**
-   - See `guidelines/commit.md` for format and conventions
+   - See `guidelines/commit-message.md` for format and conventions
+   - See `guidelines/commit-strategy.md` for granularity and dependencies
    - Follow Conventional Commits format: `<type>(<scope>): <subject>`
 
    ```text
@@ -185,5 +186,6 @@ When making multiple commits, follow this order:
 
 ## References
 
-- See `guidelines/commit.md` for commit message format and conventions
+- See `guidelines/commit-message.md` for commit message format and conventions
+- See `guidelines/commit-strategy.md` for commit granularity and dependency management
 - See `workflows/tdd.md` for test-driven development commit patterns
