@@ -3,4 +3,24 @@ $schema: ".moon/cache/schemas/project.json"
 project:
   description: "Repository root"
 
-tasks: {}
+tasks:
+  format-check:
+    inputs:
+      - ".agent/**"
+      - ".claude/**"
+      - "*"
+      - ".*"
+      - "!.git/**"
+      - "!.moon/**"
+    options:
+      mergeInputs: "append"
+
+  lint:
+    args: ["--config", ".markdownlint.yaml"]
+    inputs:
+      - ".agent/**/*.md"
+      - ".claude/**/*.md"
+      - "*.md"
+    options:
+      mergeArgs: "prepend"
+      mergeInputs: "append"

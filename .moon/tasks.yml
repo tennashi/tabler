@@ -5,22 +5,16 @@ tasks:
   # Formatting tasks (dprint)
   format:
     command: "dprint fmt"
-    options:
-      runFromWorkspaceRoot: true
   format-check:
     command: "dprint check"
-    options:
-      runFromWorkspaceRoot: true
 
   # Linting tasks (markdownlint)
   lint:
-    command: 'markdownlint-cli2 "**/*.md"'
-    options:
-      runFromWorkspaceRoot: true
+    command: "markdownlint-cli2"
+    args: '"**/*.md"'
   lint-fix:
-    command: 'markdownlint-cli2 --fix "**/*.md"'
-    options:
-      runFromWorkspaceRoot: true
+    command: "markdownlint-cli2"
+    args: ["--fix", '"**/*.md"']
 
   # Testing (default noop, override in language-specific tasks)
   test:

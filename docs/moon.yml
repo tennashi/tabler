@@ -4,4 +4,8 @@ project:
   name: "docs"
   description: "Project documentation (PRDs, design docs, ADRs)"
 
-tasks: {}
+tasks:
+  lint:
+    args: ["--config", "../.markdownlint.yaml"]
+    options:
+      mergeArgs: "prepend"
