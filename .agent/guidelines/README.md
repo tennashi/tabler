@@ -18,6 +18,7 @@ Guidelines define **what to do and why** - the standards and conventions that ma
 ### Development Standards
 
 - `project.md` - Core project requirements (language, formatting, etc.)
+- `quality-check.md` - Mandatory quality checks before commits
 - `logging.md` - Structured logging guidelines for different use cases
 - `tool-management.md` - How to install and manage development tools using mise
 - `monorepo-management.md` - Task execution and dependency management with moon
@@ -26,7 +27,7 @@ Guidelines define **what to do and why** - the standards and conventions that ma
 
 - **ALWAYS** read `project.md` at the start of a session
 - **BEFORE** creating branches - read `branch-naming.md` and `branch-strategy.md`
-- **BEFORE** making commits - read `commit-message.md` and `commit-strategy.md`
+- **BEFORE** making commits - read `commit-message.md`, `commit-strategy.md`, and `quality-check.md`
 - **WHEN** adding logging - read `logging.md`
 - **WHEN** installing tools - read `tool-management.md`
 - **WHEN** working with moon tasks - read `monorepo-management.md`

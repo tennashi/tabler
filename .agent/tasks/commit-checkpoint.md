@@ -1,58 +1,101 @@
 # Commit Checkpoint Task
 
-Execute this task when work reaches a natural stopping point and changes should be committed.
-
-## When to Execute
-
-- After completing a feature or bug fix
-- Before switching to a different task
-- When reaching a stable state in implementation
-- At the end of a work session
-- When explicitly requested by the user
-
-## Prerequisites
-
-1. Ensure you have uncommitted changes worth committing
-2. Review the current branch status
+Execute this task when you need to commit current changes.
 
 ## Execution Steps
 
-1. **Check Current Status**
+### 1. Confirm Commit Intent
 
-   ```bash
-   git status
-   git diff --cached
-   git diff
-   ```
+First, ask the user:
 
-2. **Stage Appropriate Files**
+> "Would you like to commit the current changes?"
 
-   ```bash
-   git add <relevant-files>
-   ```
+If no → Exit task
 
-   - Stage only files related to the current work
-   - Avoid staging unrelated changes
+### 2. Assess Current Changes
 
-3. **Create Commit**
-   - Follow conventions in `../guidelines/commit.md`
-   - Write a clear, descriptive commit message
-   - Use Conventional Commits format
+```bash
+# Check what has been modified
+git status
 
-4. **Verify Commit**
+# Review all changes
+git diff
+```
 
-   ```bash
-   git log -1 --stat
-   ```
+### 3. Run Quality Checks
+
+Execute quality checks according to `../guidelines/quality-check.md`.
+
+If checks fail:
+
+1. Fix all issues
+2. Re-run checks until they pass
+
+### 4. Analyze and Group Changes
+
+Analyze all changes and identify logical groups:
+
+Example groupings:
+
+- Feature implementation + related tests
+- Bug fix + regression test
+- Documentation updates
+- Refactoring changes
+- Configuration changes
+
+Present the analysis to the user:
+
+> "I've identified the following changes:
+>
+> - Group A: [description of changes]
+> - Group B: [description of changes]
+>
+> Which would you like to commit? (A/B/all)"
+
+### 5. Stage Selected Files
+
+Based on user's choice:
+
+```bash
+# Stage selected files
+git add <files-for-selected-group>
+```
+
+### 6. Create Commit
+
+Generate commit message following `../guidelines/commit-message.md`:
+
+```bash
+# Create commit with generated message
+git commit -m "<type>(<scope>): <description>"
+```
+
+Message generation rules:
+
+- Analyze staged changes to determine type (feat/fix/docs/refactor/test/chore)
+- Identify scope from modified files
+- Write clear, concise description
+
+### 7. Verify Commit
+
+```bash
+# Verify the commit was created correctly
+git log -1 --stat
+
+# Check remaining unstaged changes
+git status
+```
 
 ## Important Notes
 
-- This task does NOT push to remote unless explicitly requested
-- Always follow Conventional Commits format
-- Group related changes into logical commits
-- If work is incomplete, consider using a WIP (Work In Progress) commit
+- **Quality checks are mandatory** - Never skip them
+- **User confirmation is required** - Both for starting and for selecting what to commit
+- **Commits are local only** - This task does not push to remote
+- **Follow guidelines** - Always reference the relevant guidelines for standards
 
 ## References
 
-- Commit Guidelines: `../guidelines/commit.md`
+- Quality Check: `../guidelines/quality-check.md`
+- Commit Message Format: `../guidelines/commit-message.md`
+- Commit Strategy: `../guidelines/commit-strategy.md`
 - Branch Strategy: `../guidelines/branch-strategy.md`
