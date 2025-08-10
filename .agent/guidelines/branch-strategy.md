@@ -59,4 +59,4 @@ Never commit directly to:
 ## References
 
 - See `guidelines/branch-naming.md` for naming conventions
-- See `workflows/commit.md` for commit workflow
+- See `guidelines/commit-message.md` and `guidelines/commit-strategy.md` for commit conventions
