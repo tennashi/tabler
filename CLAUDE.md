@@ -15,6 +15,7 @@ Location: `/.claude/agents/`
 
 - Execute tasks defined in `.agent/tasks/`
 - **REQUIRED**: Always run branch-checker subagent before any file operations (create/edit/delete)
+- **REQUIRED**: Always run commit-checkpoint subagent after making file changes
 
 ### Slash Commands
 
