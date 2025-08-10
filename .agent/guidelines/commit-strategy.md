@@ -2,7 +2,6 @@
 
 This document defines the strategy for organizing and structuring commits.
 For commit message format, see `commit-message.md`.
-For step-by-step commit workflows, see `workflows/commit.md`.
 
 ## Commit Granularity
 
@@ -19,5 +18,3 @@ For step-by-step commit workflows, see `workflows/commit.md`.
 - Tool installations before tool configurations
 - Configurations before code that depends on them
 - Bug fixes that enable tests before the tests themselves
-
-For specific ordering strategies and examples, see `workflows/commit.md`

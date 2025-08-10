@@ -1,7 +1,6 @@
 # Commit Message Conventions
 
 This document defines the conventions and rules for git commit messages.
-For step-by-step commit workflows, see `workflows/commit.md`.
 For commit granularity and strategy, see `commit-strategy.md`.
 
 ## Commit Messages

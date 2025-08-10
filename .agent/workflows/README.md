@@ -11,7 +11,6 @@ Workflows define **how to execute tasks** - step-by-step procedures for accompli
 ### Development Processes
 
 - `tdd.md` - Test-Driven Development process adapted for AI agents
-- `commit.md` - Step-by-step procedures for creating proper git commits
 - `tool-installation.md` - Process for installing and configuring tools with mise
 
 ### Design & Architecture
@@ -23,7 +22,6 @@ Workflows define **how to execute tasks** - step-by-step procedures for accompli
 ## When to Use These Workflows
 
 - **tdd.md** - When implementing new features using Test-Driven Development
-- **commit.md** - When creating git commits (always follow this process)
 - **tool-installation.md** - When adding new development tools to the project
 - **collaborative-design.md** - When designing new product features
 - **technical-design.md** - When planning technical implementations

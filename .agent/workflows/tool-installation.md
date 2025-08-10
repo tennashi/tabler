@@ -134,5 +134,5 @@ mise exec -- which <tool>
 ## References
 
 - See `guidelines/tool-management.md` for tool selection rules
-- See `workflows/commit.md` for committing tool changes
+- See `guidelines/commit-message.md` and `guidelines/commit-strategy.md` for commit conventions
 ````
