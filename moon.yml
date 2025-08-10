@@ -16,9 +16,11 @@ tasks:
       mergeInputs: "append"
 
   lint:
+    args: ['--config', '.markdownlint.yaml']
     inputs:
       - ".agent/**/*.md"
       - ".claude/**/*.md"
       - "*.md"
     options:
+      mergeArgs: "prepend"
       mergeInputs: "append"

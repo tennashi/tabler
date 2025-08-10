@@ -10,9 +10,11 @@ tasks:
 
   # Linting tasks (markdownlint)
   lint:
-    command: 'markdownlint-cli2 "**/*.md"'
+    command: 'markdownlint-cli2'
+    args: '"**/*.md"'
   lint-fix:
-    command: 'markdownlint-cli2 --fix "**/*.md"'
+    command: 'markdownlint-cli2'
+    args: ['--fix', '"**/*.md"']
 
   # Testing (default noop, override in language-specific tasks)
   test:
