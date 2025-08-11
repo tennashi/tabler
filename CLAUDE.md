@@ -10,14 +10,14 @@ All project instructions are defined in `.agent/` directory. This file only cont
 
 When you see instructions to "Execute the `X` task":
 
-1. **ALWAYS interpret this as**: Launch the `X-er` subagent
+1. **ALWAYS interpret this as**: Execute the Task tool with `subagent_type: X-er`
 2. **NEVER attempt to**: Read or execute task files directly
-3. **The mapping is**: `X` task → `X-er` subagent (append "-er" to task name)
+3. **The mapping is**: `X` task → `subagent_type: X-er` (append "-er" to task name)
 
 Example translations:
 
-- "Execute the `branch-check` task" → Launch `branch-checker` subagent
-- "Execute the `commit-checkpoint` task" → Launch `commit-checkpointer` subagent
+- "Execute the `branch-check` task" → Execute Task tool with `subagent_type: branch-checker`
+- "Execute the `commit-checkpoint` task" → Execute Task tool with `subagent_type: commit-checkpointer`
 
 ## Claude Implementation Structure
 
