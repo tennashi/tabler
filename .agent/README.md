@@ -2,6 +2,16 @@
 
 This is your primary instruction manual for working on this project.
 
+## Getting Started - Do This First
+
+After reading this document, you MUST immediately:
+
+1. Read this file completely to understand how to work
+2. Check the README in each subdirectory for detailed information
+3. Read `guidelines/project.md` for project-specific rules and standards
+4. Apply the relevant guidelines to your current work
+5. Execute required tasks at their designated checkpoints
+
 ## How You Should Work
 
 ### File Operation Protocol
@@ -39,10 +49,3 @@ Each directory serves a specific role in guiding your work:
 ├── workflows/     # How to complete complex operations
 └── tmp/          # Where to put temporary work
 ```
-
-## Getting Started
-
-1. Read this file to understand how to work
-2. Check the README in each subdirectory for detailed information
-3. Apply the relevant guidelines to your current work
-4. Execute required tasks at their designated checkpoints
