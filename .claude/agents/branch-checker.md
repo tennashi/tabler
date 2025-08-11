@@ -1,10 +1,7 @@
 ---
-subagent_type: branch-checker
-description: Executes branch-check task before file operations
-when_to_use: Before any file creation, editing, or deletion
-tools:
-  - Bash(git *)
-  - Read
+name: branch-checker
+description: Executes branch-check task before file operations - use PROACTIVELY before any file creation, editing, or deletion
+tools: Bash, Read
 ---
 
 # Branch Checker
