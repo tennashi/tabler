@@ -12,6 +12,7 @@ git log --oneline main...HEAD
 ```
 
 Then:
+
 - Extract type from branch name (e.g., `feat/` → `feat:`)
 - Write meaningful title based on actual changes
 - Fill PR body following `.github/pull_request_template.md`
@@ -34,6 +35,7 @@ gh pr checks --watch --fail-fast
 ```
 
 If CI fails, try to fix automatically:
+
 - Run linter/formatter if available in the project
 - Commit any fixes and push
 - Return to Step 3 to retry
