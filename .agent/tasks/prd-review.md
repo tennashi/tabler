@@ -67,6 +67,7 @@ Look for and flag any implementation details:
 ### 5. Verify Given-When-Then Scenarios
 
 Each scenario should be:
+
 - [ ] Written from user perspective (not system internals)
 - [ ] Testable without knowing implementation
 - [ ] Focused on observable behavior
@@ -80,17 +81,20 @@ Create a summary of findings:
 ## PRD Review: [PRD Name]
 
 ### Why/What Coverage
+
 - ✅ Problem clearly stated
 - ✅ User needs identified
 - ✅ Success metrics defined
 - [Add other strengths]
 
 ### Implementation Details to Remove
+
 - ⚠️ Line X: Contains "[specific issue]"
 - ⚠️ Line Y: References "[technical detail]"
 - [List all How elements found]
 
 ### Recommendations
+
 - Replace "[implementation]" with "[user-focused alternative]"
 - [Other specific recommendations]
 ```
@@ -98,6 +102,7 @@ Create a summary of findings:
 ### 7. Suggest Improvements
 
 For each implementation detail found:
+
 1. Propose user-focused alternative wording
 2. Ensure no loss of important requirements
 3. Keep focus on user value and outcomes
