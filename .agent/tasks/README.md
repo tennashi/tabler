@@ -10,6 +10,7 @@ Tasks are **specific actions to perform** - discrete operations that ensure cons
 
 - `branch-check.md` - Verify and ensure proper branch before file operations
 - `commit-checkpoint.md` - Create automatic commits at regular intervals during work
+- `prd-review.md` - Review PRDs for Why/What focus and identify implementation details
 
 ## When to Execute These Tasks
 
@@ -24,6 +25,14 @@ Tasks are **specific actions to perform** - discrete operations that ensure cons
   - **SHOULD** execute after making significant file changes
   - Creates checkpoint commits for work in progress
   - Helps maintain granular history of changes
+
+### Review Tasks
+
+- **prd-review.md**
+  - **SHOULD** execute after creating or updating PRDs
+  - Ensures PRDs focus on Why/What, not How
+  - Identifies implementation details that belong in Design Docs
+  - Maintains clear separation between requirements and implementation
 
 ## Task Execution
 
