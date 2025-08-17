@@ -182,6 +182,13 @@ tabler add plan company retreat        # → Planning mode
 - Talk: Shows dialogue prompts with 🤔 emoji
 - Planning: Shows decomposition options with 📋 emoji
 
+**Keyboard Shortcuts**:
+
+- `Enter`: Submit current task
+- `Escape`: Cancel input or exit dialogue
+- `Tab`: Accept autocomplete suggestion
+- `Ctrl+/`: Toggle between input modes
+
 **Detection Heuristics**:
 
 1. Very short input (<10 chars) → Quick
@@ -194,8 +201,9 @@ tabler add plan company retreat        # → Planning mode
 
 - Invalid mode prefix: Show available modes
 - Mode detection failure: Default to Quick
-- Claude unavailable: Use simple heuristics
+- Claude unavailable: Use simple heuristics with 2s timeout
 - Mode handler errors: Fallback to basic creation
+- Empty input: Keep focus, no task creation
 
 ### Logging Strategy
 

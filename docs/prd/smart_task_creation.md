@@ -25,8 +25,8 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 #### Scenario: Basic task creation
 
 - **Given**: User is on the task input interface
-- **When**: User types "Buy milk" and presses Enter
-- **Then**: Task "Buy milk" is created and saved within 100ms
+- **When**: User types "Buy milk" and confirms
+- **Then**: Task "Buy milk" is created and saved immediately
 
 #### Scenario: Empty input handling
 
@@ -174,21 +174,21 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 
 #### Scenario: Quick mode activation
 
-- **Given**: User is on the task input interface
-- **When**: User types "/q Buy groceries"
-- **Then**: Task "Buy groceries" is created immediately without AI processing
+- **Given**: User wants minimal processing
+- **When**: User indicates quick mode preference
+- **Then**: Task is captured with minimal intervention
 
 #### Scenario: Talk mode activation
 
-- **Given**: User is on the task input interface
-- **When**: User types "/t Need to improve performance"
-- **Then**: AI dialogue is initiated to clarify the task
+- **Given**: User wants help clarifying their thoughts
+- **When**: User indicates dialogue mode preference
+- **Then**: System engages in clarification conversation
 
 #### Scenario: Planning mode activation
 
-- **Given**: User is on the task input interface
-- **When**: User types "/p Launch new product"
-- **Then**: AI enters planning mode and suggests comprehensive task breakdown
+- **Given**: User has a complex project to organize
+- **When**: User indicates planning mode preference
+- **Then**: System provides comprehensive task structuring assistance
 
 #### Scenario: Default mode intelligence
 
@@ -208,21 +208,21 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 
 #### Must Have
 
-- Single-line task input with Enter to save
-- Inline shortcuts (@, #, !) for metadata
-- Three input modes: Quick, Talk, Planning
-- Automatic mode detection based on input
-- Manual mode override commands
-- Basic task CRUD operations
+- Minimal friction task capture interface
+- Shortcut patterns for common metadata (@dates, #categories, !priority)
+- Three interaction modes optimized for different use cases
+- Intelligent mode selection based on user intent
+- User control over system behavior
+- Complete task lifecycle management
 
 #### Should Have
 
-- Natural language processing for dates and categories
-- AI-powered task clarification dialogue
-- Smart task decomposition suggestions
-- Japanese and English language support
-- Autocomplete for frequently used tags/categories
-- Context learning from usage patterns
+- Natural language understanding for temporal and categorical intent
+- Conversational assistance for task refinement
+- Intelligent breakdown of complex work items
+- Multi-language support (Japanese and English)
+- Predictive assistance based on user patterns
+- Personalized experience through usage learning
 
 #### Nice to Have
 
@@ -235,10 +235,10 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 
 ### Non-Functional Requirements
 
-- **Performance**: Task creation completes in <200ms, AI suggestions in <2s
-- **Usability**: New users can create first task without instruction
-- **Reliability**: 99.9% uptime, offline mode for basic creation
-- **Accessibility**: Full keyboard navigation, screen reader support
+- **Performance**: Instant feedback for all user actions
+- **Usability**: Zero-learning-curve for basic functionality
+- **Reliability**: System available whenever user needs it
+- **Accessibility**: Fully accessible to users with disabilities
 
 ## Success Metrics
 
@@ -299,7 +299,7 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 
 ## Dependencies
 
-- LLM API service (for natural language and dialogue features)
-- Frontend framework decision
-- Database/storage solution
-- Authentication system (for multi-user support)
+- Natural language understanding capability
+- User interface infrastructure
+- Data persistence mechanism
+- User identification system (for personalization)
