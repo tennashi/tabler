@@ -21,9 +21,7 @@ As a [type of user], I want [goal] so that [benefit].
 - **I want**: [Action/feature]
 - **So that**: [Benefit/value]
 
-#### Acceptance Criteria
-
-##### Scenario 1: [Scenario name]
+#### Scenario: [Story 1 primary scenario]
 
 - **Given**: [Preconditions/initial state]
 - **When**: [User action/event]
@@ -36,13 +34,13 @@ As a [type of user], I want [goal] so that [benefit].
 - Then: Expected results or state changes
 
 Example:
-Scenario 1: Successful task creation
+Scenario: Successful task creation
 - Given: User is on the task list page
 - When: User enters "Buy milk" and presses Enter
 - Then: Task "Buy milk" appears in the task list with pending status
 -->
 
-##### Scenario 2: [Scenario name]
+#### Scenario: [Story 1 alternative scenario]
 
 - **Given**: [Preconditions/initial state]
 - **When**: [User action/event]
@@ -54,15 +52,13 @@ Scenario 1: Successful task creation
 - **I want**: [Action/feature]
 - **So that**: [Benefit/value]
 
-#### Acceptance Criteria
-
-##### Scenario 1: [Scenario name]
+#### Scenario: [Story 2 primary scenario]
 
 - **Given**: [Preconditions/initial state]
 - **When**: [User action/event]
 - **Then**: [Expected result/state change]
 
-##### Scenario 2: [Scenario name]
+#### Scenario: [Story 2 alternative scenario]
 
 - **Given**: [Preconditions/initial state]
 - **When**: [User action/event]
