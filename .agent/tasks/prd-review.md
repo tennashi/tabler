@@ -92,7 +92,6 @@ Create a summary of findings:
 
 ### Recommendations
 - Replace "[implementation]" with "[user-focused alternative]"
-- Move "[technical detail]" to Design Doc
 - [Other specific recommendations]
 ```
 
@@ -100,24 +99,14 @@ Create a summary of findings:
 
 For each implementation detail found:
 1. Propose user-focused alternative wording
-2. Note which Design Doc should contain the technical detail
-3. Ensure no loss of important requirements
-
-### 8. Verify Design Doc Coverage
-
-Check that removed implementation details are captured in corresponding Design Docs:
-
-```bash
-ls -la docs/design/
-```
-
-Ensure technical details have a home in the appropriate Design Doc.
+2. Ensure no loss of important requirements
+3. Keep focus on user value and outcomes
 
 ## Expected Result
 
 - PRD focuses exclusively on Why (problems, needs, value) and What (user-facing functionality)
-- All How (implementation details) moved to Design Docs
-- Clear separation of concerns between PRD and Design Doc
+- All How (implementation details) removed from PRD
+- Clear focus on user needs and business value
 - PRD remains readable by non-technical stakeholders
 
 ## Success Criteria
