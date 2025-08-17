@@ -20,18 +20,49 @@ As a [type of user], I want [goal] so that [benefit].
 - **As a**: [User type]
 - **I want**: [Action/feature]
 - **So that**: [Benefit/value]
-- **Acceptance Criteria**:
-  - [ ] [Specific measurable outcome]
-  - [ ] [Another measurable outcome]
+
+#### Scenario: [Story 1 primary scenario]
+
+- **Given**: [Preconditions/initial state]
+- **When**: [User action/event]
+- **Then**: [Expected result/state change]
+
+<!--
+💡 Use Given-When-Then format for testable conditions:
+- Given: Test preconditions or initial state
+- When: User actions or system events
+- Then: Expected results or state changes
+
+Example:
+Scenario: Successful task creation
+- Given: User is on the task list page
+- When: User enters "Buy milk" and presses Enter
+- Then: Task "Buy milk" appears in the task list with pending status
+-->
+
+#### Scenario: [Story 1 alternative scenario]
+
+- **Given**: [Preconditions/initial state]
+- **When**: [User action/event]
+- **Then**: [Expected result/state change]
 
 ### Story 2: [Title]
 
 - **As a**: [User type]
 - **I want**: [Action/feature]
 - **So that**: [Benefit/value]
-- **Acceptance Criteria**:
-  - [ ] [Specific measurable outcome]
-  - [ ] [Another measurable outcome]
+
+#### Scenario: [Story 2 primary scenario]
+
+- **Given**: [Preconditions/initial state]
+- **When**: [User action/event]
+- **Then**: [Expected result/state change]
+
+#### Scenario: [Story 2 alternative scenario]
+
+- **Given**: [Preconditions/initial state]
+- **When**: [User action/event]
+- **Then**: [Expected result/state change]
 
 ## Requirements
 

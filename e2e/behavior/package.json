@@ -1,0 +1,15 @@
+{
+  "name": "@tabler/e2e-behavior",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Behavior tests for Tabler CLI",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}

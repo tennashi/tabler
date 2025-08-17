@@ -1,0 +1,28 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+project:
+  description: "End-to-end behavior tests using Cucumber.js"
+  tags:
+    - e2e
+    - behavior
+    - testing
+
+tasks:
+  install:
+    command: npm
+    args: ["install"]
+    inputs:
+      - package.json
+    outputs:
+      - node_modules
+
+  test:
+    command: npm
+    args: ["test"]
+    deps:
+      - install
+    inputs:
+      - features/**/*.feature
+      - steps/**/*.ts
+      - cucumber.js
+      - tsconfig.json
