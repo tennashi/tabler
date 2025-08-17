@@ -1,5 +1,36 @@
 # PRD: [Feature Name]
 
+<!--
+PRD WRITING GUIDELINES:
+
+PRDs should focus on WHY and WHAT, not HOW:
+
+✅ DO (Why/What):
+- WHY: Explain the problem and user needs
+- WHY: Describe the business value and impact
+- WHAT: Define user-facing functionality
+- WHAT: Specify desired outcomes and behaviors
+- WHAT: Describe success criteria
+
+❌ DON'T (How):
+- HOW: Implementation details ("single-line input", "Enter key")
+- HOW: Technical architecture ("LLM API", "SQLite database")
+- HOW: Internal processing ("parsing system", "AI processes")
+- HOW: Specific response times ("100ms", "2 seconds")
+
+Examples:
+❌ "Single-line task input with Enter to save"
+✅ "Minimal friction task capture interface"
+
+❌ "Use LLM API service for natural language processing"
+✅ "Natural language understanding capability"
+
+❌ "Task creation completes in <200ms"
+✅ "Instant feedback for all user actions"
+
+Technical implementation details belong in the Design Doc.
+-->
+
 **Version**: 1.0
 
 ## Problem Statement
@@ -82,9 +113,9 @@ Scenario: Successful task creation
 
 ### Non-Functional Requirements
 
-- **Performance**: [Response time, throughput requirements]
+- **Performance**: [User-perceived speed, not specific numbers]
 - **Usability**: [User experience requirements]
-- **Reliability**: [Uptime, error rate requirements]
+- **Reliability**: [Availability from user perspective]
 
 ## Success Metrics
 
@@ -113,4 +144,6 @@ Scenario: Successful task creation
 
 ## Dependencies
 
-- [Other features or systems this depends on]
+- [Other features or capabilities this depends on]
+
+<!-- Note: Avoid specifying technical implementations like specific APIs or databases -->

@@ -8,6 +8,25 @@ This directory contains project documentation.
 - `design/` - Technical Design Documents (how to build it)
 - `adr/` - Architecture Decision Records (technical decisions)
 
+### PRD vs Design Doc Guidelines
+
+**PRD (Product Requirements Document)**:
+
+- Focus: WHY we're building it (problems, user needs, business value)
+- Focus: WHAT we're building (user-facing functionality, outcomes)
+- Avoid: HOW to implement (technical details, architecture, specific technologies)
+
+**Design Doc**:
+
+- Focus: HOW to implement the requirements from PRD
+- Include: Architecture, technical choices, implementation details
+- Include: Performance specs, database schemas, API designs
+
+**Example**:
+
+- PRD: "Users need instant feedback when creating tasks"
+- Design: "Implement with <100ms response time using local SQLite cache"
+
 ## File Organization
 
 ### Simple Features
