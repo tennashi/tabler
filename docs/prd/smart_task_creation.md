@@ -21,68 +21,186 @@ Additionally, when thoughts are vague or complex, users need help clarifying and
 - **As a**: Busy user
 - **I want**: To quickly input tasks without thinking about format
 - **So that**: I don't lose thoughts or break my concentration
-- **Acceptance Criteria**:
-  - [ ] Can create a task with a single line of text and Enter key
-  - [ ] Input field is always easily accessible
-  - [ ] Task is saved within 100ms of pressing Enter
-  - [ ] No required fields beyond the task description
+
+#### Scenario: Basic task creation
+
+- **Given**: User is on the task input interface
+- **When**: User types "Buy milk" and presses Enter
+- **Then**: Task "Buy milk" is created and saved within 100ms
+
+#### Scenario: Empty input handling
+
+- **Given**: User is on the task input interface
+- **When**: User presses Enter without typing anything
+- **Then**: No task is created and input field remains focused
+
+#### Scenario: Continuous task creation
+
+- **Given**: User has just created a task
+- **When**: Task is successfully saved
+- **Then**: Input field is cleared and ready for next task
 
 ### Story 2: Natural Language Input with Shortcuts
 
 - **As a**: User who wants some organization
 - **I want**: To add metadata using natural language patterns
 - **So that**: I can organize tasks without using complex forms
-- **Acceptance Criteria**:
-  - [ ] Recognizes @ for dates (e.g., @tomorrow, @Friday, @12/25)
-  - [ ] Recognizes # for categories/tags (e.g., #work, #personal)
-  - [ ] Recognizes ! for priority levels (!, !!, !!!)
-  - [ ] Shortcuts are processed and removed from task title
-  - [ ] Works with both Japanese and English input
+
+#### Scenario: Date shortcut parsing
+
+- **Given**: User is typing a task
+- **When**: User enters "Meeting @tomorrow with team"
+- **Then**: Task is created with title "Meeting with team" and due date set to tomorrow
+
+#### Scenario: Category shortcut parsing
+
+- **Given**: User is typing a task
+- **When**: User enters "Review PR #work"
+- **Then**: Task is created with title "Review PR" and category set to "work"
+
+#### Scenario: Priority shortcut parsing
+
+- **Given**: User is typing a task
+- **When**: User enters "Fix critical bug !!!"
+- **Then**: Task is created with title "Fix critical bug" and priority set to "high"
+
+#### Scenario: Multiple shortcuts
+
+- **Given**: User is typing a task
+- **When**: User enters "Submit report @Friday #work !!"
+- **Then**: Task is created with title "Submit report", due date Friday, category "work", and priority "medium"
+
+#### Scenario: Japanese input support
+
+- **Given**: User is typing in Japanese
+- **When**: User enters "レポート作成 @明日 #仕事"
+- **Then**: Task is created with title "レポート作成", due date tomorrow, and category "仕事"
 
 ### Story 3: AI-Powered Understanding
 
 - **As a**: User typing in natural language
 - **I want**: The system to understand my intent without explicit shortcuts
 - **So that**: I can write naturally without learning syntax
-- **Acceptance Criteria**:
-  - [ ] Converts "by tomorrow" → deadline of tomorrow
-  - [ ] Recognizes project/category context from task content
-  - [ ] Suggests appropriate priority based on keywords
-  - [ ] Works seamlessly without user intervention
+
+#### Scenario: Natural date parsing
+
+- **Given**: User has AI features enabled
+- **When**: User enters "Finish presentation by tomorrow"
+- **Then**: Task is created with title "Finish presentation" and due date set to tomorrow
+
+#### Scenario: Context-based categorization
+
+- **Given**: User has AI features enabled
+- **When**: User enters "Call John about the marketing campaign"
+- **Then**: Task is created with suggested category "marketing" based on content
+
+#### Scenario: Priority inference
+
+- **Given**: User has AI features enabled
+- **When**: User enters "URGENT: Fix server outage"
+- **Then**: Task is created with high priority inferred from "URGENT" keyword
+
+#### Scenario: AI processing failure
+
+- **Given**: AI service is unavailable
+- **When**: User enters a task with natural language
+- **Then**: Task is created as-is without AI enhancements
 
 ### Story 4: Task Clarification Through Dialogue
 
 - **As a**: User with vague thoughts
 - **I want**: AI to help me clarify my tasks through conversation
 - **So that**: I can turn fuzzy ideas into clear action items
-- **Acceptance Criteria**:
-  - [ ] AI asks clarifying questions when input is vague
-  - [ ] Questions are contextual and helpful
-  - [ ] Can skip dialogue and save as-is
-  - [ ] Dialogue helps identify subtasks when appropriate
+
+#### Scenario: Vague input triggers dialogue
+
+- **Given**: User is in default or talk mode
+- **When**: User enters "Need to do something about the project"
+- **Then**: AI asks "Which project are you referring to?" and waits for response
+
+#### Scenario: Contextual follow-up questions
+
+- **Given**: User is in dialogue with AI about a task
+- **When**: User responds "The website redesign"
+- **Then**: AI asks "What specific aspect needs attention?" to further clarify
+
+#### Scenario: Skip dialogue option
+
+- **Given**: AI has asked a clarifying question
+- **When**: User clicks "Save as-is" or presses Escape
+- **Then**: Original task is saved without modifications
+
+#### Scenario: Subtask identification
+
+- **Given**: User enters "Organize birthday party"
+- **When**: AI processes the input
+- **Then**: AI suggests breaking it into subtasks like "Book venue", "Send invitations", "Order cake"
 
 ### Story 5: Smart Task Decomposition
 
 - **As a**: User with complex tasks
 - **I want**: AI to suggest breaking down large tasks
 - **So that**: I have manageable, actionable items
-- **Acceptance Criteria**:
-  - [ ] Identifies tasks that are too large/complex
-  - [ ] Suggests logical subtask breakdown
-  - [ ] User can accept, modify, or reject suggestions
-  - [ ] Maintains relationship between parent and subtasks
+
+#### Scenario: Complex task detection
+
+- **Given**: User enters a complex task
+- **When**: User types "Build new feature for user authentication"
+- **Then**: AI detects complexity and offers to break it down
+
+#### Scenario: Accept suggested breakdown
+
+- **Given**: AI has suggested subtasks for a complex task
+- **When**: User clicks "Accept breakdown"
+- **Then**: Parent task and all suggested subtasks are created with proper relationships
+
+#### Scenario: Modify suggested breakdown
+
+- **Given**: AI has suggested subtasks for a complex task
+- **When**: User edits the suggested subtasks before accepting
+- **Then**: Modified subtasks are created with parent task relationship
+
+#### Scenario: Reject breakdown suggestion
+
+- **Given**: AI has suggested subtasks for a complex task
+- **When**: User clicks "Keep as single task"
+- **Then**: Original task is created without decomposition
 
 ### Story 6: Mode Control
 
 - **As a**: Power user
 - **I want**: To control how the AI assists me
 - **So that**: I can work the way I prefer in different situations
-- **Acceptance Criteria**:
-  - [ ] Can force quick mode with /quick or /q
-  - [ ] Can force dialogue mode with /talk or /t
-  - [ ] Can force planning mode with /plan or /p
-  - [ ] Default mode uses intelligent detection
-  - [ ] Mode indicator shows current mode
+
+#### Scenario: Quick mode activation
+
+- **Given**: User is on the task input interface
+- **When**: User types "/q Buy groceries"
+- **Then**: Task "Buy groceries" is created immediately without AI processing
+
+#### Scenario: Talk mode activation
+
+- **Given**: User is on the task input interface
+- **When**: User types "/t Need to improve performance"
+- **Then**: AI dialogue is initiated to clarify the task
+
+#### Scenario: Planning mode activation
+
+- **Given**: User is on the task input interface
+- **When**: User types "/p Launch new product"
+- **Then**: AI enters planning mode and suggests comprehensive task breakdown
+
+#### Scenario: Default mode intelligence
+
+- **Given**: No mode is explicitly specified
+- **When**: User enters a task
+- **Then**: System analyzes input and chooses appropriate mode automatically
+
+#### Scenario: Mode indicator visibility
+
+- **Given**: User has selected a specific mode
+- **When**: Mode is active
+- **Then**: Current mode is displayed near the input field
 
 ## Requirements
 
