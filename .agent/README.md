@@ -24,6 +24,17 @@ When modifying ANY files in this project:
 
 This sequence is mandatory for every file operation.
 
+### PRD Creation Protocol
+
+When creating or updating Product Requirements Documents:
+
+1. **Create/Update** - Write or modify the PRD in `docs/prd/`
+2. **Review** - Execute the `prd-review` task to ensure Why/What focus
+3. **Fix** - Address any implementation details (How) found in the review
+4. **Verify** - Re-run `prd-review` until no issues are found
+
+This ensures PRDs maintain proper focus on problems and user needs, not implementation.
+
 ### Understanding the Structure
 
 Each directory serves a specific role in guiding your work:
@@ -35,7 +46,10 @@ Each directory serves a specific role in guiding your work:
 
 ### When to Use What
 
-- **Execute tasks** at required checkpoints (like branch-check before editing)
+- **Execute tasks** at required checkpoints:
+  - `branch-check` before any file operations
+  - `prd-review` after creating/updating PRDs
+  - `commit-checkpoint` after significant changes
 - **Follow guidelines** continuously throughout your work
 - **Use workflows** when tackling multi-step operations
 - **Work in tmp/** for any temporary or experimental content
