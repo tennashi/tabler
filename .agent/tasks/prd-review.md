@@ -55,14 +55,14 @@ Look for and flag any implementation details:
 
 #### Common Patterns to Replace
 
-| ❌ Implementation Detail | ✅ User-Focused Alternative |
-|-------------------------|----------------------------|
-| "Single-line task input with Enter to save" | "Minimal friction task capture interface" |
-| "Use LLM API service" | "Natural language understanding capability" |
-| "Store in SQLite database" | "Persistent local storage" |
-| "Response time < 200ms" | "Instant feedback for user actions" |
-| "Frontend framework decision" | "User interface infrastructure" |
-| "Authentication system" | "User identification capability" |
+| ❌ Implementation Detail                    | ✅ User-Focused Alternative                 |
+| ------------------------------------------- | ------------------------------------------- |
+| "Single-line task input with Enter to save" | "Minimal friction task capture interface"   |
+| "Use LLM API service"                       | "Natural language understanding capability" |
+| "Store in SQLite database"                  | "Persistent local storage"                  |
+| "Response time < 200ms"                     | "Instant feedback for user actions"         |
+| "Frontend framework decision"               | "User interface infrastructure"             |
+| "Authentication system"                     | "User identification capability"            |
 
 ### 5. Verify Given-When-Then Scenarios
 
