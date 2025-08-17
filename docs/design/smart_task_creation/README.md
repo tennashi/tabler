@@ -107,9 +107,12 @@ vision from the [Smart Task Creation PRD](../../prd/smart_task_creation.md).
 
 ### Performance Requirements
 
-- Basic operations: <200ms
-- AI-enhanced operations: <2s
-- Pattern matching: <50ms
+- Task creation and persistence: <100ms
+- Basic operations (list, complete): <200ms
+- Shortcut parsing: <50ms for inline patterns
+- Pattern matching and autocomplete: <50ms
+- AI-enhanced operations: <2s (with 2s timeout)
+- Mode detection: <50ms for automatic selection
 
 ### Privacy Principles
 
@@ -125,6 +128,26 @@ vision from the [Smart Task Creation PRD](../../prd/smart_task_creation.md).
 3. Follow logging strategy (ADR-003)
 4. Test each feature thoroughly
 5. Maintain backward compatibility
+
+### Technical Implementation Details
+
+#### User Interface
+- Primary input: Single-line text field with Enter key submission
+- Automatic field clearing after successful save
+- Visual mode indicators near input field
+- Full keyboard navigation support
+
+#### Backend Architecture
+- SQLite database with parent_id for task relationships
+- Index on created_at, category, and status fields
+- LLM integration via Claude API subprocess
+- Graceful degradation when AI unavailable
+
+#### Security & Privacy
+- Input validation (max 500 characters)
+- Parameterized queries for SQL injection prevention
+- Local-only data storage by default
+- No telemetry without explicit consent
 
 ## Next Steps
 
